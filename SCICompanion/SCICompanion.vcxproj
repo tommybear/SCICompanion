@@ -1,0 +1,1626 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DeadCodeAnalysis|Win32">
+      <Configuration>DeadCodeAnalysis</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6F805ECA-9DC8-42E0-A918-38A7315C7E8F}</ProjectGuid>
+    <RootNamespace>SCICompanion</RootNamespace>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <CodeAnalysisRuleSet>..\DeadCode.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)SCICompanionLib\;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)SCICompanionLib;$(SolutionDir)Prof-UIS.2.92\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\TemplateGame" "$(OutDir)TemplateGame"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\CompileInclude" "$(OutDir)include"
+
+xcopy /S /Y /I /D "$(ProjectDir)Docs\build\html" "$(OutDir)Help"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Samples" "$(OutDir)Samples"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Decompiler" "$(OutDir)Decompiler"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Customization" "$(OutDir)Customization"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Objects" "$(OutDir)Objects"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Plugins" "$(OutDir)Plugins"
+xcopy /S /Y /I /D "$(ProjectDir)Tools" "$(OutDir)Tools"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)SCICompanionLib\;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnablePREfast>true</EnablePREfast>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)SCICompanionLib;$(SolutionDir)Prof-UIS.2.92\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\TemplateGame" "$(OutDir)TemplateGame"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\CompileInclude" "$(OutDir)include"
+
+xcopy /S /Y /I /D "$(ProjectDir)Docs\build\html" "$(OutDir)Help"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Samples" "$(OutDir)Samples"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Decompiler" "$(OutDir)Decompiler"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Customization" "$(OutDir)Customization"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Objects" "$(OutDir)Objects"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Plugins" "$(OutDir)Plugins"
+xcopy /S /Y /I /D "$(ProjectDir)Tools" "$(OutDir)Tools"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)SCICompanionLib\;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <Profile>true</Profile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);$(SolutionDir)SCICompanionLib;$(SolutionDir)Prof-UIS.2.92\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\TemplateGame" "$(OutDir)TemplateGame"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\CompileInclude" "$(OutDir)include"
+
+xcopy /S /Y /I /D "$(ProjectDir)Docs\build\html" "$(OutDir)Help"
+
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Samples" "$(OutDir)Samples"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Decompiler" "$(OutDir)Decompiler"
+
+xcopy /S /Y /I /D "$(ProjectDir)Files\Customization" "$(OutDir)Customization"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Objects" "$(OutDir)Objects"
+xcopy /S /Y /I /D "$(ProjectDir)Files\Plugins" "$(OutDir)Plugins"
+xcopy /S /Y /I /D "$(ProjectDir)Tools" "$(OutDir)Tools"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="Docs\ReadMe.txt" />
+    <Text Include="Files\COPYING" />
+    <Text Include="Files\COPYING2" />
+    <Text Include="Files\Licenses\giflib-AUTHORS.txt" />
+    <Text Include="Files\Licenses\r8brain-License.txt" />
+    <Text Include="Files\Plugins\Readme.txt" />
+    <Text Include="Files\Samples\PhonemeSentence.txt" />
+    <Text Include="Files\Samples\sample_phoneme_map.ini" />
+    <Text Include="Files\TemplateGame\SCI0.txt" />
+    <Text Include="Files\TemplateGame\SCI0\game.txt" />
+    <Text Include="Files\TemplateGame\SCI1.1.txt" />
+    <Text Include="Files\License.txt" />
+    <Text Include="Help\_sources\Classes\ControlItem.txt" />
+    <Text Include="Help\_sources\Classes\IconI.txt" />
+    <Text Include="Help\_sources\Classes\Inv.txt" />
+    <Text Include="Help\_sources\Classes\InvI.txt" />
+    <Text Include="Help\_sources\Classes\InvItem.txt" />
+    <Text Include="Help\_sources\Scripts\IconI.txt" />
+    <Text Include="Help\_sources\Scripts\InvI.txt" />
+    <Text Include="Help\_sources\Scripts\InvItem.txt" />
+    <Text Include="Help\_sources\Scripts\SettingsPane.txt" />
+    <Text Include="ReadMe.txt" />
+    <Text Include="Tools\DOSBox\DOSBox 0.74 Manual.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ResourceOLD.h" />
+    <ClInclude Include="SCICompanion.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SCICompanion.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SCICompanion.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Docs\source\images\AddTalker.png" />
+    <Image Include="Docs\source\images\AddWord.png" />
+    <Image Include="Docs\source\images\All.png" />
+    <Image Include="Docs\source\images\AspectRatio1610.png" />
+    <Image Include="Docs\source\images\AspectRatio43.png" />
+    <Image Include="Docs\source\images\AspectRatioSCIComp.jpg" />
+    <Image Include="Docs\source\images\AudioPreview.png" />
+    <Image Include="Docs\source\images\AutoComplete.png" />
+    <Image Include="Docs\source\images\Boom.gif" />
+    <Image Include="Docs\source\images\CharSpeak.jpg" />
+    <Image Include="Docs\source\images\ChoosePri.png" />
+    <Image Include="Docs\source\images\ColorShift.png" />
+    <Image Include="Docs\source\images\CommandList_Example.png" />
+    <Image Include="Docs\source\images\CommandList_GreenLine.png" />
+    <Image Include="Docs\source\images\CommandPaste_Example.png" />
+    <Image Include="Docs\source\images\Compile.png" />
+    <Image Include="Docs\source\images\CompileAll.png" />
+    <Image Include="Docs\source\images\ConvertBitmap.jpg" />
+    <Image Include="Docs\source\images\CuePoint.png" />
+    <Image Include="Docs\source\images\CursorExample.png" />
+    <Image Include="Docs\source\images\DayNight.png" />
+    <Image Include="Docs\source\images\Debug.png" />
+    <Image Include="Docs\source\images\DebugRoom.png" />
+    <Image Include="Docs\source\images\DecompileDialog.jpg" />
+    <Image Include="Docs\source\images\Dither.png" />
+    <Image Include="Docs\source\images\DrawingAnimate.png" />
+    <Image Include="Docs\source\images\DrawingDither.png" />
+    <Image Include="Docs\source\images\DrawingEyedropper.png" />
+    <Image Include="Docs\source\images\DrawingFill.png" />
+    <Image Include="Docs\source\images\DrawingFlip.png" />
+    <Image Include="Docs\source\images\DrawingGrayscale.png" />
+    <Image Include="Docs\source\images\DrawingImportFile.png" />
+    <Image Include="Docs\source\images\DrawingImportFiles.png" />
+    <Image Include="Docs\source\images\DrawingInvert.png" />
+    <Image Include="Docs\source\images\DrawingLine.png" />
+    <Image Include="Docs\source\images\DrawingPen.png" />
+    <Image Include="Docs\source\images\DrawingPlacement.png" />
+    <Image Include="Docs\source\images\DrawingReplace.png" />
+    <Image Include="Docs\source\images\DrawingSelect.png" />
+    <Image Include="Docs\source\images\DrawingShapes.png" />
+    <Image Include="Docs\source\images\DrawingTransparentEyedropper.png" />
+    <Image Include="Docs\source\images\DrawingZoom.png" />
+    <Image Include="Docs\source\images\DrawPic-bak.gif" />
+    <Image Include="Docs\source\images\DrawPic.gif" />
+    <Image Include="Docs\source\images\EcoBoy.png" />
+    <Image Include="Docs\source\images\EditAudio.png" />
+    <Image Include="Docs\source\images\EGAVGA.png" />
+    <Image Include="Docs\source\images\FakeEgoList.png" />
+    <Image Include="Docs\source\images\FakeEgoTool.png" />
+    <Image Include="Docs\source\images\FakeEgo_Example.png" />
+    <Image Include="Docs\source\images\FindInFiles.png" />
+    <Image Include="Docs\source\images\Flame.gif" />
+    <Image Include="Docs\source\images\FontEditor.jpg" />
+    <Image Include="Docs\source\images\GameExplorerToolbar.jpg" />
+    <Image Include="Docs\source\images\GotoDefinition.png" />
+    <Image Include="Docs\source\images\GotoHeader.png" />
+    <Image Include="Docs\source\images\Gradient.jpg" />
+    <Image Include="Docs\source\images\History.png" />
+    <Image Include="Docs\source\images\ImportBackground.jpg" />
+    <Image Include="Docs\source\images\ImportedLogo.jpg" />
+    <Image Include="Docs\source\images\ImportImage.jpg" />
+    <Image Include="Docs\source\images\ImportImageDitherCompare.png" />
+    <Image Include="Docs\source\images\ImportLogo.jpg" />
+    <Image Include="Docs\source\images\InsertActor.png" />
+    <Image Include="Docs\source\images\InsertMethod.png" />
+    <Image Include="Docs\source\images\InsertObject.png" />
+    <Image Include="Docs\source\images\JumpToMethod.png" />
+    <Image Include="Docs\source\images\KQ6Narrator.png" />
+    <Image Include="Docs\source\images\KQ6Talker.png" />
+    <Image Include="Docs\source\images\LipSyncDialog.png" />
+    <Image Include="Docs\source\images\LoadTraceImage.png" />
+    <Image Include="Docs\source\images\Logo.png" />
+    <Image Include="Docs\source\images\LogoComplete.png" />
+    <Image Include="Docs\source\images\LogoCycle.gif" />
+    <Image Include="Docs\source\images\LogoGradient.png" />
+    <Image Include="Docs\source\images\LogoSetColors.jpg" />
+    <Image Include="Docs\source\images\LoopPoint.png" />
+    <Image Include="Docs\source\images\MakeRedBlueGrad.jpg" />
+    <Image Include="Docs\source\images\MessageEditor.png" />
+    <Image Include="Docs\source\images\MessageEntry.PNG" />
+    <Image Include="Docs\source\images\MessageHeaderInclude.PNG" />
+    <Image Include="Docs\source\images\MessageLightSwitch.PNG" />
+    <Image Include="Docs\source\images\MessageLightSwitchCode.PNG" />
+    <Image Include="Docs\source\images\MIDIImport.png" />
+    <Image Include="Docs\source\images\NewRoom.png" />
+    <Image Include="Docs\source\images\NewScript.png" />
+    <Image Include="Docs\source\images\NewWord.png" />
+    <Image Include="Docs\source\images\Nouns.PNG" />
+    <Image Include="Docs\source\images\OpenExplorerWindow.png" />
+    <Image Include="Docs\source\images\OutputPane.png" />
+    <Image Include="Docs\source\images\PaletteAdjust.png" />
+    <Image Include="Docs\source\images\PaletteButton.png" />
+    <Image Include="Docs\source\images\PaletteChooser.png" />
+    <Image Include="Docs\source\images\PaletteEditor.png" />
+    <Image Include="Docs\source\images\PaletteNotUsed.PNG" />
+    <Image Include="Docs\source\images\PaletteUnderline.PNG" />
+    <Image Include="Docs\source\images\PaletteUsedInResource.PNG" />
+    <Image Include="Docs\source\images\PasteRect.png" />
+    <Image Include="Docs\source\images\PC2_Base.jpg" />
+    <Image Include="Docs\source\images\PC2_DarkRange.png" />
+    <Image Include="Docs\source\images\PC2_DefineGradient.jpg" />
+    <Image Include="Docs\source\images\PC2_Import.jpg" />
+    <Image Include="Docs\source\images\PC2_ImportOverlay.jpg" />
+    <Image Include="Docs\source\images\PC2_SetRange.jpg" />
+    <Image Include="Docs\source\images\PC2_Visualization.png" />
+    <Image Include="Docs\source\images\PC2_ZoomIn.png" />
+    <Image Include="Docs\source\images\PhonemeEditor.png" />
+    <Image Include="Docs\source\images\PicEditor.jpg" />
+    <Image Include="Docs\source\images\PicHelper.jpg" />
+    <Image Include="Docs\source\images\PolygonTool.png" />
+    <Image Include="Docs\source\images\PriBands.jpg" />
+    <Image Include="Docs\source\images\PriLineTool.png" />
+    <Image Include="Docs\source\images\PriScreen.png" />
+    <Image Include="Docs\source\images\QuickLinks.png" />
+    <Image Include="Docs\source\images\Resize_Example.png" />
+    <Image Include="Docs\source\images\RightClickMenu.png" />
+    <Image Include="Docs\source\images\ScriptEditor.jpg" />
+    <Image Include="Docs\source\images\Selection_Example.png" />
+    <Image Include="Docs\source\images\SierraDebugger.png" />
+    <Image Include="Docs\source\images\SliderBar.png" />
+    <Image Include="Docs\source\images\SoundEditor.jpg" />
+    <Image Include="Docs\source\images\SpeechLipSyncSection.png" />
+    <Image Include="Docs\source\images\SQ5Polygon.png" />
+    <Image Include="Docs\source\images\TalkingComputer.png" />
+    <Image Include="Docs\source\images\TemplateGameDebugger1.png" />
+    <Image Include="Docs\source\images\TemplateGameDebugger2.png" />
+    <Image Include="Docs\source\images\TextEditor.jpg" />
+    <Image Include="Docs\source\images\ToggleTraceImage.png" />
+    <Image Include="Docs\source\images\TraceOpacity.png" />
+    <Image Include="Docs\source\images\TracingImage.jpg" />
+    <Image Include="Docs\source\images\TransformCoords.png" />
+    <Image Include="Docs\source\images\TransformCoords_Example.png" />
+    <Image Include="Docs\source\images\Upload.png" />
+    <Image Include="Docs\source\images\Verbs.PNG" />
+    <Image Include="Docs\source\images\ViewEditor.png" />
+    <Image Include="Docs\source\images\ViewLoop.png" />
+    <Image Include="Docs\source\images\ViewLoopAnimated.gif" />
+    <Image Include="Docs\source\images\ViewPalettes.png" />
+    <Image Include="Docs\source\images\VocabEditor.jpg" />
+    <Image Include="Docs\source\images\Vocab_Example.png" />
+    <Image Include="Docs\source\images\Vocab_TypeExample.png" />
+    <Image Include="Docs\source\images\VPC.png" />
+    <Image Include="Docs\source\images\VPCScreens.jpg" />
+    <Image Include="Docs\source\images\Waterfall.gif" />
+    <Image Include="Docs\source\images\WordFind.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\BlueBoxInv.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\Box.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\BoxInInventory.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\BoxInRoom.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\BoxMessageGame.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\BoxMessageLook.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\ChooseWhitePri.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\ControlScreenPenState.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\DoorControl.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\DragPolygon.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\EgoMoved.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\EgoPainting.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\EvilEgo.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\EvilEgoMessages.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\EvilEgoRoom.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\ExtendPoly.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\FakeEgoBadPri.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\FakeEgoGoodPri.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\FillPri.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\InvBoxLook.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\MessageTitleScreen.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\OverlayBackground.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\PaintingPolygon.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\PriorityOverlay.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\PriScreen.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\RedBox.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\RedBoxInGame.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\RedBoxMessages.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\RedBoxPlaced.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\Room2.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\RoomBackground.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\ShrinkingBox.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\ThrowBox.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\TitleChange.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\TitleChangeImage.png" />
+    <Image Include="Docs\source\Tutorial\tutimages\TitleScreenBackground.jpg" />
+    <Image Include="Docs\source\Tutorial\tutimages\UseBox.png" />
+    <Image Include="Files\TemplateGame\SCI0.bmp" />
+    <Image Include="Files\TemplateGame\SCI0\game.bmp" />
+    <Image Include="Files\TemplateGame\SCI1.1.bmp" />
+    <Image Include="res\SCICompanion.ico" />
+    <Image Include="res\SCICompanionDoc.ico" />
+    <Image Include="UserImages.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Docs\make.bat" />
+    <None Include="Docs\Makefile" />
+    <None Include="Docs\source\anatomy.rst" />
+    <None Include="Docs\source\aspectratio.rst" />
+    <None Include="Docs\source\audio.rst" />
+    <None Include="Docs\source\audiofiles.rst" />
+    <None Include="Docs\source\Classes\Actor.rst" />
+    <None Include="Docs\source\Classes\AnimDialog.rst" />
+    <None Include="Docs\source\Classes\Approach.rst" />
+    <None Include="Docs\source\Classes\BegLoop.rst" />
+    <None Include="Docs\source\Classes\Blink.rst" />
+    <None Include="Docs\source\Classes\Block.rst" />
+    <None Include="Docs\source\Classes\BorderWindow.rst" />
+    <None Include="Docs\source\Classes\Cage.rst" />
+    <None Include="Docs\source\Classes\Chase.rst" />
+    <None Include="Docs\source\Classes\ChoiceNarrator.rst" />
+    <None Include="Docs\source\Classes\ChoiceTalker.rst" />
+    <None Include="Docs\source\Classes\Code.rst" />
+    <None Include="Docs\source\Classes\Collection.rst" />
+    <None Include="Docs\source\Classes\Control.rst" />
+    <None Include="Docs\source\Classes\ControlIcon.rst" />
+    <None Include="Docs\source\Classes\ControlItem.rst" />
+    <None Include="Docs\source\Classes\Controls.rst" />
+    <None Include="Docs\source\Classes\Conversation.rst" />
+    <None Include="Docs\source\Classes\Cue.rst" />
+    <None Include="Docs\source\Classes\CueObj.rst" />
+    <None Include="Docs\source\Classes\Cursor.rst" />
+    <None Include="Docs\source\Classes\Cycle.rst" />
+    <None Include="Docs\source\Classes\CycleTo.rst" />
+    <None Include="Docs\source\Classes\DButton.rst" />
+    <None Include="Docs\source\Classes\DCIcon.rst" />
+    <None Include="Docs\source\Classes\DColorButton.rst" />
+    <None Include="Docs\source\Classes\DEdit.rst" />
+    <None Include="Docs\source\Classes\Dialog.rst" />
+    <None Include="Docs\source\Classes\DialogEditor.rst" />
+    <None Include="Docs\source\Classes\DIcon.rst" />
+    <None Include="Docs\source\Classes\Door.rst" />
+    <None Include="Docs\source\Classes\DPath.rst" />
+    <None Include="Docs\source\Classes\DSelector.rst" />
+    <None Include="Docs\source\Classes\DText.rst" />
+    <None Include="Docs\source\Classes\Ego.rst" />
+    <None Include="Docs\source\Classes\EndLoop.rst" />
+    <None Include="Docs\source\Classes\Event.rst" />
+    <None Include="Docs\source\Classes\EventHandler.rst" />
+    <None Include="Docs\source\Classes\Feature.rst" />
+    <None Include="Docs\source\Classes\FeatureWriter.rst" />
+    <None Include="Docs\source\Classes\FiddleStopWalk.rst" />
+    <None Include="Docs\source\Classes\File.rst" />
+    <None Include="Docs\source\Classes\FileSelector.rst" />
+    <None Include="Docs\source\Classes\Flags.rst" />
+    <None Include="Docs\source\Classes\FlickerCycler.rst" />
+    <None Include="Docs\source\Classes\Follow.rst" />
+    <None Include="Docs\source\Classes\Forward.rst" />
+    <None Include="Docs\source\Classes\ForwardCounter.rst" />
+    <None Include="Docs\source\Classes\Game.rst" />
+    <None Include="Docs\source\Classes\GameControls.rst" />
+    <None Include="Docs\source\Classes\GameEgo.rst" />
+    <None Include="Docs\source\Classes\Gauge.rst" />
+    <None Include="Docs\source\Classes\GradualCycler.rst" />
+    <None Include="Docs\source\Classes\GradualLooper.rst" />
+    <None Include="Docs\source\Classes\IconBar.rst" />
+    <None Include="Docs\source\Classes\IconI.rst" />
+    <None Include="Docs\source\Classes\IconItem.rst" />
+    <None Include="Docs\source\Classes\Inset.rst" />
+    <None Include="Docs\source\Classes\InsetWindow.rst" />
+    <None Include="Docs\source\Classes\Inv.rst" />
+    <None Include="Docs\source\Classes\InventoryBase.rst" />
+    <None Include="Docs\source\Classes\InventoryItem.rst" />
+    <None Include="Docs\source\Classes\InvI.rst" />
+    <None Include="Docs\source\Classes\InvItem.rst" />
+    <None Include="Docs\source\Classes\Jump.rst" />
+    <None Include="Docs\source\Classes\JumpTo.rst" />
+    <None Include="Docs\source\Classes\List.rst" />
+    <None Include="Docs\source\Classes\MessageObj.rst" />
+    <None Include="Docs\source\Classes\Messager.rst" />
+    <None Include="Docs\source\Classes\Motion.rst" />
+    <None Include="Docs\source\Classes\MouthSync.rst" />
+    <None Include="Docs\source\Classes\MoveCycle.rst" />
+    <None Include="Docs\source\Classes\MoveFwd.rst" />
+    <None Include="Docs\source\Classes\MoveTo.rst" />
+    <None Include="Docs\source\Classes\Narrator.rst" />
+    <None Include="Docs\source\Classes\Object.rst" />
+    <None Include="Docs\source\Classes\OnMeAndLowY.rst" />
+    <None Include="Docs\source\Classes\Orbit.rst" />
+    <None Include="Docs\source\Classes\Oscillate.rst" />
+    <None Include="Docs\source\Classes\PAvoider.rst" />
+    <None Include="Docs\source\Classes\PChase.rst" />
+    <None Include="Docs\source\Classes\PFollow.rst" />
+    <None Include="Docs\source\Classes\PolyEdit.rst" />
+    <None Include="Docs\source\Classes\Polygon.rst" />
+    <None Include="Docs\source\Classes\PolyPath.rst" />
+    <None Include="Docs\source\Classes\Print.rst" />
+    <None Include="Docs\source\Classes\PriorityTalker.rst" />
+    <None Include="Docs\source\Classes\Prop.rst" />
+    <None Include="Docs\source\Classes\PseudoMouse.rst" />
+    <None Include="Docs\source\Classes\RandCycle.rst" />
+    <None Include="Docs\source\Classes\RangeOscillate.rst" />
+    <None Include="Docs\source\Classes\Region.rst" />
+    <None Include="Docs\source\Classes\RegionPath.rst" />
+    <None Include="Docs\source\Classes\RelDPath.rst" />
+    <None Include="Docs\source\Classes\Restore.rst" />
+    <None Include="Docs\source\Classes\Reverse.rst" />
+    <None Include="Docs\source\Classes\Room.rst" />
+    <None Include="Docs\source\Classes\Save.rst" />
+    <None Include="Docs\source\Classes\SaveRestoreDialog.rst" />
+    <None Include="Docs\source\Classes\Scaler.rst" />
+    <None Include="Docs\source\Classes\ScaleTo.rst" />
+    <None Include="Docs\source\Classes\Script.rst" />
+    <None Include="Docs\source\Classes\ScrollableInventory.rst" />
+    <None Include="Docs\source\Classes\ScrollInsetWindow.rst" />
+    <None Include="Docs\source\Classes\Set.rst" />
+    <None Include="Docs\source\Classes\Slider.rst" />
+    <None Include="Docs\source\Classes\SmoothLooper.rst" />
+    <None Include="Docs\source\Classes\Smopper.rst" />
+    <None Include="Docs\source\Classes\Sound.rst" />
+    <None Include="Docs\source\Classes\Sounds.rst" />
+    <None Include="Docs\source\Classes\SpeakWindow.rst" />
+    <None Include="Docs\source\Classes\SQ5.rst" />
+    <None Include="Docs\source\Classes\StopWalk.rst" />
+    <None Include="Docs\source\Classes\Sync.rst" />
+    <None Include="Docs\source\Classes\SysWindow.rst" />
+    <None Include="Docs\source\Classes\Talker.rst" />
+    <None Include="Docs\source\Classes\TimeOut.rst" />
+    <None Include="Docs\source\Classes\Timer.rst" />
+    <None Include="Docs\source\Classes\Track.rst" />
+    <None Include="Docs\source\Classes\User.rst" />
+    <None Include="Docs\source\Classes\View.rst" />
+    <None Include="Docs\source\Classes\Walk.rst" />
+    <None Include="Docs\source\Classes\Wander.rst" />
+    <None Include="Docs\source\Classes\Window.rst" />
+    <None Include="Docs\source\classlibrary.rst" />
+    <None Include="Docs\source\Compiler\arithmetic.rst" />
+    <None Include="Docs\source\Compiler\asm.rst" />
+    <None Include="Docs\source\Compiler\assignment.rst" />
+    <None Include="Docs\source\Compiler\bitwise.rst" />
+    <None Include="Docs\source\Compiler\break.rst" />
+    <None Include="Docs\source\Compiler\classes.rst" />
+    <None Include="Docs\source\Compiler\classheader.rst" />
+    <None Include="Docs\source\Compiler\codeblock.rst" />
+    <None Include="Docs\source\Compiler\comment.rst" />
+    <None Include="Docs\source\Compiler\cond.rst" />
+    <None Include="Docs\source\Compiler\conditionalexpressions.rst" />
+    <None Include="Docs\source\Compiler\continue.rst" />
+    <None Include="Docs\source\Compiler\define.rst" />
+    <None Include="Docs\source\Compiler\differences.rst" />
+    <None Include="Docs\source\Compiler\do.rst" />
+    <None Include="Docs\source\Compiler\for.rst" />
+    <None Include="Docs\source\Compiler\if.rst" />
+    <None Include="Docs\source\Compiler\include.rst" />
+    <None Include="Docs\source\Compiler\objectfiles.rst" />
+    <None Include="Docs\source\Compiler\otheroperators.rst" />
+    <None Include="Docs\source\Compiler\procedures.rst" />
+    <None Include="Docs\source\Compiler\properties.rst" />
+    <None Include="Docs\source\Compiler\public.rst" />
+    <None Include="Docs\source\Compiler\relationaloperators.rst" />
+    <None Include="Docs\source\Compiler\repeat.rst" />
+    <None Include="Docs\source\Compiler\rest.rst" />
+    <None Include="Docs\source\Compiler\return.rst" />
+    <None Include="Docs\source\Compiler\saids.rst" />
+    <None Include="Docs\source\Compiler\selectors.rst" />
+    <None Include="Docs\source\Compiler\selfsuper.rst" />
+    <None Include="Docs\source\Compiler\sendselfsuper.rst" />
+    <None Include="Docs\source\Compiler\strings.rst" />
+    <None Include="Docs\source\Compiler\switch.rst" />
+    <None Include="Docs\source\Compiler\switchto.rst" />
+    <None Include="Docs\source\Compiler\synonyms.rst" />
+    <None Include="Docs\source\Compiler\use.rst" />
+    <None Include="Docs\source\Compiler\variables.rst" />
+    <None Include="Docs\source\Compiler\variabletypes.rst" />
+    <None Include="Docs\source\Compiler\while.rst" />
+    <None Include="Docs\source\conf.py" />
+    <None Include="Docs\source\cursors.rst" />
+    <None Include="Docs\source\debugging.rst" />
+    <None Include="Docs\source\decompiler.rst" />
+    <None Include="Docs\source\extractall.rst" />
+    <None Include="Docs\source\fonts.rst" />
+    <None Include="Docs\source\gameversion.rst" />
+    <None Include="Docs\source\importexport.rst" />
+    <None Include="Docs\source\includes\standard.rst" />
+    <None Include="Docs\source\index.rst" />
+    <None Include="Docs\source\intro.rst" />
+    <None Include="Docs\source\Kernels\Abs.rst" />
+    <None Include="Docs\source\Kernels\AddAfter.rst" />
+    <None Include="Docs\source\Kernels\AddMenu.rst" />
+    <None Include="Docs\source\Kernels\AddToEnd.rst" />
+    <None Include="Docs\source\Kernels\AddToFront.rst" />
+    <None Include="Docs\source\Kernels\AddToPic.rst" />
+    <None Include="Docs\source\Kernels\Animate.rst" />
+    <None Include="Docs\source\Kernels\AssertPalette.rst" />
+    <None Include="Docs\source\Kernels\ATan.rst" />
+    <None Include="Docs\source\Kernels\AvoidPath.rst" />
+    <None Include="Docs\source\Kernels\BaseSetter.rst" />
+    <None Include="Docs\source\Kernels\CanBeHere.rst" />
+    <None Include="Docs\source\Kernels\CantBeHere.rst" />
+    <None Include="Docs\source\Kernels\CelHigh.rst" />
+    <None Include="Docs\source\Kernels\CelWide.rst" />
+    <None Include="Docs\source\Kernels\CheckFreeSpace.rst" />
+    <None Include="Docs\source\Kernels\CheckSaveGame.rst" />
+    <None Include="Docs\source\Kernels\Clone.rst" />
+    <None Include="Docs\source\Kernels\CoordPri.rst" />
+    <None Include="Docs\source\Kernels\CosDiv.rst" />
+    <None Include="Docs\source\Kernels\CosMult.rst" />
+    <None Include="Docs\source\Kernels\DbugStr.rst" />
+    <None Include="Docs\source\Kernels\DeleteKey.rst" />
+    <None Include="Docs\source\Kernels\DeviceInfo.rst" />
+    <None Include="Docs\source\Kernels\DirLoop.rst" />
+    <None Include="Docs\source\Kernels\Display.rst" />
+    <None Include="Docs\source\Kernels\DisposeClone.rst" />
+    <None Include="Docs\source\Kernels\DisposeList.rst" />
+    <None Include="Docs\source\Kernels\DisposeScript.rst" />
+    <None Include="Docs\source\Kernels\DisposeWindow.rst" />
+    <None Include="Docs\source\Kernels\DoAudio.rst" />
+    <None Include="Docs\source\Kernels\DoAvoider.rst" />
+    <None Include="Docs\source\Kernels\DoBresen.rst" />
+    <None Include="Docs\source\Kernels\DoSound.rst" />
+    <None Include="Docs\source\Kernels\DoSync.rst" />
+    <None Include="Docs\source\Kernels\DrawCel.rst" />
+    <None Include="Docs\source\Kernels\DrawControl.rst" />
+    <None Include="Docs\source\Kernels\DrawMenuBar.rst" />
+    <None Include="Docs\source\Kernels\DrawPic.rst" />
+    <None Include="Docs\source\Kernels\DrawStatus.rst" />
+    <None Include="Docs\source\Kernels\EditControl.rst" />
+    <None Include="Docs\source\Kernels\EmptyList.rst" />
+    <None Include="Docs\source\Kernels\FClose.rst" />
+    <None Include="Docs\source\Kernels\FGets.rst" />
+    <None Include="Docs\source\Kernels\FileIO.rst" />
+    <None Include="Docs\source\Kernels\FindKey.rst" />
+    <None Include="Docs\source\Kernels\FirstNode.rst" />
+    <None Include="Docs\source\Kernels\FlushResources.rst" />
+    <None Include="Docs\source\Kernels\FOpen.rst" />
+    <None Include="Docs\source\Kernels\Format.rst" />
+    <None Include="Docs\source\Kernels\FPuts.rst" />
+    <None Include="Docs\source\Kernels\GameIsRestarting.rst" />
+    <None Include="Docs\source\Kernels\GetAngle.rst" />
+    <None Include="Docs\source\Kernels\GetCWD.rst" />
+    <None Include="Docs\source\Kernels\GetDistance.rst" />
+    <None Include="Docs\source\Kernels\GetEvent.rst" />
+    <None Include="Docs\source\Kernels\GetFarText.rst" />
+    <None Include="Docs\source\Kernels\GetMenu.rst" />
+    <None Include="Docs\source\Kernels\GetPort.rst" />
+    <None Include="Docs\source\Kernels\GetSaveDir.rst" />
+    <None Include="Docs\source\Kernels\GetSaveFiles.rst" />
+    <None Include="Docs\source\Kernels\GetTime.rst" />
+    <None Include="Docs\source\Kernels\GlobalToLocal.rst" />
+    <None Include="Docs\source\Kernels\Graph.rst" />
+    <None Include="Docs\source\Kernels\HaveMouse.rst" />
+    <None Include="Docs\source\Kernels\HiliteControl.rst" />
+    <None Include="Docs\source\Kernels\InitBresen.rst" />
+    <None Include="Docs\source\Kernels\InspectObj.rst" />
+    <None Include="Docs\source\Kernels\IsItSkip.rst" />
+    <None Include="Docs\source\Kernels\IsObject.rst" />
+    <None Include="Docs\source\Kernels\Joystick.rst" />
+    <None Include="Docs\source\Kernels\LastNode.rst" />
+    <None Include="Docs\source\Kernels\ListOps.rst" />
+    <None Include="Docs\source\Kernels\Load.rst" />
+    <None Include="Docs\source\Kernels\LocalToGlobal.rst" />
+    <None Include="Docs\source\Kernels\Lock.rst" />
+    <None Include="Docs\source\Kernels\MapKeyToDir.rst" />
+    <None Include="Docs\source\Kernels\Memory.rst" />
+    <None Include="Docs\source\Kernels\MemoryInfo.rst" />
+    <None Include="Docs\source\Kernels\MemorySegment.rst" />
+    <None Include="Docs\source\Kernels\MenuSelect.rst" />
+    <None Include="Docs\source\Kernels\MergePoly.rst" />
+    <None Include="Docs\source\Kernels\Message.rst" />
+    <None Include="Docs\source\Kernels\NewList.rst" />
+    <None Include="Docs\source\Kernels\NewNode.rst" />
+    <None Include="Docs\source\Kernels\NewWindow.rst" />
+    <None Include="Docs\source\Kernels\NextNode.rst" />
+    <None Include="Docs\source\Kernels\NodeValue.rst" />
+    <None Include="Docs\source\Kernels\NumCels.rst" />
+    <None Include="Docs\source\Kernels\NumLoops.rst" />
+    <None Include="Docs\source\Kernels\OnControl.rst" />
+    <None Include="Docs\source\Kernels\Palette.rst" />
+    <None Include="Docs\source\Kernels\PalVary.rst" />
+    <None Include="Docs\source\Kernels\Parse.rst" />
+    <None Include="Docs\source\Kernels\PicNotValid.rst" />
+    <None Include="Docs\source\Kernels\Platform.rst" />
+    <None Include="Docs\source\Kernels\PlayBack.rst" />
+    <None Include="Docs\source\Kernels\PrevNode.rst" />
+    <None Include="Docs\source\Kernels\Profiler.rst" />
+    <None Include="Docs\source\Kernels\Random.rst" />
+    <None Include="Docs\source\Kernels\ReadNumber.rst" />
+    <None Include="Docs\source\Kernels\Record.rst" />
+    <None Include="Docs\source\Kernels\ResCheck.rst" />
+    <None Include="Docs\source\Kernels\RespondsTo.rst" />
+    <None Include="Docs\source\Kernels\RestartGame.rst" />
+    <None Include="Docs\source\Kernels\RestoreGame.rst" />
+    <None Include="Docs\source\Kernels\Said.rst" />
+    <None Include="Docs\source\Kernels\SaveGame.rst" />
+    <None Include="Docs\source\Kernels\ScriptID.rst" />
+    <None Include="Docs\source\Kernels\SetCursor.rst" />
+    <None Include="Docs\source\Kernels\SetDebug.rst" />
+    <None Include="Docs\source\Kernels\SetJump.rst" />
+    <None Include="Docs\source\Kernels\SetMenu.rst" />
+    <None Include="Docs\source\Kernels\SetNowSeen.rst" />
+    <None Include="Docs\source\Kernels\SetPort.rst" />
+    <None Include="Docs\source\Kernels\SetQuitStr.rst" />
+    <None Include="Docs\source\Kernels\SetSynonyms.rst" />
+    <None Include="Docs\source\Kernels\SetVideoMode.rst" />
+    <None Include="Docs\source\Kernels\ShakeScreen.rst" />
+    <None Include="Docs\source\Kernels\ShiftScreen.rst" />
+    <None Include="Docs\source\Kernels\Show.rst" />
+    <None Include="Docs\source\Kernels\ShowFree.rst" />
+    <None Include="Docs\source\Kernels\ShowMovie.rst" />
+    <None Include="Docs\source\Kernels\ShowObjs.rst" />
+    <None Include="Docs\source\Kernels\ShowSends.rst" />
+    <None Include="Docs\source\Kernels\SinDiv.rst" />
+    <None Include="Docs\source\Kernels\SinMult.rst" />
+    <None Include="Docs\source\Kernels\Sort.rst" />
+    <None Include="Docs\source\Kernels\Sqrt.rst" />
+    <None Include="Docs\source\Kernels\StackUsage.rst" />
+    <None Include="Docs\source\Kernels\StrAt.rst" />
+    <None Include="Docs\source\Kernels\StrCat.rst" />
+    <None Include="Docs\source\Kernels\StrCmp.rst" />
+    <None Include="Docs\source\Kernels\StrCpy.rst" />
+    <None Include="Docs\source\Kernels\StrEnd.rst" />
+    <None Include="Docs\source\Kernels\StrLen.rst" />
+    <None Include="Docs\source\Kernels\StrSplit.rst" />
+    <None Include="Docs\source\Kernels\TextColors.rst" />
+    <None Include="Docs\source\Kernels\TextFonts.rst" />
+    <None Include="Docs\source\Kernels\TextSize.rst" />
+    <None Include="Docs\source\Kernels\UnLoad.rst" />
+    <None Include="Docs\source\Kernels\ValidPath.rst" />
+    <None Include="Docs\source\Kernels\Wait.rst" />
+    <None Include="Docs\source\legacy.rst" />
+    <None Include="Docs\source\lipsync.rst" />
+    <None Include="Docs\source\messageaudio.rst" />
+    <None Include="Docs\source\messages.rst" />
+    <None Include="Docs\source\outputpane.rst" />
+    <None Include="Docs\source\overview.rst" />
+    <None Include="Docs\source\palettecycling.rst" />
+    <None Include="Docs\source\palettes.rst" />
+    <None Include="Docs\source\pics.rst" />
+    <None Include="Docs\source\polygons.rst" />
+    <None Include="Docs\source\preferences.rst" />
+    <None Include="Docs\source\Procedures\AddPolygonsToRoom.rst" />
+    <None Include="Docs\source\Procedures\AddToScore.rst" />
+    <None Include="Docs\source\Procedures\AimToward.rst" />
+    <None Include="Docs\source\Procedures\AngleDiff.rst" />
+    <None Include="Docs\source\Procedures\Bclear.rst" />
+    <None Include="Docs\source\Procedures\Bset.rst" />
+    <None Include="Docs\source\Procedures\Btest.rst" />
+    <None Include="Docs\source\Procedures\CantBeSeen.rst" />
+    <None Include="Docs\source\Procedures\ColorInit.rst" />
+    <None Include="Docs\source\Procedures\CreateNewPolygon.rst" />
+    <None Include="Docs\source\Procedures\DebugPrint.rst" />
+    <None Include="Docs\source\Procedures\DebugRoomInit.rst" />
+    <None Include="Docs\source\Procedures\Die.rst" />
+    <None Include="Docs\source\Procedures\DisposeLoad.rst" />
+    <None Include="Docs\source\Procedures\Eval.rst" />
+    <None Include="Docs\source\Procedures\FindFormatLen.rst" />
+    <None Include="Docs\source\Procedures\FlipFeature.rst" />
+    <None Include="Docs\source\Procedures\FlipPolygons.rst" />
+    <None Include="Docs\source\Procedures\GetDirectory.rst" />
+    <None Include="Docs\source\Procedures\GetInput.rst" />
+    <None Include="Docs\source\Procedures\GetNumber.rst" />
+    <None Include="Docs\source\Procedures\HideStatus.rst" />
+    <None Include="Docs\source\Procedures\InRect.rst" />
+    <None Include="Docs\source\Procedures\IsObjectOnControl.rst" />
+    <None Include="Docs\source\Procedures\IsOneOf.rst" />
+    <None Include="Docs\source\Procedures\IsOnScreen.rst" />
+    <None Include="Docs\source\Procedures\Max.rst" />
+    <None Include="Docs\source\Procedures\Min.rst" />
+    <None Include="Docs\source\Procedures\MouseStillDown.rst" />
+    <None Include="Docs\source\Procedures\Printf.rst" />
+    <None Include="Docs\source\Procedures\Prints.rst" />
+    <None Include="Docs\source\Procedures\RestorePreviousHandsOn.rst" />
+    <None Include="Docs\source\Procedures\ScoreFlag.rst" />
+    <None Include="Docs\source\Procedures\SetUpEgo.rst" />
+    <None Include="Docs\source\Procedures\Sign.rst" />
+    <None Include="Docs\source\Procedures\UModulo.rst" />
+    <None Include="Docs\source\Procedures\WordAt.rst" />
+    <None Include="Docs\source\rastertools.rst" />
+    <None Include="Docs\source\recording.rst" />
+    <None Include="Docs\source\sci11_classes.rst" />
+    <None Include="Docs\source\sci11_procedures.rst" />
+    <None Include="Docs\source\sci11_scripts.rst" />
+    <None Include="Docs\source\sci11_tutorial.rst" />
+    <None Include="Docs\source\sci_compiler.rst" />
+    <None Include="Docs\source\sci_kernels.rst" />
+    <None Include="Docs\source\scripts.rst" />
+    <None Include="Docs\source\Scripts\Actor.rst" />
+    <None Include="Docs\source\Scripts\Approach.rst" />
+    <None Include="Docs\source\Scripts\Block.rst" />
+    <None Include="Docs\source\Scripts\BorderWindow.rst" />
+    <None Include="Docs\source\Scripts\Chase.rst" />
+    <None Include="Docs\source\Scripts\ChoiceTalker.rst" />
+    <None Include="Docs\source\Scripts\ColorInit.rst" />
+    <None Include="Docs\source\Scripts\Controls.rst" />
+    <None Include="Docs\source\Scripts\Conversation.rst" />
+    <None Include="Docs\source\Scripts\Cycle.rst" />
+    <None Include="Docs\source\Scripts\DCIcon.rst" />
+    <None Include="Docs\source\Scripts\DColorButton.rst" />
+    <None Include="Docs\source\Scripts\DebugRoomInit.rst" />
+    <None Include="Docs\source\Scripts\DialogControls.rst" />
+    <None Include="Docs\source\Scripts\DialogEdit.rst" />
+    <None Include="Docs\source\Scripts\DisposeLoad.rst" />
+    <None Include="Docs\source\Scripts\Door.rst" />
+    <None Include="Docs\source\Scripts\DPath.rst" />
+    <None Include="Docs\source\Scripts\Ego.rst" />
+    <None Include="Docs\source\Scripts\Feature.rst" />
+    <None Include="Docs\source\Scripts\FeatureWriter.rst" />
+    <None Include="Docs\source\Scripts\File.rst" />
+    <None Include="Docs\source\Scripts\FileSelector.rst" />
+    <None Include="Docs\source\Scripts\Flags.rst" />
+    <None Include="Docs\source\Scripts\FlickerCycler.rst" />
+    <None Include="Docs\source\Scripts\Flip.rst" />
+    <None Include="Docs\source\Scripts\Follow.rst" />
+    <None Include="Docs\source\Scripts\ForwardCounter.rst" />
+    <None Include="Docs\source\Scripts\Game.rst" />
+    <None Include="Docs\source\Scripts\GameControls.rst" />
+    <None Include="Docs\source\Scripts\GameEgo.rst" />
+    <None Include="Docs\source\Scripts\Gauge.rst" />
+    <None Include="Docs\source\Scripts\Grooper.rst" />
+    <None Include="Docs\source\Scripts\IconI.rst" />
+    <None Include="Docs\source\Scripts\IconItem.rst" />
+    <None Include="Docs\source\Scripts\Inset.rst" />
+    <None Include="Docs\source\Scripts\InventoryItem.rst" />
+    <None Include="Docs\source\Scripts\InvI.rst" />
+    <None Include="Docs\source\Scripts\InvItem.rst" />
+    <None Include="Docs\source\Scripts\Jump.rst" />
+    <None Include="Docs\source\Scripts\Main.rst" />
+    <None Include="Docs\source\Scripts\Messager.rst" />
+    <None Include="Docs\source\Scripts\MoveCycle.rst" />
+    <None Include="Docs\source\Scripts\MoveFwd.rst" />
+    <None Include="Docs\source\Scripts\Orbit.rst" />
+    <None Include="Docs\source\Scripts\Oscillate.rst" />
+    <None Include="Docs\source\Scripts\PAvoider.rst" />
+    <None Include="Docs\source\Scripts\PChase.rst" />
+    <None Include="Docs\source\Scripts\PFollow.rst" />
+    <None Include="Docs\source\Scripts\Polygon.rst" />
+    <None Include="Docs\source\Scripts\PolygonEdit.rst" />
+    <None Include="Docs\source\Scripts\PolyPath.rst" />
+    <None Include="Docs\source\Scripts\Print.rst" />
+    <None Include="Docs\source\Scripts\PriorityTalker.rst" />
+    <None Include="Docs\source\Scripts\PseudoMouse.rst" />
+    <None Include="Docs\source\Scripts\RandCycle.rst" />
+    <None Include="Docs\source\Scripts\RangeOscillate.rst" />
+    <None Include="Docs\source\Scripts\RegionPath.rst" />
+    <None Include="Docs\source\Scripts\RelDPath.rst" />
+    <None Include="Docs\source\Scripts\Reverse.rst" />
+    <None Include="Docs\source\Scripts\SaveRestoreDialog.rst" />
+    <None Include="Docs\source\Scripts\Scaler.rst" />
+    <None Include="Docs\source\Scripts\ScaleTo.rst" />
+    <None Include="Docs\source\Scripts\ScrollableInventory.rst" />
+    <None Include="Docs\source\Scripts\ScrollInsetWindow.rst" />
+    <None Include="Docs\source\Scripts\SettingsPane.rst" />
+    <None Include="Docs\source\Scripts\Sight.rst" />
+    <None Include="Docs\source\Scripts\Slider.rst" />
+    <None Include="Docs\source\Scripts\SmoothLooper.rst" />
+    <None Include="Docs\source\Scripts\Smopper.rst" />
+    <None Include="Docs\source\Scripts\Sound.rst" />
+    <None Include="Docs\source\Scripts\SpeakWindow.rst" />
+    <None Include="Docs\source\Scripts\StopWalk.rst" />
+    <None Include="Docs\source\Scripts\Sync.rst" />
+    <None Include="Docs\source\Scripts\System.rst" />
+    <None Include="Docs\source\Scripts\SysWindow.rst" />
+    <None Include="Docs\source\Scripts\Talker.rst" />
+    <None Include="Docs\source\Scripts\Timer.rst" />
+    <None Include="Docs\source\Scripts\Track.rst" />
+    <None Include="Docs\source\Scripts\User.rst" />
+    <None Include="Docs\source\Scripts\Wander.rst" />
+    <None Include="Docs\source\selectionandresize.rst" />
+    <None Include="Docs\source\sounds.rst" />
+    <None Include="Docs\source\StudioCompiler\arithmetic.rst" />
+    <None Include="Docs\source\StudioCompiler\asm.rst" />
+    <None Include="Docs\source\StudioCompiler\assignment.rst" />
+    <None Include="Docs\source\StudioCompiler\bitwise.rst" />
+    <None Include="Docs\source\StudioCompiler\break.rst" />
+    <None Include="Docs\source\StudioCompiler\classes.rst" />
+    <None Include="Docs\source\StudioCompiler\classheader.rst" />
+    <None Include="Docs\source\StudioCompiler\codeblock.rst" />
+    <None Include="Docs\source\StudioCompiler\comment.rst" />
+    <None Include="Docs\source\StudioCompiler\conditionalexpressions.rst" />
+    <None Include="Docs\source\StudioCompiler\define.rst" />
+    <None Include="Docs\source\StudioCompiler\do.rst" />
+    <None Include="Docs\source\StudioCompiler\for.rst" />
+    <None Include="Docs\source\StudioCompiler\if.rst" />
+    <None Include="Docs\source\StudioCompiler\include.rst" />
+    <None Include="Docs\source\StudioCompiler\objectfiles.rst" />
+    <None Include="Docs\source\StudioCompiler\otheroperators.rst" />
+    <None Include="Docs\source\StudioCompiler\procedures.rst" />
+    <None Include="Docs\source\StudioCompiler\properties.rst" />
+    <None Include="Docs\source\StudioCompiler\relationaloperators.rst" />
+    <None Include="Docs\source\StudioCompiler\rest.rst" />
+    <None Include="Docs\source\StudioCompiler\return.rst" />
+    <None Include="Docs\source\StudioCompiler\saids.rst" />
+    <None Include="Docs\source\StudioCompiler\selectors.rst" />
+    <None Include="Docs\source\StudioCompiler\sendselfsuper.rst" />
+    <None Include="Docs\source\StudioCompiler\strings.rst" />
+    <None Include="Docs\source\StudioCompiler\switch.rst" />
+    <None Include="Docs\source\StudioCompiler\synonyms.rst" />
+    <None Include="Docs\source\StudioCompiler\use.rst" />
+    <None Include="Docs\source\StudioCompiler\variables.rst" />
+    <None Include="Docs\source\StudioCompiler\variabletypes.rst" />
+    <None Include="Docs\source\StudioCompiler\version.rst" />
+    <None Include="Docs\source\StudioCompiler\while.rst" />
+    <None Include="Docs\source\studio_compiler.rst" />
+    <None Include="Docs\source\talkers.rst" />
+    <None Include="Docs\source\texts.rst" />
+    <None Include="Docs\source\tips.rst" />
+    <None Include="Docs\source\Tutorial\Actors.rst" />
+    <None Include="Docs\source\Tutorial\AddingObjects.rst" />
+    <None Include="Docs\source\Tutorial\AnimatingProps.rst" />
+    <None Include="Docs\source\Tutorial\Dying.rst" />
+    <None Include="Docs\source\Tutorial\FirstRoom.rst" />
+    <None Include="Docs\source\Tutorial\ManagingInventory.rst" />
+    <None Include="Docs\source\Tutorial\PriorityScreen.rst" />
+    <None Include="Docs\source\Tutorial\RoomBackground.rst" />
+    <None Include="Docs\source\Tutorial\Rooms.rst" />
+    <None Include="Docs\source\Tutorial\Score.rst" />
+    <None Include="Docs\source\Tutorial\TitleScreen.rst" />
+    <None Include="Docs\source\Tutorial\UseInventory.rst" />
+    <None Include="Docs\source\undo.rst" />
+    <None Include="Docs\source\views.rst" />
+    <None Include="Docs\source\vocabs.rst" />
+    <None Include="Files\CompileInclude\keys.sh" />
+    <None Include="Files\CompileInclude\sci.sh" />
+    <None Include="Files\Customization\syntaxcolor.ini" />
+    <None Include="Files\Decompiler\Decompiler.ini" />
+    <None Include="Files\Decompiler\game.sh" />
+    <None Include="Files\Licenses\cppformat_README.rst" />
+    <None Include="Files\Objects\SCI0\Methods.sc" />
+    <None Include="Files\Objects\SCI0\Objects.sc" />
+    <None Include="Files\Objects\SCI1.1\Methods.sc" />
+    <None Include="Files\Objects\SCI1.1\Objects.sc" />
+    <None Include="Files\Samples\default_phoneme_map.ini" />
+    <None Include="Files\Samples\SCI0\cursors\Arrow 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Arrow Small.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Arrow Up.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Cross 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Cross 2.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Diagonal Arrow 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Diagonal Arrow 2.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Error Cursor.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Hand Point.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Help Arrow.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Hourglass 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Hourglass 2.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Hourglass Arrow.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Left-Right Arrow.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Move Arrow.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Scumm Style 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Scumm Style 2.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Text Cursor 1.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Text Cursor 2.bin" />
+    <None Include="Files\Samples\SCI0\cursors\Up-Down Arrow.bin" />
+    <None Include="Files\Samples\SCI0\fonts\BriPro.bin" />
+    <None Include="Files\Samples\SCI0\pics\Black Screen.bin" />
+    <None Include="Files\Samples\SCI0\pics\Bliss.bin" />
+    <None Include="Files\Samples\SCI0\pics\Cave.bin" />
+    <None Include="Files\Samples\SCI0\pics\Criss Cross.bin" />
+    <None Include="Files\Samples\SCI0\pics\Room 1.bin" />
+    <None Include="Files\Samples\SCI0\pics\Room 2.bin" />
+    <None Include="Files\Samples\SCI0\pics\Simple.bin" />
+    <None Include="Files\Samples\SCI0\views\Brian.bin" />
+    <None Include="Files\Samples\SCI0\views\Dead Icon.bin" />
+    <None Include="Files\Samples\SCI0\views\Door (Big).bin" />
+    <None Include="Files\Samples\SCI0\views\Door.bin" />
+    <None Include="Files\Samples\SCI0\views\Ego.bin" />
+    <None Include="Files\Samples\SCI0\views\Fire.bin" />
+    <None Include="Files\Samples\SCI0\views\Inv - Key.bin" />
+    <None Include="Files\Samples\SCI0\views\Key.bin" />
+    <None Include="Files\Samples\SCI0\views\Ranger.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Debug.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Large.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Sans.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Serif.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Small A.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Sierra Small B.bin" />
+    <None Include="Files\Samples\SCI1.1\fonts\Wilco Small Caps.bin" />
+    <None Include="Files\Samples\SCI1.1\palettes\Default.bin" />
+    <None Include="Files\Samples\SCI1.1\palettes\King 6.bin" />
+    <None Include="Files\Samples\SCI1.1\palettes\Quest.bin" />
+    <None Include="Files\Samples\SCI1.1\palettes\Space 5.bin" />
+    <None Include="Files\Samples\SCI1.1\pics\Black 200.bin" />
+    <None Include="Files\Samples\SCI1.1\pics\Room 1.bin" />
+    <None Include="Files\Samples\SCI1.1\views\Box.bin" />
+    <None Include="Files\Samples\SCI1.1\views\MouthShapes.bin" />
+    <None Include="Files\Samples\views\Brian.bin" />
+    <None Include="Files\Samples\views\Dead Icon.bin" />
+    <None Include="Files\Samples\views\Door (Big).bin" />
+    <None Include="Files\Samples\views\Door.bin" />
+    <None Include="Files\Samples\views\Ego.bin" />
+    <None Include="Files\Samples\views\Inv - Key.bin" />
+    <None Include="Files\Samples\views\Key.bin" />
+    <None Include="Files\TemplateGame\SCI0.ini" />
+    <None Include="Files\TemplateGame\SCI0\ADL.DRV" />
+    <None Include="Files\TemplateGame\SCI0\dosbox.conf" />
+    <None Include="Files\TemplateGame\SCI0\EGA320.DRV" />
+    <None Include="Files\TemplateGame\SCI0\game.ini" />
+    <None Include="Files\TemplateGame\SCI0\gm.drv" />
+    <None Include="Files\TemplateGame\SCI0\IBMKBD.DRV" />
+    <None Include="Files\TemplateGame\SCI0\JOYSTICK.DRV" />
+    <None Include="Files\TemplateGame\SCI0\resource.001" />
+    <None Include="Files\TemplateGame\SCI0\resource.cfg" />
+    <None Include="Files\TemplateGame\SCI0\resource.map" />
+    <None Include="Files\TemplateGame\SCI0\SCIV.EXE" />
+    <None Include="Files\TemplateGame\SCI0\src\autodoor.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\autodoor.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Avoid.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\Avoid.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Controls.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\controls.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Cycle.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\cycle.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\DCIcon.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\dcicon.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\DebugOut.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\DebugOut.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\DisposeLoad.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\disposeload.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\door.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\door.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\dpath.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\dpath.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\dying.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\dying.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\extra.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\extra.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Feature.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\feature.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\fileio.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\fileio.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\follow.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\follow.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Game.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\game.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\game.sh" />
+    <None Include="Files\TemplateGame\SCI0\src\gauge.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\gauge.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\initrooms.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\initrooms.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\inv.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\inv.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\jump.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\jump.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\Main.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\main.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\menubar.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\menubar.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\obj.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\obj.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\rev.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\rev.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\rm001.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\rm001.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\sound.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\sound.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\syswindow.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\syswindow.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\timer.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\timer.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\TitleScreen.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\titlescreen.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\User.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\user.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\wander.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\wander.sco" />
+    <None Include="Files\TemplateGame\SCI0\src\window.sc" />
+    <None Include="Files\TemplateGame\SCI0\src\window.sco" />
+    <None Include="Files\TemplateGame\SCI0\STD.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1.ini" />
+    <None Include="Files\TemplateGame\SCI1.1\ADL.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDBLAST.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDDISNY.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDGUS.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDMSSYS.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDNONE.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDPRO.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDPRO16.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDPS1.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\AUDTHUND.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\dosbox.conf" />
+    <None Include="Files\TemplateGame\SCI1.1\game.ini" />
+    <None Include="Files\TemplateGame\SCI1.1\GENMIDI.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\GMGUS.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\GUSDRV.COM" />
+    <None Include="Files\TemplateGame\SCI1.1\IBMKBD.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\IBMPS1.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\INTERP.ERR" />
+    <None Include="Files\TemplateGame\SCI1.1\MICROSOF.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\0.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\110.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\111.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\13.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\15.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\msg\20.shm" />
+    <None Include="Files\TemplateGame\SCI1.1\MT32.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\poly\110.shp" />
+    <None Include="Files\TemplateGame\SCI1.1\PROAUDIO.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\resource.000" />
+    <None Include="Files\TemplateGame\SCI1.1\resource.aud" />
+    <None Include="Files\TemplateGame\SCI1.1\RESOURCE.CFG" />
+    <None Include="Files\TemplateGame\SCI1.1\resource.map" />
+    <None Include="Files\TemplateGame\SCI1.1\resource.sfx" />
+    <None Include="Files\TemplateGame\SCI1.1\SBPRO.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\SIERRA.EXE" />
+    <None Include="Files\TemplateGame\SCI1.1\src\AboutCode.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\AboutCode.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Actor.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Actor.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Approach.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Approach.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Block.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Block.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\BorderWindow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\BorderWindow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Chase.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Chase.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ChoiceTalker.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ChoiceTalker.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ColorInit.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ColorInit.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Controls.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Controls.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Conversation.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Conversation.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Cycle.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Cycle.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DCIcon.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DCIcon.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DColorButton.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DColorButton.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DeathRoom.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DeathRoom.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugHandler.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugHandler.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugOut.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugOut.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugRoomInit.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DebugRoomInit.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DialogControls.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DialogControls.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DialogEdit.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DialogEdit.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DisposeCode.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DisposeCode.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DisposeLoad.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DisposeLoad.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Door.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Door.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DPath.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\DPath.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Ego.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Ego.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Feature.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Feature.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FeatureWriter.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FeatureWriter.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\File.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\File.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FileSelector.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FileSelector.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Flags.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Flags.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FlickerCycler.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\FlickerCycler.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Flip.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Flip.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Follow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Follow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ForwardCounter.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ForwardCounter.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Game.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Game.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\game.sh" />
+    <None Include="Files\TemplateGame\SCI1.1\src\GameControls.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\GameControls.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\GameEgo.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\GameEgo.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Gauge.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Gauge.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Grooper.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Grooper.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\IconItem.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\IconItem.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Inset.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Inset.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Inventory.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Inventory.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\InventoryItem.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\InventoryItem.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Jump.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Jump.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Main.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Main.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Messager.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Messager.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\MoveCycle.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\MoveCycle.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\MoveFwd.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\MoveFwd.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Orbit.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Orbit.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Oscillate.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Oscillate.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PAvoider.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PAvoider.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PChase.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PChase.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PFollow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PFollow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Polygon.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Polygon.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PolygonEdit.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PolygonEdit.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PolyPath.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PolyPath.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Print.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Print.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PriorityTalker.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PriorityTalker.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PseudoMouse.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\PseudoMouse.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RandCycle.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RandCycle.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RangeOscillate.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RangeOscillate.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RegionPath.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RegionPath.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RelDPath.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\RelDPath.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Reverse.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Reverse.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\rm110.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\rm110.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SaveRestoreDialog.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SaveRestoreDialog.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Scaler.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Scaler.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScaleTo.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScaleTo.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScrollableInventory.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScrollableInventory.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScrollInsetWindow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\ScrollInsetWindow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SettingsPane.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SettingsPane.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sight.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sight.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Slider.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Slider.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SmoothLooper.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SmoothLooper.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Smopper.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Smopper.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sound.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sound.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SpeakWindow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SpeakWindow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\StopWalk.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\StopWalk.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sync.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Sync.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\System.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\System.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SysWindow.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\SysWindow.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Talker.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Talker.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Talkers.sh" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Timer.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Timer.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\TitleScreen.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\TitleScreen.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Track.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Track.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\User.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\User.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Verbs.sh" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Wander.sc" />
+    <None Include="Files\TemplateGame\SCI1.1\src\Wander.sco" />
+    <None Include="Files\TemplateGame\SCI1.1\STD.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\VERSION" />
+    <None Include="Files\TemplateGame\SCI1.1\VGA320.DRV" />
+    <None Include="Files\TemplateGame\SCI1.1\VGA320BW.DRV" />
+    <None Include="Help\Classes\ControlItem.html" />
+    <None Include="Help\Classes\IconI.html" />
+    <None Include="Help\Classes\Inv.html" />
+    <None Include="Help\Classes\InvI.html" />
+    <None Include="Help\Classes\InvItem.html" />
+    <None Include="Help\Legacy\arithmetic_operators.addition.html" />
+    <None Include="Help\Legacy\arithmetic_operators.decrement.html" />
+    <None Include="Help\Legacy\arithmetic_operators.division.html" />
+    <None Include="Help\Legacy\arithmetic_operators.html" />
+    <None Include="Help\Legacy\arithmetic_operators.increment.html" />
+    <None Include="Help\Legacy\arithmetic_operators.modulus.html" />
+    <None Include="Help\Legacy\arithmetic_operators.multiplication.html" />
+    <None Include="Help\Legacy\arithmetic_operators.subtraction.html" />
+    <None Include="Help\Legacy\assignment_operator.html" />
+    <None Include="Help\Legacy\bitwise_operators.and.html" />
+    <None Include="Help\Legacy\bitwise_operators.bnot.html" />
+    <None Include="Help\Legacy\bitwise_operators.html" />
+    <None Include="Help\Legacy\bitwise_operators.neg.html" />
+    <None Include="Help\Legacy\bitwise_operators.not.html" />
+    <None Include="Help\Legacy\bitwise_operators.or.html" />
+    <None Include="Help\Legacy\bitwise_operators.shl.html" />
+    <None Include="Help\Legacy\bitwise_operators.shr.html" />
+    <None Include="Help\Legacy\bitwise_operators.xor.html" />
+    <None Include="Help\Legacy\classes.header.html" />
+    <None Include="Help\Legacy\classes.html" />
+    <None Include="Help\Legacy\classsys.html" />
+    <None Include="Help\Legacy\class_act.html" />
+    <None Include="Help\Legacy\class_autodoor.html" />
+    <None Include="Help\Legacy\class_beg.html" />
+    <None Include="Help\Legacy\class_blk.html" />
+    <None Include="Help\Legacy\class_cage.html" />
+    <None Include="Help\Legacy\class_code.html" />
+    <None Include="Help\Legacy\class_collect.html" />
+    <None Include="Help\Legacy\class_control.html" />
+    <None Include="Help\Legacy\class_controls.html" />
+    <None Include="Help\Legacy\class_ct.html" />
+    <None Include="Help\Legacy\class_cycle.html" />
+    <None Include="Help\Legacy\class_dbutton.html" />
+    <None Include="Help\Legacy\class_dcicon.html" />
+    <None Include="Help\Legacy\class_dedit.html" />
+    <None Include="Help\Legacy\class_dialog.html" />
+    <None Include="Help\Legacy\class_dicon.html" />
+    <None Include="Help\Legacy\class_door.html" />
+    <None Include="Help\Legacy\class_dpath.html" />
+    <None Include="Help\Legacy\class_dselector.html" />
+    <None Include="Help\Legacy\class_dtext.html" />
+    <None Include="Help\Legacy\class_ego.html" />
+    <None Include="Help\Legacy\class_end.html" />
+    <None Include="Help\Legacy\class_event.html" />
+    <None Include="Help\Legacy\class_eventhandler.html" />
+    <None Include="Help\Legacy\class_extra.html" />
+    <None Include="Help\Legacy\class_feature.html" />
+    <None Include="Help\Legacy\class_file.html" />
+    <None Include="Help\Legacy\class_follow.html" />
+    <None Include="Help\Legacy\class_fwd.html" />
+    <None Include="Help\Legacy\class_game.html" />
+    <None Include="Help\Legacy\class_gauge.html" />
+    <None Include="Help\Legacy\class_iitem.html" />
+    <None Include="Help\Legacy\class_inv.html" />
+    <None Include="Help\Legacy\class_invi.html" />
+    <None Include="Help\Legacy\class_jump.html" />
+    <None Include="Help\Legacy\class_jumpto.html" />
+    <None Include="Help\Legacy\class_list.html" />
+    <None Include="Help\Legacy\class_locale.html" />
+    <None Include="Help\Legacy\class_menubar.html" />
+    <None Include="Help\Legacy\class_motion.html" />
+    <None Include="Help\Legacy\class_moveto.html" />
+    <None Include="Help\Legacy\class_obj.html" />
+    <None Include="Help\Legacy\class_prop.html" />
+    <None Include="Help\Legacy\class_pv.html" />
+    <None Include="Help\Legacy\class_restore.html" />
+    <None Include="Help\Legacy\class_rev.html" />
+    <None Include="Help\Legacy\class_rgn.html" />
+    <None Include="Help\Legacy\class_rm.html" />
+    <None Include="Help\Legacy\class_save.html" />
+    <None Include="Help\Legacy\class_script.html" />
+    <None Include="Help\Legacy\class_set.html" />
+    <None Include="Help\Legacy\class_sl.html" />
+    <None Include="Help\Legacy\class_sound.html" />
+    <None Include="Help\Legacy\class_srdialog.html" />
+    <None Include="Help\Legacy\class_syswindow.html" />
+    <None Include="Help\Legacy\class_themenubar.html" />
+    <None Include="Help\Legacy\class_timer.html" />
+    <None Include="Help\Legacy\class_to.html" />
+    <None Include="Help\Legacy\class_user.html" />
+    <None Include="Help\Legacy\class_view.html" />
+    <None Include="Help\Legacy\class_walk.html" />
+    <None Include="Help\Legacy\class_wander.html" />
+    <None Include="Help\Legacy\class_window.html" />
+    <None Include="Help\Legacy\code_block.html" />
+    <None Include="Help\Legacy\comments.html" />
+    <None Include="Help\Legacy\conditional_expression.html" />
+    <None Include="Help\Legacy\conditional_loop.break.html" />
+    <None Include="Help\Legacy\conditional_loop.do.html" />
+    <None Include="Help\Legacy\conditional_loop.for.html" />
+    <None Include="Help\Legacy\conditional_loop.html" />
+    <None Include="Help\Legacy\conditional_loop.if.html" />
+    <None Include="Help\Legacy\conditional_loop.switch.html" />
+    <None Include="Help\Legacy\conditional_loop.while.html" />
+    <None Include="Help\Legacy\define.html" />
+    <None Include="Help\Legacy\global_variables.html" />
+    <None Include="Help\Legacy\header_game.html" />
+    <None Include="Help\Legacy\header_keys.html" />
+    <None Include="Help\Legacy\header_sci.html" />
+    <None Include="Help\Legacy\include.html" />
+    <None Include="Help\Legacy\index.html" />
+    <None Include="Help\Legacy\inline_assembly.html" />
+    <None Include="Help\Legacy\integer.html" />
+    <None Include="Help\Legacy\kernels.html" />
+    <None Include="Help\Legacy\kernel_abs.html" />
+    <None Include="Help\Legacy\kernel_addafter.html" />
+    <None Include="Help\Legacy\kernel_addmenu.html" />
+    <None Include="Help\Legacy\kernel_addtoend.html" />
+    <None Include="Help\Legacy\kernel_addtofront.html" />
+    <None Include="Help\Legacy\kernel_addtopic.html" />
+    <None Include="Help\Legacy\kernel_animate.html" />
+    <None Include="Help\Legacy\kernel_basesetter.html" />
+    <None Include="Help\Legacy\kernel_canbehere.html" />
+    <None Include="Help\Legacy\kernel_celhigh.html" />
+    <None Include="Help\Legacy\kernel_celwide.html" />
+    <None Include="Help\Legacy\kernel_checkfreespace.html" />
+    <None Include="Help\Legacy\kernel_checksavegame.html" />
+    <None Include="Help\Legacy\kernel_clone.html" />
+    <None Include="Help\Legacy\kernel_coordpri.html" />
+    <None Include="Help\Legacy\kernel_cosdiv.html" />
+    <None Include="Help\Legacy\kernel_cosmult.html" />
+    <None Include="Help\Legacy\kernel_deletekey.html" />
+    <None Include="Help\Legacy\kernel_deviceinfo.html" />
+    <None Include="Help\Legacy\kernel_dirloop.html" />
+    <None Include="Help\Legacy\kernel_display.html" />
+    <None Include="Help\Legacy\kernel_disposeclone.html" />
+    <None Include="Help\Legacy\kernel_disposelist.html" />
+    <None Include="Help\Legacy\kernel_disposescript.html" />
+    <None Include="Help\Legacy\kernel_disposewindow.html" />
+    <None Include="Help\Legacy\kernel_doavoider.html" />
+    <None Include="Help\Legacy\kernel_dobresen.html" />
+    <None Include="Help\Legacy\kernel_dosound.html" />
+    <None Include="Help\Legacy\kernel_drawcel.html" />
+    <None Include="Help\Legacy\kernel_drawcontrol.html" />
+    <None Include="Help\Legacy\kernel_drawmenubar.html" />
+    <None Include="Help\Legacy\kernel_drawpic.html" />
+    <None Include="Help\Legacy\kernel_drawstatus.html" />
+    <None Include="Help\Legacy\kernel_editcontrol.html" />
+    <None Include="Help\Legacy\kernel_emptylist.html" />
+    <None Include="Help\Legacy\kernel_fclose.html" />
+    <None Include="Help\Legacy\kernel_fgets.html" />
+    <None Include="Help\Legacy\kernel_findkey.html" />
+    <None Include="Help\Legacy\kernel_firstnode.html" />
+    <None Include="Help\Legacy\kernel_flushresources.html" />
+    <None Include="Help\Legacy\kernel_fopen.html" />
+    <None Include="Help\Legacy\kernel_format.html" />
+    <None Include="Help\Legacy\kernel_fputs.html" />
+    <None Include="Help\Legacy\kernel_gameisrestarting.html" />
+    <None Include="Help\Legacy\kernel_getangle.html" />
+    <None Include="Help\Legacy\kernel_getcwd.html" />
+    <None Include="Help\Legacy\kernel_getdistance.html" />
+    <None Include="Help\Legacy\kernel_getevent.html" />
+    <None Include="Help\Legacy\kernel_getfartext.html" />
+    <None Include="Help\Legacy\kernel_getmenu.html" />
+    <None Include="Help\Legacy\kernel_getport.html" />
+    <None Include="Help\Legacy\kernel_getsavedir.html" />
+    <None Include="Help\Legacy\kernel_getsavefiles.html" />
+    <None Include="Help\Legacy\kernel_gettime.html" />
+    <None Include="Help\Legacy\kernel_globaltolocal.html" />
+    <None Include="Help\Legacy\kernel_graph.html" />
+    <None Include="Help\Legacy\kernel_havemouse.html" />
+    <None Include="Help\Legacy\kernel_hilitecontrol.html" />
+    <None Include="Help\Legacy\kernel_initbresen.html" />
+    <None Include="Help\Legacy\kernel_inspectobj.html" />
+    <None Include="Help\Legacy\kernel_isobject.html" />
+    <None Include="Help\Legacy\kernel_joystick.html" />
+    <None Include="Help\Legacy\kernel_lastnode.html" />
+    <None Include="Help\Legacy\kernel_load.html" />
+    <None Include="Help\Legacy\kernel_localtoglobal.html" />
+    <None Include="Help\Legacy\kernel_mapkeytodir.html" />
+    <None Include="Help\Legacy\kernel_memoryinfo.html" />
+    <None Include="Help\Legacy\kernel_menuselect.html" />
+    <None Include="Help\Legacy\kernel_newlist.html" />
+    <None Include="Help\Legacy\kernel_newnode.html" />
+    <None Include="Help\Legacy\kernel_newwindow.html" />
+    <None Include="Help\Legacy\kernel_nextnode.html" />
+    <None Include="Help\Legacy\kernel_nodevalue.html" />
+    <None Include="Help\Legacy\kernel_numcels.html" />
+    <None Include="Help\Legacy\kernel_numloops.html" />
+    <None Include="Help\Legacy\kernel_oncontrol.html" />
+    <None Include="Help\Legacy\kernel_parse.html" />
+    <None Include="Help\Legacy\kernel_picnotvalid.html" />
+    <None Include="Help\Legacy\kernel_prevnode.html" />
+    <None Include="Help\Legacy\kernel_profiler.html" />
+    <None Include="Help\Legacy\kernel_random.html" />
+    <None Include="Help\Legacy\kernel_readnumber.html" />
+    <None Include="Help\Legacy\kernel_respondsto.html" />
+    <None Include="Help\Legacy\kernel_restartgame.html" />
+    <None Include="Help\Legacy\kernel_restoregame.html" />
+    <None Include="Help\Legacy\kernel_said.html" />
+    <None Include="Help\Legacy\kernel_savegame.html" />
+    <None Include="Help\Legacy\kernel_scriptid.html" />
+    <None Include="Help\Legacy\kernel_setcursor.html" />
+    <None Include="Help\Legacy\kernel_setdebug.html" />
+    <None Include="Help\Legacy\kernel_setjump.html" />
+    <None Include="Help\Legacy\kernel_setmenu.html" />
+    <None Include="Help\Legacy\kernel_setnowseen.html" />
+    <None Include="Help\Legacy\kernel_setport.html" />
+    <None Include="Help\Legacy\kernel_setsynonyms.html" />
+    <None Include="Help\Legacy\kernel_shakescreen.html" />
+    <None Include="Help\Legacy\kernel_show.html" />
+    <None Include="Help\Legacy\kernel_showfree.html" />
+    <None Include="Help\Legacy\kernel_showobjs.html" />
+    <None Include="Help\Legacy\kernel_showsends.html" />
+    <None Include="Help\Legacy\kernel_sindiv.html" />
+    <None Include="Help\Legacy\kernel_sinmult.html" />
+    <None Include="Help\Legacy\kernel_sqrt.html" />
+    <None Include="Help\Legacy\kernel_stackusage.html" />
+    <None Include="Help\Legacy\kernel_strat.html" />
+    <None Include="Help\Legacy\kernel_strcat.html" />
+    <None Include="Help\Legacy\kernel_strcmp.html" />
+    <None Include="Help\Legacy\kernel_strcpy.html" />
+    <None Include="Help\Legacy\kernel_strend.html" />
+    <None Include="Help\Legacy\kernel_strlen.html" />
+    <None Include="Help\Legacy\kernel_textsize.html" />
+    <None Include="Help\Legacy\kernel_unload.html" />
+    <None Include="Help\Legacy\kernel_validpath.html" />
+    <None Include="Help\Legacy\kernel_wait.html" />
+    <None Include="Help\Legacy\object_files.html" />
+    <None Include="Help\Legacy\preloadtext.html" />
+    <None Include="Help\Legacy\procedures.html" />
+    <None Include="Help\Legacy\properties.html" />
+    <None Include="Help\Legacy\relational_operators.equal.html" />
+    <None Include="Help\Legacy\relational_operators.greaterthan.html" />
+    <None Include="Help\Legacy\relational_operators.html" />
+    <None Include="Help\Legacy\relational_operators.lessthan.html" />
+    <None Include="Help\Legacy\relational_operators.notequal.html" />
+    <None Include="Help\Legacy\rest.html" />
+    <None Include="Help\Legacy\return.html" />
+    <None Include="Help\Legacy\said.html" />
+    <None Include="Help\Legacy\scripts.html" />
+    <None Include="Help\Legacy\script_autodoor.html" />
+    <None Include="Help\Legacy\script_controls.html" />
+    <None Include="Help\Legacy\script_cycle.html" />
+    <None Include="Help\Legacy\script_dcicon.html" />
+    <None Include="Help\Legacy\script_disposeload.html" />
+    <None Include="Help\Legacy\script_door.html" />
+    <None Include="Help\Legacy\script_dpath.html" />
+    <None Include="Help\Legacy\script_dying.html" />
+    <None Include="Help\Legacy\script_extra.html" />
+    <None Include="Help\Legacy\script_feature.html" />
+    <None Include="Help\Legacy\script_fileio.html" />
+    <None Include="Help\Legacy\script_follow.html" />
+    <None Include="Help\Legacy\script_game.html" />
+    <None Include="Help\Legacy\script_gauge.html" />
+    <None Include="Help\Legacy\script_initrooms.html" />
+    <None Include="Help\Legacy\script_inv.html" />
+    <None Include="Help\Legacy\script_jump.html" />
+    <None Include="Help\Legacy\script_main.html" />
+    <None Include="Help\Legacy\script_menubar.html" />
+    <None Include="Help\Legacy\script_obj.html" />
+    <None Include="Help\Legacy\script_requirements.html" />
+    <None Include="Help\Legacy\script_rev.html" />
+    <None Include="Help\Legacy\script_rm001.html" />
+    <None Include="Help\Legacy\script_sound.html" />
+    <None Include="Help\Legacy\script_syswindow.html" />
+    <None Include="Help\Legacy\script_timer.html" />
+    <None Include="Help\Legacy\script_titlescreen.html" />
+    <None Include="Help\Legacy\script_user.html" />
+    <None Include="Help\Legacy\script_wander.html" />
+    <None Include="Help\Legacy\script_window.html" />
+    <None Include="Help\Legacy\selectors.html" />
+    <None Include="Help\Legacy\send.html" />
+    <None Include="Help\Legacy\strings.html" />
+    <None Include="Help\Legacy\synonyms.html" />
+    <None Include="Help\Legacy\use.html" />
+    <None Include="Help\Legacy\variables.html" />
+    <None Include="Help\Legacy\variable_expression.html" />
+    <None Include="Help\Legacy\variable_types.html" />
+    <None Include="Help\Scripts\IconI.html" />
+    <None Include="Help\Scripts\InvI.html" />
+    <None Include="Help\Scripts\InvItem.html" />
+    <None Include="Help\Scripts\SettingsPane.html" />
+    <None Include="res\SCICompanion.rc2">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SCICompanion.licenseheader" />
+    <None Include="Tools\dosbox.conf" />
+    <None Include="Tools\DOSBox\DOSBox 0.74 Options.bat" />
+    <None Include="Tools\DOSBox\DOSBox.exe" />
+    <None Include="Tools\DOSBox\Reset KeyMapper.bat" />
+    <None Include="Tools\DOSBox\Reset Options.bat" />
+    <None Include="Tools\DOSBox\Screenshots &amp; Recordings.bat" />
+    <None Include="Tools\DOSBox\SDL.dll" />
+    <None Include="Tools\DOSBox\SDL_net.dll" />
+    <None Include="Tools\DOSBox\uninstall.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Prof-UIS.2.92\ProfUISLIB\ProfUISLIB_1000.vcxproj">
+      <Project>{89cffc49-d858-481e-99c5-e312f7c1ea95}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SCICompanionLib\SCICompanionLib.vcxproj">
+      <Project>{761de01c-57f6-45c5-aafc-ac48000c423f}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="res\SCICompanion.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Files\Samples\PhonemeSentence.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Docs\source\fonts\Lato-Bold.ttf" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

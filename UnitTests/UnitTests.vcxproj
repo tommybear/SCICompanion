@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="DeadCodeAnalysis|Win32">
+      <Configuration>DeadCodeAnalysis</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{00FF83C9-DD78-4F2C-BC94-8577D79B52CE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>UnitTests</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\*" "$(OutDir)\TestFiles\"</Command>
+      <Message>copy test files</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\*" "$(OutDir)\TestFiles\"</Command>
+      <Message>copy test files</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir)Prof-UIS.2.92\Include;$(SolutionDir)SCICompanionLib\Src\Util;$(SolutionDir)SCICompanionLib\Src\Resources;$(SolutionDir)SCICompanionLib\Src\MFCViews;$(SolutionDir)SCICompanionLib\Src\MFCFrames;$(SolutionDir)SCICompanionLib\Src\MFCDocuments;$(SolutionDir)SCICompanionLib\Src\FrameComponents;$(SolutionDir)SCICompanionLib\Src\Dialogs;$(SolutionDir)SCICompanionLib\Src\CrystalEdit;$(SolutionDir)SCICompanionLib\Src\CRC32;$(SolutionDir)SCICompanionLib\Src\CppFormat;$(SolutionDir)SCICompanionLib\Src\Compile;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UseFullPaths>true</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)Prof-UIS.2.92\Bin_1000\;$(VCInstallDir)UnitTest\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <Profile>true</Profile>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /D "$(ProjectDir)Files\*" "$(OutDir)\TestFiles\"</Command>
+      <Message>copy test files</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Helper.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DeadCodeAnalysis|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TestAllGamesLoad.cpp" />
+    <ClCompile Include="TestClassBrowser.cpp" />
+    <ClCompile Include="TestCompile.cpp" />
+    <ClCompile Include="TestPicDraw.cpp" />
+    <ClCompile Include="TestPolygonLoad.cpp" />
+    <ClCompile Include="TestResource.cpp" />
+    <ClCompile Include="TestResourceDelete.cpp" />
+    <ClCompile Include="TestResourceLoad.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Prof-UIS.2.92\ProfUISLIB\ProfUISLIB_1000.vcxproj">
+      <Project>{89cffc49-d858-481e-99c5-e312f7c1ea95}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SCICompanionLib\SCICompanionLib.vcxproj">
+      <Project>{761de01c-57f6-45c5-aafc-ac48000c423f}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Files\Pics\SCI0\pic.006" />
+    <None Include="Files\Pics\SCI0\pic.028" />
+    <None Include="Files\Pics\SCI0\pic.029" />
+    <None Include="Files\Pics\SCI0\pic.500" />
+    <None Include="Files\Pics\SCI1.0\33.p56" />
+    <None Include="Files\Pics\SCI1.0\Early\pic.011" />
+    <None Include="Files\Pics\SCI1.0\Early\pic.030" />
+    <None Include="Files\Pics\SCI1.0\Early\pic.531" />
+    <None Include="Files\Pics\SCI1.0\EGA\pic.570" />
+    <None Include="Files\Pics\SCI1.0\Mid\160.p56" />
+    <None Include="Files\Pics\SCI1.0\Mid\33.p56" />
+    <None Include="Files\Pics\SCI1.0\pic.011" />
+    <None Include="Files\Pics\SCI1.0\pic.030" />
+    <None Include="Files\Pics\SCI1.0\pic.531" />
+    <None Include="Files\Pics\SCI1.1\100.p56" />
+    <None Include="Files\Pics\SCI1.1\320.p56" />
+    <None Include="Files\Pics\SCI1.1\630.p56" />
+    <None Include="Files\Pics\SCI1.1\860.p56" />
+    <None Include="Files\Pics\SCI2\1150.p56" />
+    <None Include="Files\Pics\SCI2\220.p56" />
+    <None Include="Files\Pics\SCI2\901.p56" />
+    <None Include="UnitTests.licenseheader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Files\Pics\SCI0\pic.006-ctl.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.006-pri.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.006-vis.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.028-ctl.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.028-pri.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.028-vis.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.029-ctl.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.029-pri.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.029-vis.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.500-ctl.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.500-pri.bmp" />
+    <Image Include="Files\Pics\SCI0\pic.500-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\33.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\33.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\33.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.011-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.011-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.011-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.030-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.030-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.030-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.531-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.531-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Early\pic.531-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\EGA\pic.570-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\EGA\pic.570-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\EGA\pic.570-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\160.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\160.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\160.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\33.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\33.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\Mid\33.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.011-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.011-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.011-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.030-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.030-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.030-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.531-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.531-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.0\pic.531-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.1\100.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.1\100.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.1\100.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.1\320.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.1\320.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.1\320.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.1\630.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.1\630.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.1\630.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI1.1\860.p56-ctl.bmp" />
+    <Image Include="Files\Pics\SCI1.1\860.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI1.1\860.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI2\1150.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI2\1150.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI2\220.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI2\220.p56-vis.bmp" />
+    <Image Include="Files\Pics\SCI2\901.p56-pri.bmp" />
+    <Image Include="Files\Pics\SCI2\901.p56-vis.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
