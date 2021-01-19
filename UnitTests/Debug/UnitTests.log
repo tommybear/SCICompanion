@@ -1,0 +1,20 @@
+﻿  stdafx.cpp
+c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+  c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\afx.h(33): note: see declaration of 'MBCS_Support_Deprecated_In_MFC'
+     Automatically linking with Prof-UIS library: ProfUIS292smd.lib
+        (Professional User Interface Suite)
+c:\projects\scicompanion-master\prof-uis.2.92\include\extrichcontent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+c:\projects\scicompanion-master\prof-uis.2.92\include\extrichcontent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+c:\projects\scicompanion-master\prof-uis.2.92\include\extrichcontent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+c:\projects\scicompanion-master\prof-uis.2.92\include\extrichcontent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+  TestResourceLoad.cpp
+  TestResourceDelete.cpp
+  TestResource.cpp
+  TestPolygonLoad.cpp
+  TestPicDraw.cpp
+  TestCompile.cpp
+  TestClassBrowser.cpp
+  TestAllGamesLoad.cpp
+  Helper.cpp
+  Generating Code...
+LINK : fatal error LNK1104: cannot open file 'C:\Projects\SCICompanion-master\Debug\SCICompanionLib.lib'
