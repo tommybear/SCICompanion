@@ -92,6 +92,101 @@ void ExportViewResourceAsCelImages(const ResourceEntity& resource, PaletteCompon
         }
     
 }
+HBITMAP convert_8to32(HBITMAP hbmp)
+{
+    BITMAP  bmp;
+    if (GetObject(hbmp, sizeof(bmp), &bmp))
+    {
+        if (8 == bmp.bmBitsPixel)
+        {
+            int             cy = 0 < bmp.bmHeight ? bmp.bmHeight : -bmp.bmHeight;
+            unsigned int    bpl8 = (bmp.bmWidth + 3) & ~3;
+            unsigned int    bpl32 = 4 * bmp.bmWidth;
+            unsigned char* lp8 = (unsigned char*)malloc(bpl8 * cy);
+            unsigned char* lp32 = (unsigned char*)malloc(bpl32 * cy);
+            HDC             mdc = CreateCompatibleDC(0);
+            BITMAPINFO* pbmi = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + (256 * sizeof(RGBQUAD)));
+            int             x, y;
+            unsigned char* lpdst = lp32;
+            unsigned char* lpsrc = lp8;
+
+            pbmi->bmiHeader.biSize = sizeof(BITMAPINFO) + (256 * sizeof(RGBQUAD));
+            GetDIBits(mdc, hbmp, 0, cy, lp8, pbmi, DIB_RGB_COLORS);
+            for (y = 0; y < cy; y++)
+            {
+                for (x = 0; x < bmp.bmWidth; x++)
+                {
+                    lpdst[(x << 2) + 0] = pbmi->bmiColors[lpsrc[x]].rgbBlue;
+                    lpdst[(x << 2) + 1] = pbmi->bmiColors[lpsrc[x]].rgbGreen;
+                    lpdst[(x << 2) + 2] = pbmi->bmiColors[lpsrc[x]].rgbRed;
+                    lpdst[(x << 2) + 3] = 0x00;
+                }
+                lpdst += bpl32;
+                lpsrc += bpl8;
+            }
+
+            pbmi->bmiHeader.biSize = sizeof(BITMAPINFO);
+            pbmi->bmiHeader.biPlanes = 1;
+            pbmi->bmiHeader.biBitCount = 32;
+            pbmi->bmiHeader.biCompression = 0;
+            pbmi->bmiHeader.biSizeImage = bpl32 * cy;
+            pbmi->bmiHeader.biClrUsed = 0;
+            pbmi->bmiHeader.biClrImportant = 0;
+
+            HBITMAP hbmp32 = CreateDIBitmap(mdc, &pbmi->bmiHeader, CBM_INIT, lp32, pbmi, DIB_RGB_COLORS);
+
+            DeleteDC(mdc);
+            free(pbmi);
+            free(lp8);
+            free(lp32);
+            return hbmp32;
+        }
+    }
+    return 0;
+}
+
+void CImageCopy(CImage& dest, CImage& src)
+{
+    // rescale user image
+    dest.Destroy();
+    dest.Create(src.GetWidth(), src.GetHeight(), 32, CImage::createAlphaChannel);
+    HDC hdc = dest.GetDC();
+
+    src.AlphaBlend(hdc, 0, 0, src.GetWidth(), src.GetHeight(), 0, 0, src.GetWidth(), src.GetHeight());
+    dest.ReleaseDC();
+}
+
+
+
+void Fix24BitTransparency(CImage& img)
+{
+    if (img.GetBPP() < 32)
+    {
+        // alpha bits
+        CImage imgout;
+        imgout.Create(img.GetWidth(), img.GetHeight(), 32, CImage::createAlphaChannel);
+
+        for (int x = 0; x < img.GetWidth(); ++x)
+            for (int y = 0; y < img.GetHeight(); ++y)
+            {
+                COLORREF c1;
+                c1 = img.GetPixel(x, y);  // user image
+                imgout.SetPixel(x, y, c1);
+                if (c1 == RGB(255, 0, 255)) // or whatever you decide transparent...
+                {
+                    imgout.SetPixel(x, y, RGB(255, 255, 255));
+                    BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                    *pAlpha = 0;
+                }
+                else
+                {
+                    BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                    *pAlpha = 255;
+                }
+            }
+        CImageCopy(img, imgout);
+    }
+}
 void ExtractAllResources(SCIVersion version, const std::string &destinationFolderIn, bool extractResources, bool extractPicImages, bool extractViewImages, bool disassembleScripts, bool extractMessages, bool generateWavs, IExtractProgress *progress)
 {
     std::string destinationFolder = destinationFolderIn;
@@ -242,19 +337,39 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                             }
                         }
                         
+
                         bitmap.SetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
                             bmpBuffer_prio);
-
-                        if ((HBITMAP)bitmap)
-                        {
+                        
                             //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
 
-                            CImage image;
-                            image.Attach(bitmap);
+                            CImage img;
+                            img.Attach(bitmap);
+                            CImage imgout;
+                            imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
 
-                            image.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
+                            for (int x = 0; x < pic.Size.cx; ++x)
+                                for (int y = 0; y < pic.Size.cy; ++y)
+                                {
+                                    COLORREF c1;
+                                    c1 = img.GetPixel(x, y);  // user image
+                                    imgout.SetPixel(x, y, c1);
+                                    if (bmpBuffer_prio[((y * pic.Size.cx) + x)] == 255) // or whatever you decide transparent...
+                                    {
+                                        imgout.SetPixel(x, y, RGB(255, 255, 255));
+                                        BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                        *pAlpha = 0;
+                                    }
+                                    else
+                                    {
+                                        BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                        *pAlpha = 255;
+                                    }
+                                }
+                            //image.SetTransparentColor(long(255));
+                            imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
                             
-                        }
+                        
                     }
                 }
                 // Then possible pictures (control)
