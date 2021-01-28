@@ -32,6 +32,7 @@
 #include "format.h"
 #include "AudioCacheResourceSource.h"
 #include <Src/Util/ImageUtil.h>
+#include <atlimage.h>
 
 void ExportViewResourceAsCelImages(const ResourceEntity& resource, PaletteComponent* optionalPalette, CString destinationFolder)
 {
@@ -123,7 +124,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
         }
         if (extractPicImages && (blob->GetType() == ResourceType::Pic))
         {
-            totalCount++;
+            totalCount+=3;
         }
         if (disassembleScripts && (blob->GetType() == ResourceType::Pic))
         {
@@ -179,12 +180,89 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
             }
 
             if (keepGoing)
-            {
-                // Then possible pictures
+            {   
+                if (extractPicImages && (blob->GetType() == ResourceType::Pic))
+                {
+                    // Get priority image
+                    CBitmap bitmap_prio;
+                    SCIBitmapInfo bmi_prio;
+                    BYTE* pBitsDest_prio = nullptr;
+                    count++;
+
+                    if (progress)
+                    {
+                        keepGoing = progress->SetProgress(fullPath + "...", count, totalCount);
+                    }
+
+                    std::unique_ptr<ResourceEntity> resource_prio = CreateResourceFromResourceData(*blob);
+                    PicComponent& pic_prio = resource_prio->GetComponent<PicComponent>();
+                    PaletteComponent* palette_prio = resource_prio->TryGetComponent<PaletteComponent>();
+                    bitmap_prio.Attach(GetPicBitmap(PicScreen::Priority, pic_prio, palette_prio, pic_prio.Size.cx, pic_prio.Size.cy, &bmi_prio, &pBitsDest_prio));
+                    
+                    CBitmap bitmap;
+                    SCIBitmapInfo bmi;
+                    BYTE* pBitsDest = nullptr;
+
+                    std::unique_ptr<ResourceEntity> resource = CreateResourceFromResourceData(*blob);
+                    PicComponent& pic = resource->GetComponent<PicComponent>();
+                    PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
+                    bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
+                    
+                    // Then picture layers
+                    for (int n = 0; n < 16; n++) {
+
+                        bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
+                        BITMAP bmp;
+                        BITMAP bmp_prio;
+                        SCIBitmapInfo bmi;
+                        BYTE* pBitsDest = nullptr;
+                        std::string possibleImagePath = fullPath + ".";
+                        possibleImagePath += std::to_string(n) + ".png";
+                        bitmap.GetBitmap(&bmp);
+                        bitmap_prio.GetBitmap(&bmp_prio);
+                        BYTE* bmpBuffer = (BYTE*)GlobalAlloc(GPTR,
+                            bmp.bmWidthBytes * bmp.bmHeight);
+                        BYTE* bmpBuffer_prio = (BYTE*)GlobalAlloc(GPTR,
+                            bmp_prio.bmWidthBytes * bmp_prio.bmHeight);
+                        bitmap.GetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
+                            bmpBuffer);
+                        bitmap_prio.GetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
+                            bmpBuffer_prio);
+                        
+                        for (int cy = 0; cy < pic.Size.cy; cy++) {
+                            for (int cx = 0; cx < pic.Size.cx; cx++) {
+                                if ((((cy * pic.Size.cx) + cx)) < (((pic.Size.cy * pic.Size.cx) + pic.Size.cx))) {
+                                    if (bmpBuffer_prio[((cy * pic.Size.cx) + cx)] == n) {
+                                        bmpBuffer_prio[((cy * pic.Size.cx) + cx)] = bmpBuffer[((cy * pic.Size.cx) + cx)];
+                                    }
+                                    else {
+                                        bmpBuffer_prio[((cy * pic.Size.cx) + cx)] = 255;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        bitmap.SetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
+                            bmpBuffer_prio);
+
+                        if ((HBITMAP)bitmap)
+                        {
+                            //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
+
+                            CImage image;
+                            image.Attach(bitmap);
+
+                            image.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
+                            
+                        }
+                    }
+                }
+                // Then possible pictures (control)
+
                 CBitmap bitmap;
                 SCIBitmapInfo bmi;
-                BYTE *pBitsDest = nullptr;
-                std::string possibleImagePath = fullPath + ".bmp";
+                BYTE* pBitsDest = nullptr;
+                std::string possibleImagePath = fullPath + "_c.bmp";
                 if (extractPicImages && (blob->GetType() == ResourceType::Pic))
                 {
                     count++;
@@ -194,9 +272,9 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     }
 
                     std::unique_ptr<ResourceEntity> resource = CreateResourceFromResourceData(*blob);
-                    PicComponent &pic = resource->GetComponent<PicComponent>();
-                    PaletteComponent *palette = resource->TryGetComponent<PaletteComponent>();
-                    bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
+                    PicComponent& pic = resource->GetComponent<PicComponent>();
+                    PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
+                    bitmap.Attach(GetPicBitmap(PicScreen::Control, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
                 }
 
                 if (extractViewImages && (blob->GetType() == ResourceType::View))
