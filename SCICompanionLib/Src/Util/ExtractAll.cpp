@@ -303,6 +303,13 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
                     bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
                     
+                    CImage img;
+                    img.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
+                    img.Attach(bitmap);
+                    std::string possibleImagePathOrig = fullPath;
+                    possibleImagePathOrig += ".png";
+                    img.Save(_T(possibleImagePathOrig.c_str()), Gdiplus::ImageFormatPNG);
+
                     // Then picture layers
                     for (int n = 0; n < 16; n++) {
 
