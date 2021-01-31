@@ -1,4 +1,319 @@
-﻿  ExtractAll.cpp
+﻿  stdafx.cpp
+     Automatically linking with Prof-UIS library: ProfUIS292sm.lib
+        (Professional User Interface Suite)
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+  Text.cpp
+  WordEnumString.cpp
+  VGADither.cpp
+  Version.cpp
+  util.cpp
+  TokenDatabase.cpp
+  Task.cpp
+  TalkerToViewMap.cpp
+  Stream.cpp
+  DrawHelper.cpp
+  CrystalScriptStream.cpp
+  Codec.cpp
+  CodeAutoComplete.cpp
+  ClassBrowserInfo.cpp
+  ClassBrowser.cpp
+  AppState.cpp
+  Vocab99x.cpp
+  Vocab000.cpp
+  ResourceRecency.cpp
+  ResourceMap.cpp
+  Generating Code...
+  Compiling...
+  ResourceEntity.cpp
+  ResourceBlob.cpp
+  ResourceContainer.cpp
+  ResourceUtil.cpp
+  RasterOperations.cpp
+  PicDrawManager.cpp
+  PicCommands.cpp
+  FontOperations.cpp
+  Cursor.cpp
+  Components.cpp
+  VocabView.cpp
+  TextView.cpp
+  SoundView.cpp
+  ScriptView.cpp
+  RoomExplorerView.cpp
+Src\MFCViews\RoomExplorerView.cpp(1070): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  GameExplorerView.cpp
+  RasterView.cpp
+Src\MFCViews\RasterView.cpp(1756): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+Src\MFCViews\RasterView.cpp(1762): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  RasterResourceListView.cpp
+  PicView.cpp
+Src\MFCViews\PicView.cpp(3959): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+Src\MFCViews\PicView.cpp(3978): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  FontPreviewView.cpp
+Src\MFCViews\FontPreviewView.cpp(231): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  Generating Code...
+  Compiling...
+  VocabChildFrame.cpp
+  ViewChildFrame.cpp
+  TextChildFrame.cpp
+  SoundChildFrame.cpp
+  ScriptFrame.cpp
+  RoomExplorerFrame.cpp
+  GameExplorerFrame.cpp
+  PicChildFrame.cpp
+  MDITabChildWnd.cpp
+  MainFrm.cpp
+  FontChildFrame.cpp
+  CursorChildFrame.cpp
+  VocabDoc.cpp
+  TextDoc.cpp
+  SoundDoc.cpp
+  ScriptDocument.cpp
+  RoomExplorerDoc.cpp
+  ResourceListDoc.cpp
+  ResourceDocument.cpp
+  PicDoc.cpp
+  Generating Code...
+  Compiling...
+  NonViewHostDocument.cpp
+  NewRasterResourceDocument.cpp
+  VPCDialogBar.cpp
+  ViewCelChooser.cpp
+  SoundToolboxSidePane.cpp
+  SliderDialogBar.cpp
+  ScriptComboBox.cpp
+  ResourcePreviewer.cpp
+  ResourcePicListView.cpp
+  ResourceListView.cpp
+  RasterSidePane.cpp
+  QuickScripts.cpp
+  PicCommandSidePane.cpp
+  NoFlickerStatic.cpp
+  MDITabsDialogBar.cpp
+Src\FrameComponents\MDITabsDialogBar.cpp(487): warning C4838: conversion from 'int' to 'COLOR16' requires a narrowing conversion
+Src\FrameComponents\MDITabsDialogBar.cpp(502): warning C4838: conversion from 'int' to 'COLOR16' requires a narrowing conversion
+  IntellisenseListBox.cpp
+  ExtDialogFwdCmd.cpp
+  ExtControlBarNoX.cpp
+  ColoredToolTip.cpp
+  ColorButton.cpp
+  Generating Code...
+  Compiling...
+  CodeToolTips.cpp
+  ChooseColorStatic.cpp
+  VocabAutoCompleteDialog.cpp
+  VisualScriptDialog.cpp
+  SCIProps.cpp
+  SCIPropertyInfo.cpp
+  SCIPropertyCtrl.cpp
+  SCIFontDialog.cpp
+  SaveResourceDialog.cpp
+  SamplesDialogBar.cpp
+  RemoveScriptDialog.cpp
+  PreferencesDialog.cpp
+  PaletteDefinitionDialog.cpp
+  NewScriptDialog.cpp
+  NewRoomDialog.cpp
+  NewGameDialog.cpp
+  NewCompileDialog.cpp
+  InsertObject.cpp
+  GotoDialog.cpp
+  GamePropertiesDialog.cpp
+  Generating Code...
+  Compiling...
+  FindWordDialog.cpp
+  FindAllDialog.cpp
+  DontShowAgainDialog.cpp
+  ClassBrowserDialog.cpp
+  ChoosePriConDialog.cpp
+  ChoosePenStyleDialog.cpp
+  ChooseColorDialog.cpp
+  ChooseColorAdvancedDialog.cpp
+  BitmapToPicDialog.cpp
+  BaseColorDialog.cpp
+  BarContainerDialog.cpp
+  AnimateDialog.cpp
+  CFindTextDlg.cpp
+  CEditReplaceDlg.cpp
+  CCrystalTextView2.cpp
+Src\CrystalEdit\CCrystalTextView2.cpp(587): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  CCrystalTextView.cpp
+Src\CrystalEdit\CCrystalTextView.cpp(1880): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+Src\CrystalEdit\CCrystalTextView.cpp(1883): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  CCrystalTextBuffer.cpp
+  CCrystalEditView.cpp
+  crc.cpp
+  format.cc
+  Generating Code...
+  Compiling...
+  Types.cpp
+  SyntaxParser.cpp
+  ScriptOMTraverse.cpp
+  ScriptOM.cpp
+  SourceCodeFormatter.cpp
+  SCO.cpp
+  StudioSyntaxParser.cpp
+  scii.cpp
+  PMachine.cpp
+  ParserCommon.cpp
+  DecompilerCore.cpp
+  CompiledScript.cpp
+Src\Compile\CompiledScript.cpp(564): warning C4838: conversion from 'int' to 'uint16_t' requires a narrowing conversion
+  CompileContext.cpp
+  Compile.cpp
+  SoundUtil.cpp
+  ScriptConvert.cpp
+  RunLogic.cpp
+  RGBOctree.cpp
+  PostBuildThread.cpp
+  PhonemeMap.cpp
+  Generating Code...
+  Compiling...
+  PerfTimer.cpp
+  MidiPlayer.cpp
+  LipSyncutil.cpp
+C:\Projects\SCICompanionX\SCICompanionLib\Src\LipSync\phone_estimate.h(146): warning C4091: 'typedef ': ignored on left of 'engine_phoneme_spec::phoneme_type' when no variable is declared
+  ImageUtil.cpp
+Src\Util\ImageUtil.cpp(968): warning C4838: conversion from 'int' to 'WORD' requires a narrowing conversion
+  ExtractAll.cpp
+  DependencyTracker.cpp
+  DebuggerThread.cpp
+  CustomMessageBox.cpp
+  ColorQuantization.cpp
+  CodecSTAC.cpp
+  CodecDecompressor.cpp
+  CodecDCL.cpp
+  CodecDCL-freesci.cpp
+  PicOperations.cpp
+  SCICompanionLib.cpp
+  Sound.cpp
+  CodecAlt.cpp
+  ClipboardUtil.cpp
+  AudioRecording.cpp
+  AudioProcessing.cpp
+  Generating Code...
+  Compiling...
+  AudioPlayback.cpp
+  View.cpp
+  VersionDetectionHelper.cpp
+  Sync.cpp
+  SoundOperations.cpp
+  PaletteOperations.cpp
+  GameVersionDialog.cpp
+  Message.cpp
+  ResourceSources.cpp
+  ResourceMapOperations.cpp
+  Pic.cpp
+  GameFolderHelper.cpp
+  AudioMap.cpp
+  Font.cpp
+  Audio.cpp
+  PaletteView.cpp
+  MessageView.cpp
+  PaletteChildFrame.cpp
+  MessageChildFrame.cpp
+  PaletteDoc.cpp
+  Generating Code...
+  Compiling...
+  MessageDoc.cpp
+  gif_hash.cpp
+  gif_err.cpp
+  gifalloc.cpp
+  dgif_lib.cpp
+  ZoomCelStatic.cpp
+  ViewCelListBox.cpp
+Src\FrameComponents\ViewCelListBox.cpp(650): warning C4302: 'type cast': truncation from 'LPSTR' to 'WORD'
+  Polygon.cpp
+  PatchResourceSource.cpp
+  NounsAndCases.cpp
+  AudioResourceSource.cpp
+  AudioNegative.cpp
+  AudioCacheResourceSource.cpp
+  r8bbase.cpp
+  DocumentWithPaletteChoices.cpp
+  sapi_util.cpp
+  sapi_lipsync.cpp
+c:\projects\scicompanionx\scicompanionlib\src\lipsync\phone_estimate.h(146): warning C4091: 'typedef ': ignored on left of 'engine_phoneme_spec::phoneme_type' when no variable is declared
+  phone_estimate.cpp
+c:\projects\scicompanionx\scicompanionlib\src\lipsync\phone_estimate.h(146): warning C4091: 'typedef ': ignored on left of 'engine_phoneme_spec::phoneme_type' when no variable is declared
+  egif_lib.cpp
+  ViewUIElement.cpp
+  Generating Code...
+  Compiling...
+  SoundUIUtil.cpp
+  PicHelperPane.cpp
+  PhonemeEditor.cpp
+  NewOutputPane.cpp
+  MessageSource.cpp
+  MessageSidePane.cpp
+  MessageNounConditionPane.cpp
+  MessageHeaderFile.cpp
+  MessageEditPane.cpp
+  MessageEditorListCtrl.cpp
+  LevelMeter.cpp
+  ExtTabControl.cpp
+Src\FrameComponents\ExtTabControl.cpp(71): warning C4838: conversion from 'int' to 'COLOR16' requires a narrowing conversion
+Src\FrameComponents\ExtTabControl.cpp(94): warning C4838: conversion from 'int' to 'COLOR16' requires a narrowing conversion
+  AudioWaveformUI.cpp
+Src\FrameComponents\AudioWaveformUI.cpp(169): warning C4838: conversion from 'long' to 'uint32_t' requires a narrowing conversion
+  AudioProcessingSettingsUI.cpp
+  OutputRST.cpp
+  DocScript.cpp
+  ToolTipDialog.cpp
+  RotateArbitraryDialog.cpp
+  PrepareBitmapBase.cpp
+  PicDimensionsDialog.cpp
+  Generating Code...
+  Compiling...
+  PicClipsDialog.cpp
+  PhonemeDialog.cpp
+  PaletteEditorDialog.cpp
+  OnionSkinSettingsDialog.cpp
+  GradientDialog.cpp
+  GenerateDocsDialog.cpp
+  ExtractLipSyncDialog.cpp
+  ExtractAllDialog.cpp
+  EditCelDataDialog.cpp
+  DecompileDialog.cpp
+  ConvertFromToPaletteDialog.cpp
+  ColorShifterDialog.cpp
+  ColorAdjustDialog.cpp
+  ChooseTalkerViewLoopDialog.cpp
+  ChooseColorDialogVGA.cpp
+  BitmapToVGADialog.cpp
+  AudioPreferencesDialog.cpp
+  AudioEditDialog.cpp
+  ValidateSaid.cpp
+  TarjanAlgorithm.cpp
+  Generating Code...
+  Compiling...
+  SummarizeScript.cpp
+  ScriptMakerHelper.cpp
+  SCISyntaxParser.cpp
+  StudioSourceCodeFormatter.cpp
+  SCISourceCodeFormatter.cpp
+  ParseAutoCompleteContext.cpp
+  OutputScriptStrings.cpp
+  OutputCodeHelper.cpp
+  OperatorTables.cpp
+  DecompilerConfig.cpp
+  GenerateScriptResource.cpp
+  Evaluate.cpp
+  ControlFlowGraph.cpp
+  Disassembler.cpp
+  DisassembleHelper.cpp
+  DecompileScript.cpp
+  DecompilerSpecialCases.cpp
+  DecompilerNew.cpp
+  DecompilerFallback.cpp
+  ControlFlowGraphViz.cpp
+  Generating Code...
+  Compiling...
+  ControlFlowNode.cpp
+  AutoDetectVariableNames.cpp
+  Generating Code...
 Task.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 VisualScriptDialog.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 AudioNegative.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
@@ -265,4 +580,4 @@ AudioNegative.obj : warning LNK4221: This object file does not define any previo
   Appending Release\ControlFlowGraphViz.obj
   Appending Release\ControlFlowNode.obj
   Appending Release\AutoDetectVariableNames.obj
-  SCICompanionLib.vcxproj -> C:\Projects\SCICompanion-master\Release\SCICompanionLib.lib
+  SCICompanionLib.vcxproj -> C:\Projects\SCICompanionX\Release\SCICompanionLib.lib

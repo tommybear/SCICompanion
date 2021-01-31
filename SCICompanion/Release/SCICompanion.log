@@ -1,11 +1,19 @@
-﻿     Creating library C:\Projects\SCICompanion-master\Release\SCICompanion.lib and object C:\Projects\SCICompanion-master\Release\SCICompanion.exp
+﻿  stdafx.cpp
+C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include\afx.h(33): note: see declaration of 'MBCS_Support_Deprecated_In_MFC'
+     Automatically linking with Prof-UIS library: ProfUIS292sm.lib
+        (Professional User Interface Suite)
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+  SCICompanion.cpp
+     Creating library C:\Projects\SCICompanionX\Release\SCICompanion.lib and object C:\Projects\SCICompanionX\Release\SCICompanion.exp
   Generating code
-  0 of 444 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  All 444 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
-  SCICompanion.vcxproj -> C:\Projects\SCICompanion-master\Release\SCICompanion.exe
-  SCICompanion.vcxproj -> C:\Projects\SCICompanion-master\Release\SCICompanion.pdb (Full PDB)
+  SCICompanion.vcxproj -> C:\Projects\SCICompanionX\Release\SCICompanion.exe
+  SCICompanion.vcxproj -> C:\Projects\SCICompanionX\Release\SCICompanion.pdb (Full PDB)
   0 File(s) copied
   0 File(s) copied
   0 File(s) copied

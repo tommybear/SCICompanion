@@ -92,6 +92,67 @@ void ExportViewResourceAsCelImages(const ResourceEntity& resource, PaletteCompon
         }
     
 }
+
+void ExportFontResourceAsCelImages(const ResourceEntity& resource, PaletteComponent* optionalPalette, CString destinationFolder)
+{
+    CelIndex celIndex = CelIndex(-1, -1);
+
+    if (&resource)
+    {
+        const RasterComponent& raster = resource.GetComponent<RasterComponent>();
+        int startLoop = (celIndex.loop == 0xffff) ? 0 : celIndex.loop;
+        int endLoop = (celIndex.loop == 0xffff) ? raster.LoopCount() : (celIndex.loop + 1);
+
+
+        for (int l = endLoop - 1; l >= startLoop; l--)
+        {
+            const Loop& loop = raster.Loops[l];
+            celIndex.loop = l;
+            celIndex.cel = -1;
+            int startCelBase = -1;
+            int endCelBase = -1;
+            if (celIndex.loop != 0xffff)
+            {
+                startCelBase = (celIndex.cel == 0xffff) ? 0 : celIndex.cel;
+                endCelBase = (celIndex.cel == 0xffff) ? (int)raster.Loops[celIndex.loop].Cels.size() : (celIndex.cel + 1);
+            }
+            int startCel = (startCelBase == -1) ? 0 : startCelBase;
+            int endCel = (endCelBase == -1) ? (int)loop.Cels.size() : endCelBase;
+
+            for (int c = endCel - 1; c >= startCel; c--)
+            {
+                celIndex.loop = l;
+                celIndex.cel = c;
+                const Cel& cel = loop.Cels[c];
+                PaletteComponent* palette = optionalPalette;
+                if (!palette)
+                {
+                    palette = &g_egaDummyPalette;
+                }
+                CBitmap bitmap;
+                SCIBitmapInfo bmi;
+                BYTE* pBitsDest;
+                bitmap.Attach(CreateBitmapFromResource(resource, celIndex, palette, &bmi, &pBitsDest));
+                if ((HBITMAP)bitmap)
+                {
+                    // Construct a cel based on the bitmap. Throw away the HBITMAP.
+                    Cel celEntire(size16((uint16_t)bmi.bmiHeader.biWidth, (uint16_t)bmi.bmiHeader.biHeight), point16(), 0);
+                    celEntire.TransparentColor = cel.TransparentColor;
+                    celEntire.Data.allocate(celEntire.GetDataSize());
+                    celEntire.Data.assign(pBitsDest, pBitsDest + celEntire.GetDataSize());
+                    // Default extension should be the first one in the list for g_szGdiplus8BitSaveFilter
+
+                    std::string strFileName = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + "_1x.png";
+                    std::string strFileName4x = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
+                    Save8BitBmpGdiP(strFileName.c_str(), celEntire, *palette, false);
+                    
+
+                }
+            }
+        }
+    }
+
+}
 HBITMAP convert_8to32(HBITMAP hbmp)
 {
     BITMAP  bmp;
@@ -384,20 +445,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                 CBitmap bitmap;
                 SCIBitmapInfo bmi;
                 BYTE* pBitsDest = nullptr;
-                std::string possibleImagePath = fullPath + "_c.bmp";
-                if (extractPicImages && (blob->GetType() == ResourceType::Pic))
-                {
-                    count++;
-                    if (progress)
-                    {
-                        keepGoing = progress->SetProgress(possibleImagePath, count, totalCount);
-                    }
-
-                    std::unique_ptr<ResourceEntity> resource = CreateResourceFromResourceData(*blob);
-                    PicComponent& pic = resource->GetComponent<PicComponent>();
-                    PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
-                    bitmap.Attach(GetPicBitmap(PicScreen::Control, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
-                }
+                std::string possibleImagePath = fullPath + ".bmp";
 
                 if (extractViewImages && (blob->GetType() == ResourceType::View))
                 {
@@ -416,10 +464,28 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     bitmap.Attach(CreateBitmapFromResource(*view, optionalPalette.get(), &bmi, &pBitsDest));
                     ExportViewResourceAsCelImages(*view, optionalPalette.get(), destinationFolder.c_str());
                 }
+                if ((blob->GetType() == ResourceType::Font))
+                {
+                    filename = GetFileNameFor(*blob);
+                    fullPath = destinationFolder + filename;
+                    count++;
+                    if (progress)
+                    {
+                        keepGoing = progress->SetProgress(possibleImagePath, count, totalCount);
+                    }
 
+                    std::unique_ptr<ResourceEntity> font = CreateResourceFromResourceData(*blob);
+                    std::unique_ptr<PaletteComponent> optionalPalette;
+                    if (font->GetComponent<RasterComponent>().Traits.PaletteType == PaletteType::VGA_256)
+                    {
+                        optionalPalette = appState->GetResourceMap().GetMergedPalette(*font, 999);
+                    }
+                    bitmap.Attach(CreateBitmapFromResource(*font, optionalPalette.get(), &bmi, &pBitsDest));
+                    ExportFontResourceAsCelImages(*font, optionalPalette.get(), destinationFolder.c_str());
+                }
                 if ((HBITMAP)bitmap)
                 {
-                    Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
+                    //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
                 }
 
                 if (disassembleScripts && (blob->GetType() == ResourceType::Script))

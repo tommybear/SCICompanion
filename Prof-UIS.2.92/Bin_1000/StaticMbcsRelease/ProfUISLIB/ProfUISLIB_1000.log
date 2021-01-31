@@ -3,24 +3,24 @@ C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include\afx.h(38):
   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include\afx.h(33): note: see declaration of 'MBCS_Support_Deprecated_In_MFC'
   ExtBtnOnFlat.cpp
   ExtButton.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtButton.cpp(2028): warning C4456: declaration of 'pWnd' hides previous local declaration
   ..\Src\ExtButton.cpp(1904): note: see declaration of 'pWnd'
   ExtCheckListWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtCheckListWnd.cpp(673): warning C4456: declaration of 'clrTextOld' hides previous local declaration
   ..\Src\ExtCheckListWnd.cpp(608): note: see declaration of 'clrTextOld'
   ExtCmdIcon.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtCmdIcon.cpp(4017): warning C4456: declaration of 'rcDst' hides previous local declaration
   ..\Src\ExtCmdIcon.cpp(3992): note: see declaration of 'rcDst'
 ..\Src\ExtCmdIcon.cpp(4023): warning C4456: declaration of 'rcSrc' hides previous local declaration
@@ -48,10 +48,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtCmdIcon.cpp(6643): warning C4456: declaration of 'pRect' hides previous local declaration
   ..\Src\ExtCmdIcon.cpp(6627): note: see declaration of 'pRect'
   ExtCmdManager.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
      Prof-UIS is automatically linking with version.lib
         (Version info support)
 ..\Src\ExtCmdManager.cpp(887): warning C4457: declaration of 'nCmdID' hides function parameter
@@ -63,36 +63,36 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtCmdManager.cpp(3404): warning C4456: declaration of 'reg' hides previous local declaration
   ..\Src\ExtCmdManager.cpp(3367): note: see declaration of 'reg'
   ExtColorCtrl.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtColorDlg.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtComboBox.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtComboBox.cpp(2136): warning C4456: declaration of 'nLenght' hides previous local declaration
   ..\Src\ExtComboBox.cpp(2122): note: see declaration of 'nLenght'
   ExtContentExpandWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtControlBar.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtControlBar.cpp(3596): warning C4456: declaration of 'dw' hides previous local declaration
   ..\Src\ExtControlBar.cpp(3563): note: see declaration of 'dw'
 ..\Src\ExtControlBar.cpp(4545): warning C4458: declaration of 'm_rcBar' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtControlBar.h(793): note: see declaration of 'CExtControlBar::InternalDockStateBar::m_rcBar'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtControlBar.h(793): note: see declaration of 'CExtControlBar::InternalDockStateBar::m_rcBar'
 ..\Src\ExtControlBar.cpp(10795): warning C4456: declaration of 'nCountOfBars' hides previous local declaration
   ..\Src\ExtControlBar.cpp(10759): note: see declaration of 'nCountOfBars'
 ..\Src\ExtControlBar.cpp(11404): warning C4456: declaration of 'rcBarWnd' hides previous local declaration
@@ -100,13 +100,13 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtControlBar.cpp(11457): warning C4456: declaration of 'rcBarWnd' hides previous local declaration
   ..\Src\ExtControlBar.cpp(11250): note: see declaration of 'rcBarWnd'
 ..\Src\ExtControlBar.cpp(15705): warning C4458: declaration of 'm_nSpaceAvailBySideBefore' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
 ..\Src\ExtControlBar.cpp(15712): warning C4458: declaration of 'm_nSpaceAvailBySideBefore' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
 ..\Src\ExtControlBar.cpp(15732): warning C4458: declaration of 'm_nSpaceAvailBySideAfter' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtControlBar.h(966): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideAfter'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtControlBar.h(966): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideAfter'
 ..\Src\ExtControlBar.cpp(15739): warning C4458: declaration of 'm_nSpaceAvailBySideBefore' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtControlBar.h(965): note: see declaration of 'CExtControlBar::InternalBarRepositionData_t::m_nSpaceAvailBySideBefore'
 ..\Src\ExtControlBar.cpp(16732): warning C4456: declaration of 'hWnd' hides previous local declaration
   ..\Src\ExtControlBar.cpp(16718): note: see declaration of 'hWnd'
 ..\Src\ExtControlBar.cpp(16737): warning C4456: declaration of 'pWnd' hides previous local declaration
@@ -124,10 +124,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtControlBar.cpp(29109): warning C4456: declaration of 'pWnd' hides previous local declaration
   ..\Src\ExtControlBar.cpp(29096): note: see declaration of 'pWnd'
   ExtControls.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtControls.cpp(152): warning C4456: declaration of 'pWnd' hides previous local declaration
   ..\Src\ExtControls.cpp(139): note: see declaration of 'pWnd'
 ..\Src\ExtControls.cpp(161): warning C4456: declaration of 'pWnd' hides previous local declaration
@@ -139,15 +139,15 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtControls.cpp(213): warning C4456: declaration of 'hWnd' hides previous local declaration
   ..\Src\ExtControls.cpp(101): note: see declaration of 'hWnd'
   ExtControlsCommon.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtDockBar.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtDockBar.cpp(4293): warning C4456: declaration of 'nMinHW' hides previous local declaration
   ..\Src\ExtDockBar.cpp(4263): note: see declaration of 'nMinHW'
 ..\Src\ExtDockBar.cpp(4294): warning C4456: declaration of 'nMinVH' hides previous local declaration
@@ -175,10 +175,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtDockBar.cpp(7982): warning C4456: declaration of 'olid' hides previous local declaration
   ..\Src\ExtDockBar.cpp(7874): note: see declaration of 'olid'
   ExtEdit.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtEdit.cpp(1050): warning C4456: declaration of 'dwStyle' hides previous local declaration
   ..\Src\ExtEdit.cpp(1017): note: see declaration of 'dwStyle'
 ..\Src\ExtEdit.cpp(1095): warning C4456: declaration of 'ptDevOffset' hides previous local declaration
@@ -232,27 +232,27 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtEdit.cpp(7878): warning C4456: declaration of '_nPos' hides previous local declaration
   ..\Src\ExtEdit.cpp(7627): note: see declaration of '_nPos'
   ExtGroupBox.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtHook.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtLabel.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
      Prof-UIS is automatically linking with VFW library: vfw32.lib
         (Video for Windows)
   ExtMdiWindowsListDlg.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtMdiWindowsListDlg.cpp(455): warning C4456: declaration of 'hWnd' hides previous local declaration
   ..\Src\ExtMdiWindowsListDlg.cpp(441): note: see declaration of 'hWnd'
 ..\Src\ExtMdiWindowsListDlg.cpp(477): warning C4456: declaration of 'hWnd' hides previous local declaration
@@ -266,17 +266,17 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtMdiWindowsListDlg.cpp(573): warning C4456: declaration of 'hWnd' hides previous local declaration
   ..\Src\ExtMdiWindowsListDlg.cpp(441): note: see declaration of 'hWnd'
   ExtMenuControlBar.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtMenuControlBar.cpp(2295): warning C4456: declaration of 'nBtnIdx' hides previous local declaration
   ..\Src\ExtMenuControlBar.cpp(2229): note: see declaration of 'nBtnIdx'
   ExtMiniDockFrameWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtMiniDockFrameWnd.cpp(406): warning C4456: declaration of 'pExtBar' hides previous local declaration
   ..\Src\ExtMiniDockFrameWnd.cpp(340): note: see declaration of 'pExtBar'
 ..\Src\ExtMiniDockFrameWnd.cpp(786): warning C4456: declaration of 'rcWnd' hides previous local declaration
@@ -289,10 +289,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
   Compiling...
   ExtMouseCaptureSink.cpp
   ExtNcFrame.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtNcFrame.cpp(404): warning C4456: declaration of '_wp' hides previous local declaration
   ..\Src\ExtNcFrame.cpp(210): note: see declaration of '_wp'
 ..\Src\ExtNcFrame.cpp(1321): warning C4456: declaration of 'pWndFrameImpl' hides previous local declaration
@@ -304,10 +304,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtNcFrame.cpp(4581): warning C4456: declaration of 'dwStyle' hides previous local declaration
   ..\Src\ExtNcFrame.cpp(4574): note: see declaration of 'dwStyle'
   ExtPaintManager.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtPaintManager.cpp(8518): warning C4456: declaration of 'pOldFont' hides previous local declaration
   ..\Src\ExtPaintManager.cpp(8474): note: see declaration of 'pOldFont'
 ..\Src\ExtPaintManager.cpp(8532): warning C4456: declaration of 'clrTextRestore' hides previous local declaration
@@ -343,10 +343,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtPaintManager.cpp(52914): warning C4457: declaration of 'pWnd' hides function parameter
   ..\Src\ExtPaintManager.cpp(52813): note: see declaration of 'pWnd'
   ExtPaintManager2.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtPaintManager2.cpp(3783): warning C4457: declaration of 'pPM' hides function parameter
   ..\Src\ExtPaintManager2.cpp(3749): note: see declaration of 'pPM'
 ..\Src\ExtPaintManager2.cpp(3798): warning C4456: declaration of 'bTransparent' hides previous local declaration
@@ -354,10 +354,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtPaintManager2.cpp(4390): warning C4456: declaration of 'bTransparent' hides previous local declaration
   ..\Src\ExtPaintManager2.cpp(4372): note: see declaration of 'bTransparent'
   ExtPopupMenuWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
      Prof-UIS is automatically linking with winmm.lib
         (Windows Multimedia System)
 ..\Src\ExtPopupMenuWnd.cpp(5815): warning C4456: declaration of 'cx' hides previous local declaration
@@ -407,31 +407,31 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtPopupMenuWnd.cpp(19616): warning C4456: declaration of 'mi' hides previous local declaration
   ..\Src\ExtPopupMenuWnd.cpp(19601): note: see declaration of 'mi'
 ..\Src\ExtPopupMenuWnd.cpp(22165): warning C4458: declaration of 'm_nColorIdxCurr' hides class member
-  C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtPopupMenuWnd.h(3408): note: see declaration of 'CExtPopupColorMenuWnd::m_nColorIdxCurr'
+  C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtPopupMenuWnd.h(3408): note: see declaration of 'CExtPopupColorMenuWnd::m_nColorIdxCurr'
   ExtProfUISAboutDialog.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtProgressWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtResizableDialog.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtResizableDialog.cpp(712): warning C4457: declaration of 'lResult' hides function parameter
   ..\Src\ExtResizableDialog.cpp(680): note: see declaration of 'lResult'
 ..\Src\ExtResizableDialog.cpp(1288): warning C4457: declaration of 'lResult' hides function parameter
   ..\Src\ExtResizableDialog.cpp(1255): note: see declaration of 'lResult'
   ExtRichContent.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtRichContent.cpp(4869): warning C4456: declaration of 'eP' hides previous local declaration
   ..\Src\ExtRichContent.cpp(4861): note: see declaration of 'eP'
 ..\Src\ExtRichContent.cpp(6146): warning C4456: declaration of 'strLocal' hides previous local declaration
@@ -535,10 +535,10 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtRichContent.cpp(25716): warning C4838: conversion from 'TBYTE' to 'TCHAR' requires a narrowing conversion
 ..\Src\ExtRichContent.cpp(25739): warning C4838: conversion from 'TBYTE' to 'TCHAR' requires a narrowing conversion
   ExtScrollWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtScrollWnd.cpp(2264): warning C4456: declaration of 'bAnimationLocked' hides previous local declaration
   ..\Src\ExtScrollWnd.cpp(1820): note: see declaration of 'bAnimationLocked'
 ..\Src\ExtScrollWnd.cpp(5415): warning C4456: declaration of 'nScrollLimit' hides previous local declaration
@@ -550,22 +550,22 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtScrollWnd.cpp(10740): warning C4456: declaration of 'bHaveElementsWithResetStyles' hides previous local declaration
   ..\Src\ExtScrollWnd.cpp(10726): note: see declaration of 'bHaveElementsWithResetStyles'
   ExtSliderWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
   ExtSpinWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtSpinWnd.cpp(691): warning C4456: declaration of 'dwStyle' hides previous local declaration
   ..\Src\ExtSpinWnd.cpp(683): note: see declaration of 'dwStyle'
   ExtSplitterWnd.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtSplitterWnd.cpp(371): warning C4459: declaration of '_afxWndMDIFrame' hides global declaration
   C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\atlmfc\include\../src/mfc/AfxImpl.h(210): note: see declaration of '_afxWndMDIFrame'
 ..\Src\ExtSplitterWnd.cpp(1374): warning C4456: declaration of 'cx' hides previous local declaration
@@ -579,19 +579,19 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
 ..\Src\ExtSplitterWnd.cpp(1477): warning C4456: declaration of 'row' hides previous local declaration
   ..\Src\ExtSplitterWnd.cpp(1454): note: see declaration of 'row'
   ExtStatusControlBar.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtStatusControlBar.cpp(266): warning C4456: declaration of 'rcClient' hides previous local declaration
   ..\Src\ExtStatusControlBar.cpp(177): note: see declaration of 'rcClient'
 ..\Src\ExtStatusControlBar.cpp(963): warning C4456: declaration of 'rcClient' hides previous local declaration
   ..\Src\ExtStatusControlBar.cpp(936): note: see declaration of 'rcClient'
   ExtToolControlBar.cpp
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
+C:\Projects\SCICompanionX\Prof-UIS.2.92\Include\ExtRichContent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
 ..\Src\ExtToolControlBar.cpp(4404): warning C4456: declaration of 'pBar' hides previous local declaration
   ..\Src\ExtToolControlBar.cpp(4324): note: see declaration of 'pBar'
 ..\Src\ExtToolControlBar.cpp(6467): warning C4456: declaration of '_pmed' hides previous local declaration
@@ -613,4 +613,4 @@ C:\Projects\SCICompanion-master\Prof-UIS.2.92\Include\ExtRichContent.h(1370): wa
   Generating Code...
 ExtProfUISAboutDialog.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
 ExtControlsCommon.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
-  ProfUISLIB_1000.vcxproj -> C:\Projects\SCICompanion-master\Prof-UIS.2.92\ProfUISLIB\..\Bin_1000\ProfUIS292sm.lib
+  ProfUISLIB_1000.vcxproj -> C:\Projects\SCICompanionX\Prof-UIS.2.92\ProfUISLIB\..\Bin_1000\ProfUIS292sm.lib
