@@ -377,7 +377,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                         outStr = str.c_str();
                         outStr += " = FILE : text.";
                         outStr += trimmedTextStr;
-                        outStr += ".wav\n\n";
+                        outStr += ".mp3\n\n";
                         file_out.open(possibleTextPath, std::ios_base::app);
                         file_out << outStr << endl;
                     }
