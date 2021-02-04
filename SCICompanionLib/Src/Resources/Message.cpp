@@ -18,7 +18,8 @@
 #include "format.h"
 #include "NounsAndCases.h"
 #include "ResourceSourceFlags.h"
-
+#include <algorithm>
+#include <string>
 using namespace std;
 
 void MessageReadFrom_2102(TextComponent &messageComponent, sci::istream &byteStream)
@@ -201,6 +202,16 @@ std::vector<std::string> split(const std::string& value, char separator)
     result.emplace_back(value, p);
     return result;
 }
+unsigned long
+hashMsg(const char* str) {
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
+}
 
 void ExportMessageToFile(const TextComponent &message, const std::string &filename)
 {
@@ -211,17 +222,23 @@ void ExportMessageToFile(const TextComponent &message, const std::string &filena
         for (const auto &entry : message.Texts)
         {
             string firstPart = fmt::format("{0}\t{1}\t{2}\t{3}\t{4}\t", (int)entry.Noun, (int)entry.Verb, (int)entry.Condition, (int)entry.Sequence, (int)entry.Talker);
-            file << firstPart;
+            //file << firstPart;
             // Split by line to match SV.exe's output
             vector<string> lines = split(entry.Text, '\n');
             int lineNumber = 0;
             for (const string &line : lines)
             {
-                if (lineNumber > 0)
-                {
-                    file << "\t\t\t\t\t"; // "Empty stuff" before next line (matches SV.exe's output)
-                }
-                file << line;
+                std::string outStr = "";
+                std::string str = line;
+                //file << "\t\t\t\t\t"; // "Empty stuff" before next line (matches SV.exe's output)
+                char trimmedTextStr[250] = { '\0' };
+                sprintf_s(trimmedTextStr, "%d", hashMsg(line.c_str()));;
+                outStr += " = FILE : text.";
+                outStr += trimmedTextStr;
+                outStr += ".mp3\n\n";
+                ofstream file_out;
+                str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
+                file << str + outStr;
                 file << endl;
                 lineNumber++;
             }
