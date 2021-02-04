@@ -142,8 +142,8 @@ void ExportFontResourceAsCelImages(const ResourceEntity& resource, PaletteCompon
                     celEntire.Data.assign(pBitsDest, pBitsDest + celEntire.GetDataSize());
                     // Default extension should be the first one in the list for g_szGdiplus8BitSaveFilter
 
-                    std::string strFileName = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + "_1x.png";
-                    std::string strFileName4x = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
+                    std::string strFileName = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
+                    //std::string strFileName4x = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
                     Save8BitBmpGdiP(strFileName.c_str(), celEntire, *palette, false);
                     
 
@@ -248,6 +248,18 @@ void Fix24BitTransparency(CImage& img)
         CImageCopy(img, imgout);
     }
 }
+
+unsigned long
+hash(const char* str) {
+    unsigned long hash = 5381;
+    int c;
+
+    while (c = *str++)
+        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+
+    return hash;
+}
+
 void ExtractAllResources(SCIVersion version, const std::string &destinationFolderIn, bool extractResources, bool extractPicImages, bool extractViewImages, bool disassembleScripts, bool extractMessages, bool generateWavs, IExtractProgress *progress)
 {
     std::string destinationFolder = destinationFolderIn;
@@ -270,6 +282,10 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
     auto resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::All, ResourceEnumFlags::MostRecentOnly | ResourceEnumFlags::ExcludePatchFiles);
     for (auto &blob : *resourceContainer)
     {
+        if ((blob->GetType() == ResourceType::Text))
+        {
+            totalCount++;
+        }
         if (extractResources)
         {
             totalCount++;
@@ -280,7 +296,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
         }
         if (extractPicImages && (blob->GetType() == ResourceType::Pic))
         {
-            totalCount+=3;
+            totalCount++;
         }
         if (disassembleScripts && (blob->GetType() == ResourceType::Pic))
         {
@@ -337,6 +353,35 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
 
             if (keepGoing)
             {   
+                if (extractMessages && (blob->GetType() == ResourceType::Text))
+                {
+                    std::string possibleTextPath = fullPath + ".txt";
+                    count++;
+                    if (progress)
+                    {
+                        keepGoing = progress->SetProgress(possibleTextPath, count, totalCount);
+                    }
+
+                    std::unique_ptr<ResourceEntity> text = CreateResourceFromResourceData(*blob);
+                    TextComponent& texttxt = text->GetComponent<TextComponent>();
+                    // Note: this function is not unicode aware
+                    for (size_t i = 0; i < texttxt.Texts.size(); i++)
+                    {
+                        std::string outStr = "";
+                        const std::string str = texttxt.Texts[i].Text;
+                        using std::cout; using std::ofstream;
+                        using std::endl; using std::string;
+                        char trimmedTextStr[250] = { '\0' };
+                        sprintf_s(trimmedTextStr, "%d", hash(str.c_str()));
+                        ofstream file_out;
+                        outStr = str.c_str();
+                        outStr += " = FILE : text.";
+                        outStr += trimmedTextStr;
+                        outStr += ".wav\n\n";
+                        file_out.open(possibleTextPath, std::ios_base::app);
+                        file_out << outStr << endl;
+                    }
+                }
                 if (extractPicImages && (blob->GetType() == ResourceType::Pic))
                 {
                     // Get priority image
@@ -464,7 +509,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     bitmap.Attach(CreateBitmapFromResource(*view, optionalPalette.get(), &bmi, &pBitsDest));
                     ExportViewResourceAsCelImages(*view, optionalPalette.get(), destinationFolder.c_str());
                 }
-                if ((blob->GetType() == ResourceType::Font))
+                if (extractViewImages && (blob->GetType() == ResourceType::Font))
                 {
                     filename = GetFileNameFor(*blob);
                     fullPath = destinationFolder + filename;
