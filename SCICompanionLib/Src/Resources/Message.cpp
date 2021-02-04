@@ -238,8 +238,11 @@ void ExportMessageToFile(const TextComponent &message, const std::string &filena
                 outStr += ".mp3\n\n";
                 ofstream file_out;
                 str.erase(std::remove(str.begin(), str.end(), '\n'), str.end());
-                file << str + outStr;
-                file << endl;
+                str.erase(std::remove(str.begin(), str.end(), '\r'), str.end());
+                if (str != "") {
+                    file << str + outStr;
+                    file << endl;
+                }
                 lineNumber++;
             }
         }
