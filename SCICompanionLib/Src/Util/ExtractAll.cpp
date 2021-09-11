@@ -279,7 +279,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
     }
 
     int totalCount = 0;
-    auto resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::All, ResourceEnumFlags::MostRecentOnly | ResourceEnumFlags::ExcludePatchFiles);
+    auto resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::All, ResourceEnumFlags::IncludeCacheFiles);
     for (auto &blob : *resourceContainer)
     {
         if ((blob->GetType() == ResourceType::Text))
@@ -399,7 +399,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     PicComponent& pic_prio = resource_prio->GetComponent<PicComponent>();
                     PaletteComponent* palette_prio = resource_prio->TryGetComponent<PaletteComponent>();
                     bitmap_prio.Attach(GetPicBitmap(PicScreen::Priority, pic_prio, palette_prio, pic_prio.Size.cx, pic_prio.Size.cy, &bmi_prio, &pBitsDest_prio));
-                    
+
                     CBitmap bitmap;
                     SCIBitmapInfo bmi;
                     BYTE* pBitsDest = nullptr;
@@ -408,22 +408,39 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     PicComponent& pic = resource->GetComponent<PicComponent>();
                     PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
                     bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
-                    
+
                     CImage img;
                     img.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
                     img.Attach(bitmap);
-                    std::string possibleImagePathOrig = fullPath;
-                    possibleImagePathOrig += ".png";
-                    img.Save(_T(possibleImagePathOrig.c_str()), Gdiplus::ImageFormatPNG);
+                    /* Doesn't Work...
+                    if (palette != NULL) {
+                        int value = 15;
+                        for (int y = 0; y < 16; y++)
+                        {
+                            for (int x = 0; x < 16; x++)
+                            {
+                                int paletteIndex = x + y * 16;
 
+                                if (&palette->Colors[paletteIndex].rgbReserved == 0x0)
+                                {
+                                    value = palette->Mapping[paletteIndex];
+                                }
+                            }
+                        }
+                        RGBQUAD transparent = { palette->Colors[value].rgbRed, palette->Colors[value].rgbGreen, palette->Colors[value].rgbBlue, palette->Colors[value].rgbReserved };
+                        img.SetTransparentColor(_ColorRefFromRGBQuad(transparent));
+                    }
+                    */
+                    std::string possibleImagePathOrig = fullPath;
+                    possibleImagePathOrig += "_256.png";
+                    img.Save(_T(possibleImagePathOrig.c_str()), Gdiplus::ImageFormatPNG);
+                    BYTE* bmpBufferAlpha = NULL;
                     // Then picture layers
                     for (int n = 0; n < 16; n++) {
 
                         bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
                         BITMAP bmp;
                         BITMAP bmp_prio;
-                        SCIBitmapInfo bmi;
-                        BYTE* pBitsDest = nullptr;
                         std::string possibleImagePath = fullPath + ".";
                         possibleImagePath += std::to_string(n) + ".png";
                         bitmap.GetBitmap(&bmp);
@@ -432,61 +449,130 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                             bmp.bmWidthBytes * bmp.bmHeight);
                         BYTE* bmpBuffer_prio = (BYTE*)GlobalAlloc(GPTR,
                             bmp_prio.bmWidthBytes * bmp_prio.bmHeight);
+                        BYTE* bmpBuffer_prioAlpha = (BYTE*)GlobalAlloc(GPTR,
+                            bmp.bmWidthBytes * bmp.bmHeight);
                         bitmap.GetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
                             bmpBuffer);
                         bitmap_prio.GetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
                             bmpBuffer_prio);
-                        
-                        for (int cy = 0; cy < pic.Size.cy; cy++) {
-                            for (int cx = 0; cx < pic.Size.cx; cx++) {
-                                if ((((cy * pic.Size.cx) + cx)) < (((pic.Size.cy * pic.Size.cx) + pic.Size.cx))) {
-                                    if (bmpBuffer_prio[((cy * pic.Size.cx) + cx)] == n) {
-                                        bmpBuffer_prio[((cy * pic.Size.cx) + cx)] = bmpBuffer[((cy * pic.Size.cx) + cx)];
-                                    }
-                                    else {
-                                        bmpBuffer_prio[((cy * pic.Size.cx) + cx)] = 255;
-                                    }
-                                }
-                            }
-                        }
-                        
+                        bitmap_prio.GetBitmapBits(bmp_prio.bmWidthBytes* bmp_prio.bmHeight,
+                            bmpBuffer_prioAlpha);
 
-                        bitmap.SetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
-                            bmpBuffer_prio);
-                        
-                            //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
+                        bitmap.SetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
+                            bmpBuffer);
 
-                            CImage img;
-                            img.Attach(bitmap);
-                            CImage imgout;
-                            imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
+                        //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
 
-                            for (int x = 0; x < pic.Size.cx; ++x)
-                                for (int y = 0; y < pic.Size.cy; ++y)
-                                {
-                                    COLORREF c1;
-                                    c1 = img.GetPixel(x, y);  // user image
-                                    imgout.SetPixel(x, y, c1);
-                                    if (bmpBuffer_prio[((y * pic.Size.cx) + x)] == 255) // or whatever you decide transparent...
+                        img.Attach(bitmap);
+                        CImage imgout;
+                        imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
+                        bool saveFile = false;
+                        for (int x = 0; x < pic.Size.cx; ++x)
+                            for (int y = 0; y < pic.Size.cy; ++y)
+                            {
+                                COLORREF c1;
+                                c1 = img.GetPixel(x, y);  // user image
+                                if (bmpBuffer_prio[((y * pic.Size.cx) + x)] == n) {
+                                    if (bmi.bmiColors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0)
                                     {
-                                        imgout.SetPixel(x, y, RGB(255, 255, 255));
+                                        imgout.SetPixel(x, y, RGB(128, 67, 31));
                                         BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                        *pAlpha = 0;
+                                        *pAlpha = 0x0;
                                     }
                                     else
                                     {
+                                        imgout.SetPixel(x, y, c1);
                                         BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                        *pAlpha = 255;
+                                        *pAlpha = 0xff;
+                                        saveFile = true;
                                     }
                                 }
-                            //image.SetTransparentColor(long(255));
-                            imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
-                            
-                        
-                    }
-                }
-                // Then possible pictures (control)
+                            }
+                        //image.SetTransparentColor(long(255));
+                        if (saveFile)
+                        imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
 
+
+                    }
+
+                    // Then possible pictures (control)
+
+                    BITMAP bmp;
+                    pBitsDest = nullptr;
+                    std::string possibleImagePath = fullPath + ".png";
+                    std::string possibleImagePathNoWhite = fullPath + "_No_White.png";
+                    bitmap.GetBitmap(&bmp);
+                    BYTE* bmpBuffer = (BYTE*)GlobalAlloc(GPTR,
+                        bmp.bmWidthBytes * bmp.bmHeight);
+                    bitmap.GetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
+                        bmpBuffer);
+                    img.Attach(bitmap);
+                    CImage imgout;
+                    imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
+
+                    for (int x = 0; x < pic.Size.cx; ++x)
+                        for (int y = 0; y < pic.Size.cy; ++y)
+                        {
+                            COLORREF c1;
+                            c1 = img.GetPixel(x, y);  // user image
+                            
+                            if (bmi.bmiColors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0)
+                            {
+                                imgout.SetPixel(x, y, RGB(128, 67, 31, 0));
+                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                *pAlpha = 0x0;
+                            }
+                            else
+                            {
+                                imgout.SetPixel(x, y, c1);
+                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                *pAlpha = 0xff;
+                            }
+                        }
+                    //imgout.SetTransparentColor(long(255));
+                    imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
+
+                    if (palette != NULL) {
+                        int value = 15;
+                        for (int y = 0; y < 16; y++)
+                        {
+                            for (int x = 0; x < 16; x++)
+                            {
+                                int paletteIndex = x + y * 16;
+
+                                if (&palette->Colors[paletteIndex].rgbReserved == 0x0)
+                                {
+                                    value = palette->Mapping[paletteIndex];
+                                }
+                            }
+                        }
+                        RGBQUAD transparent = { palette->Colors[value].rgbRed, palette->Colors[value].rgbGreen, palette->Colors[value].rgbBlue, palette->Colors[value].rgbReserved };
+                        img.SetTransparentColor(_ColorRefFromRGBQuad(transparent));
+                    }
+
+                    for (int x = 0; x < pic.Size.cx; ++x)
+                        for (int y = 0; y < pic.Size.cy; ++y)
+                        {
+                            COLORREF c1;
+                            c1 = img.GetPixel(x, y);  // user image
+                            imgout.SetPixel(x, y, c1);
+
+                            if (&palette->Colors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0 || c1 == RGB(255, 255, 255))
+                            {
+                                imgout.SetPixel(x, y, RGB(128, 67, 31, 0));
+                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                *pAlpha = 0x0;
+                            }
+                            else
+                            {
+                                imgout.SetPixel(x, y, c1);
+                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
+                                *pAlpha = 0xff;
+                            }
+                        }
+                    //imgout.SetTransparentColor(long(255));
+                    imgout.Save(_T(possibleImagePathNoWhite.c_str()), Gdiplus::ImageFormatPNG);
+                }
                 CBitmap bitmap;
                 SCIBitmapInfo bmi;
                 BYTE* pBitsDest = nullptr;
