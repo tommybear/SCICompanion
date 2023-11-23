@@ -12,7 +12,7 @@
     GNU General Public License for more details.
 ***************************************************************************/
 #include "stdafx.h"
-#include "CppUnitTest.h"
+//#include "CppUnitTest.h"
 #include "ResourceMap.h"
 #include "AppState.h"
 #include "ScriptOM.h"

@@ -140,4 +140,4 @@ struct delete_map_value
 // This must come after all the AFX stuff, because:
 // "The CRT libraries use weak external linkage for the new, delete, and DllMain functions.The MFC libraries also contain new, delete,
 // and DllMain functions.These functions require the MFC libraries to be linked before the CRT library is linked."
-#include "CppUnitTest.h"
+//#include "CppUnitTest.h"

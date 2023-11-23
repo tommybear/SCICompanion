@@ -384,16 +384,17 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                 }
                 if (extractPicImages && (blob->GetType() == ResourceType::Pic))
                 {
-                    // Get priority image
-                    CBitmap bitmap_prio;
-                    SCIBitmapInfo bmi_prio;
-                    BYTE* pBitsDest_prio = nullptr;
                     count++;
 
                     if (progress)
                     {
                         keepGoing = progress->SetProgress(fullPath + "...", count, totalCount);
                     }
+
+                    // Get priority image
+                    CBitmap bitmap_prio;
+                    SCIBitmapInfo bmi_prio;
+                    BYTE* pBitsDest_prio = nullptr;
 
                     std::unique_ptr<ResourceEntity> resource_prio = CreateResourceFromResourceData(*blob);
                     PicComponent& pic_prio = resource_prio->GetComponent<PicComponent>();
@@ -441,7 +442,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                         bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
                         BITMAP bmp;
                         BITMAP bmp_prio;
-                        std::string possibleImagePath = fullPath + ".";
+                        std::string possibleImagePath = fullPath + "_p.";
                         possibleImagePath += std::to_string(n) + ".png";
                         bitmap.GetBitmap(&bmp);
                         bitmap_prio.GetBitmap(&bmp_prio);
@@ -494,7 +495,91 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
 
 
                     }
+                    // Get control image
+                    CBitmap bitmap_control;
+                    SCIBitmapInfo bmi_control;
+                    BYTE* pBitsDest_control = nullptr;
 
+                    std::unique_ptr<ResourceEntity> resource_control = CreateResourceFromResourceData(*blob);
+                    PicComponent& pic_control = resource_control->GetComponent<PicComponent>();
+                    PaletteComponent* palette_control = resource_control->TryGetComponent<PaletteComponent>();
+                    bitmap_control.Attach(GetPicBitmap(PicScreen::Control, pic_control, palette_control, pic_control.Size.cx, pic_control.Size.cy, &bmi_control, &pBitsDest_control));
+
+                    CBitmap bitmap2;
+                    SCIBitmapInfo bmi2;
+                    BYTE* pBitsDest2 = nullptr;
+
+                    std::unique_ptr<ResourceEntity> resource2 = CreateResourceFromResourceData(*blob);
+                    PicComponent& pic2 = resource2->GetComponent<PicComponent>();
+                    PaletteComponent* palette2 = resource2->TryGetComponent<PaletteComponent>();
+                    bitmap2.Attach(GetPicBitmap(PicScreen::Visual, pic2, palette2, pic2.Size.cx, pic2.Size.cy, &bmi2, &pBitsDest2));
+
+                    CImage img2;
+                    img2.Create(pic2.Size.cx, pic2.Size.cy, 32, CImage::createAlphaChannel);
+                    img2.Attach(bitmap2);
+                    std::string possibleImagePathOrig2 = fullPath;
+                    possibleImagePathOrig2 += "_c_256.png";
+                    img2.Save(_T(possibleImagePathOrig2.c_str()), Gdiplus::ImageFormatPNG);
+                    BYTE* bmpBufferAlpha2 = NULL;
+                    // Then picture layers
+                    for (int n = 0; n < 16; n++) {
+
+                        bitmap2.Attach(GetPicBitmap(PicScreen::Visual, pic2, palette2, pic2.Size.cx, pic2.Size.cy, &bmi2, &pBitsDest2));
+                        BITMAP bmp3;
+                        BITMAP bmp_control;
+                        std::string possibleImagePath = fullPath + "_c.";
+                        possibleImagePath += std::to_string(n) + ".png";
+                        bitmap.GetBitmap(&bmp3);
+                        bitmap_control.GetBitmap(&bmp_control);
+                        BYTE* bmpBuffer3 = (BYTE*)GlobalAlloc(GPTR,
+                            bmp3.bmWidthBytes * bmp3.bmHeight);
+                        BYTE* bmpBuffer_control = (BYTE*)GlobalAlloc(GPTR,
+                            bmp_control.bmWidthBytes * bmp_control.bmHeight);
+                        BYTE* bmpBuffer_controlAlpha = (BYTE*)GlobalAlloc(GPTR,
+                            bmp3.bmWidthBytes * bmp3.bmHeight);
+                        bitmap.GetBitmapBits(bmp3.bmWidthBytes * bmp3.bmHeight,
+                            bmpBuffer3);
+                        bitmap_control.GetBitmapBits(bmp_control.bmWidthBytes * bmp_control.bmHeight,
+                            bmpBuffer_control);
+                        bitmap_control.GetBitmapBits(bmp_control.bmWidthBytes * bmp_control.bmHeight,
+                            bmpBuffer_controlAlpha);
+
+                        bitmap.SetBitmapBits(bmp3.bmWidthBytes * bmp3.bmHeight,
+                            bmpBuffer3);
+
+                        //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
+
+                        img2.Attach(bitmap2);
+                        CImage imgout2;
+                        imgout2.Create(pic2.Size.cx, pic2.Size.cy, 32, CImage::createAlphaChannel);
+                        bool saveFile2 = false;
+                        for (int x = 0; x < pic2.Size.cx; ++x)
+                            for (int y = 0; y < pic2.Size.cy; ++y)
+                            {
+                                COLORREF c12;
+                                c12 = img2.GetPixel(x, y);  // user image
+                                if (bmpBuffer_control[((y * pic2.Size.cx) + x)] == n) {
+                                    if (bmi.bmiColors[bmpBuffer3[((y * pic2.Size.cx) + x)]].rgbReserved == 0x0)
+                                    {
+                                        imgout2.SetPixel(x, y, RGB(128, 67, 31));
+                                        BYTE* pAlpha2 = (BYTE*)imgout2.GetPixelAddress(x, y) + 3;
+                                        *pAlpha2 = 0x0;
+                                    }
+                                    else
+                                    {
+                                        imgout2.SetPixel(x, y, c12);
+                                        BYTE* pAlpha2 = (BYTE*)imgout2.GetPixelAddress(x, y) + 3;
+                                        *pAlpha2 = 0xff;
+                                        saveFile2 = true;
+                                    }
+                                }
+                            }
+                        //image.SetTransparentColor(long(255));
+                        if (saveFile2)
+                            imgout2.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
+
+
+                    }
                     // Then possible pictures (control)
 
                     BITMAP bmp;

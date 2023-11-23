@@ -1,91 +1,73 @@
-﻿  stdafx.cpp
-c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
-  c:\program files (x86)\microsoft visual studio 14.0\vc\atlmfc\include\afx.h(33): note: see declaration of 'MBCS_Support_Deprecated_In_MFC'
-     Automatically linking with Prof-UIS library: ProfUIS292sm.lib
-        (Professional User Interface Suite)
-c:\projects\scicompanionx\prof-uis.2.92\include\extrichcontent.h(198): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_THEMESIZE' when no variable is declared
-c:\projects\scicompanionx\prof-uis.2.92\include\extrichcontent.h(221): warning C4091: 'typedef ': ignored on left of 'CExtUxTheme::__EXT_UX_PROPERTYORIGIN' when no variable is declared
-c:\projects\scicompanionx\prof-uis.2.92\include\extrichcontent.h(1362): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMWINDOWATTRIBUTE' when no variable is declared
-c:\projects\scicompanionx\prof-uis.2.92\include\extrichcontent.h(1370): warning C4091: 'typedef ': ignored on left of 'CExtDWM::__EXT_DWMNCRENDERINGPOLICY' when no variable is declared
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v150\Platforms\Win32\PlatformToolsets\v141_xp\Toolset.targets(39,5): warning MSB8051: Support for targeting Windows XP is deprecated and will not be present in future releases of Visual Studio. Please see https://go.microsoft.com/fwlink/?linkid=2023588 for more information.
   Helper.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\helper.cpp(20): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\helper.cpp(20): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\helper.cpp(39): error C2653: 'Assert': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\helper.cpp(39): error C3861: 'IsFalse': identifier not found
   TestAllGamesLoad.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testallgamesload.cpp(25): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testallgamesload.cpp(25): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testallgamesload.cpp(44): error C2065: 'TestAllGamesLoad': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testallgamesload.cpp(44): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testallgamesload.cpp(45): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
   TestClassBrowser.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(24): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(24): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(28): error C2065: 'TestClassBrowser': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(29): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testclassbrowser.cpp(98): error C2653: 'TestClassBrowser': is not a class or namespace name
   TestCompile.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(23): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(23): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(27): error C2065: 'TestCompile': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(27): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(28): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testcompile.cpp(87): error C2653: 'TestCompile': is not a class or namespace name
   TestPicDraw.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(17): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(17): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(87): error C2653: 'Logger': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(87): error C3861: 'WriteMessage': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(89): error C2653: 'Assert': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(89): error C3861: 'IsNotNull': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(98): error C2653: 'Logger': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(98): error C3861: 'WriteMessage': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(100): error C2653: 'Assert': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(100): error C3861: 'IsTrue': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(160): error C2653: 'Logger': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(160): error C3861: 'WriteMessage': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(161): error C2653: 'Assert': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(161): error C3861: 'IsTrue': identifier not found
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(178): error C2065: 'TextPicDraw': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(178): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(179): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(209): error C2653: 'TextPicDraw': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpicdraw.cpp(210): error C2653: 'TextPicDraw': is not a class or namespace name
   TestPolygonLoad.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(27): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(27): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(31): error C2065: 'TestPolygonLoad': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(31): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(32): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testpolygonload.cpp(87): error C2653: 'TestPolygonLoad': is not a class or namespace name
   TestResource.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresource.cpp(24): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresource.cpp(24): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresource.cpp(33): error C2065: 'TestResource': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresource.cpp(33): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresource.cpp(34): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
   TestResourceDelete.cpp
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(24): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(24): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(28): error C2065: 'TestResourceDelete': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(29): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourcedelete.cpp(112): error C2653: 'TestResourceDelete': is not a class or namespace name
   TestResourceLoad.cpp
-LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
-     Creating library C:\Projects\SCICompanionX\Release\UnitTests.lib and object C:\Projects\SCICompanionX\Release\UnitTests.exp
-  Generating code
-  All 2437 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  UnitTests.vcxproj -> C:\Projects\SCICompanionX\Release\UnitTests.dll
-  UnitTests.vcxproj -> C:\Projects\SCICompanionX\Release\UnitTests.pdb (Full PDB)
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.006
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.006-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.006-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.006-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.028
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.028-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.028-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.028-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.029
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.029-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.029-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.029-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.500
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.500-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.500-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI0\pic.500-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.011
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.011-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.011-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.011-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.030
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.030-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.030-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.030-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.531
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.531-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.531-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Early\pic.531-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\EGA\pic.570
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\EGA\pic.570-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\EGA\pic.570-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\EGA\pic.570-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\160.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\160.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\160.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\160.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\33.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\33.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\33.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.0\Mid\33.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\100.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\100.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\100.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\100.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\320.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\320.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\320.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\320.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\630.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\630.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\630.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\630.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\860.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\860.p56-ctl.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\860.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI1.1\860.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\1150.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\1150.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\1150.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\220.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\220.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\220.p56-vis.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\901.p56
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\901.p56-pri.bmp
-  C:\Projects\SCICompanionX\UnitTests\Files\Pics\SCI2\901.p56-vis.bmp
-  65 File(s) copied
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(24): error C2653: 'Microsoft': is not a class or namespace name
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(24): error C2871: 'CppUnitTestFramework': a namespace with this name does not exist
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(28): error C2065: 'TestResourceLoad': undeclared identifier
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(28): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(29): error C2448: 'UnitTests::TEST_CLASS': function-style initializer appears to be a function definition
+c:\users\rxcam\documents\ghub\scicompanionx\unittests\testresourceload.cpp(78): error C2653: 'TestResourceLoad': is not a class or namespace name

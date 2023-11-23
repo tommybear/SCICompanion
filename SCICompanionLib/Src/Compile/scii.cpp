@@ -874,6 +874,6 @@ bool scii::_is_label_instruction()
 // We use the node pointer as a < comparator.  Just something consistent but meaningless.
 bool operator<(const code_pos &_Right, const code_pos &_Left)
 {
-    return _Right._Mynode() < _Left._Mynode();
+    return _Right < _Left;
 }
 
