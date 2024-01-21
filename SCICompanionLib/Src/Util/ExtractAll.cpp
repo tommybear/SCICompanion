@@ -37,60 +37,60 @@
 void ExportViewResourceAsCelImages(const ResourceEntity& resource, PaletteComponent* optionalPalette, CString destinationFolder)
 {
     CelIndex celIndex = CelIndex(-1, -1);
-   
-        if (&resource)
+
+    if (&resource)
+    {
+        const RasterComponent& raster = resource.GetComponent<RasterComponent>();
+        int startLoop = (celIndex.loop == 0xffff) ? 0 : celIndex.loop;
+        int endLoop = (celIndex.loop == 0xffff) ? raster.LoopCount() : (celIndex.loop + 1);
+
+
+        for (int l = endLoop - 1; l >= startLoop; l--)
         {
-            const RasterComponent& raster = resource.GetComponent<RasterComponent>();
-            int startLoop = (celIndex.loop == 0xffff) ? 0 : celIndex.loop;
-            int endLoop = (celIndex.loop == 0xffff) ? raster.LoopCount() : (celIndex.loop + 1);
-
-
-            for (int l = endLoop - 1; l >= startLoop; l--)
+            const Loop& loop = raster.Loops[l];
+            celIndex.loop = l;
+            celIndex.cel = -1;
+            int startCelBase = -1;
+            int endCelBase = -1;
+            if (celIndex.loop != 0xffff)
             {
-                const Loop& loop = raster.Loops[l];
+                startCelBase = (celIndex.cel == 0xffff) ? 0 : celIndex.cel;
+                endCelBase = (celIndex.cel == 0xffff) ? (int)raster.Loops[celIndex.loop].Cels.size() : (celIndex.cel + 1);
+            }
+            int startCel = (startCelBase == -1) ? 0 : startCelBase;
+            int endCel = (endCelBase == -1) ? (int)loop.Cels.size() : endCelBase;
+
+            for (int c = endCel - 1; c >= startCel; c--)
+            {
                 celIndex.loop = l;
-                celIndex.cel = -1;
-                int startCelBase = -1;
-                int endCelBase = -1;
-                if (celIndex.loop != 0xffff)
+                celIndex.cel = c;
+                const Cel& cel = loop.Cels[c];
+                PaletteComponent* palette = optionalPalette;
+                if (!palette)
                 {
-                    startCelBase = (celIndex.cel == 0xffff) ? 0 : celIndex.cel;
-                    endCelBase = (celIndex.cel == 0xffff) ? (int)raster.Loops[celIndex.loop].Cels.size() : (celIndex.cel + 1);
+                    palette = &g_egaDummyPalette;
                 }
-                int startCel = (startCelBase == -1) ? 0 : startCelBase;
-                int endCel = (endCelBase == -1) ? (int)loop.Cels.size() : endCelBase;
-
-                for (int c = endCel - 1; c >= startCel; c--)
+                CBitmap bitmap;
+                SCIBitmapInfo bmi;
+                BYTE* pBitsDest;
+                bitmap.Attach(CreateBitmapFromResource(resource, celIndex, palette, &bmi, &pBitsDest));
+                if ((HBITMAP)bitmap)
                 {
-                    celIndex.loop = l;
-                    celIndex.cel = c;
-                    const Cel& cel = loop.Cels[c];
-                    PaletteComponent* palette = optionalPalette;
-                    if (!palette)
-                    {
-                        palette = &g_egaDummyPalette;
-                    }
-                    CBitmap bitmap;
-                    SCIBitmapInfo bmi;
-                    BYTE* pBitsDest;
-                    bitmap.Attach(CreateBitmapFromResource(resource, celIndex, palette, &bmi, &pBitsDest));
-                    if ((HBITMAP)bitmap)
-                    {
-                        // Construct a cel based on the bitmap. Throw away the HBITMAP.
-                        Cel celEntire(size16((uint16_t)bmi.bmiHeader.biWidth, (uint16_t)bmi.bmiHeader.biHeight), point16(), 0);
-                        celEntire.TransparentColor = cel.TransparentColor;
-                        celEntire.Data.allocate(celEntire.GetDataSize());
-                        celEntire.Data.assign(pBitsDest, pBitsDest + celEntire.GetDataSize());
-                        // Default extension should be the first one in the list for g_szGdiplus8BitSaveFilter
+                    // Construct a cel based on the bitmap. Throw away the HBITMAP.
+                    Cel celEntire(size16((uint16_t)bmi.bmiHeader.biWidth, (uint16_t)bmi.bmiHeader.biHeight), point16(), 0);
+                    celEntire.TransparentColor = cel.TransparentColor;
+                    celEntire.Data.allocate(celEntire.GetDataSize());
+                    celEntire.Data.assign(pBitsDest, pBitsDest + celEntire.GetDataSize());
+                    // Default extension should be the first one in the list for g_szGdiplus8BitSaveFilter
 
-                        CString strFileName = destinationFolder + '/' + "view." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.loop).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
-                        Save8BitBmpGdiP(strFileName, celEntire, *palette, false);
+                    CString strFileName = destinationFolder + '/' + "view." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.loop).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
+                    Save8BitBmpGdiP(strFileName, celEntire, *palette, false);
 
-                    }
                 }
             }
         }
-    
+    }
+
 }
 
 void ExportFontResourceAsCelImages(const ResourceEntity& resource, PaletteComponent* optionalPalette, CString destinationFolder)
@@ -145,7 +145,7 @@ void ExportFontResourceAsCelImages(const ResourceEntity& resource, PaletteCompon
                     std::string strFileName = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
                     //std::string strFileName4x = destinationFolder + '/' + "font." + std::to_string(resource.ResourceNumber).c_str() + '.' + std::to_string(celIndex.cel).c_str() + ".png";
                     Save8BitBmpGdiP(strFileName.c_str(), celEntire, *palette, false);
-                    
+
 
                 }
             }
@@ -260,7 +260,7 @@ hash(const char* str) {
     return hash;
 }
 
-void ExtractAllResources(SCIVersion version, const std::string &destinationFolderIn, bool extractResources, bool extractPicImages, bool extractViewImages, bool disassembleScripts, bool extractMessages, bool generateWavs, IExtractProgress *progress)
+void ExtractAllResources(SCIVersion version, const std::string& destinationFolderIn, bool extractResources, bool extractPicImages, bool extractViewImages, bool disassembleScripts, bool extractMessages, bool generateWavs, IExtractProgress* progress)
 {
     std::string destinationFolder = destinationFolderIn;
     if (destinationFolder.back() != '\\')
@@ -280,7 +280,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
 
     int totalCount = 0;
     auto resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::All, ResourceEnumFlags::IncludeCacheFiles);
-    for (auto &blob : *resourceContainer)
+    for (auto& blob : *resourceContainer)
     {
         if ((blob->GetType() == ResourceType::Text))
         {
@@ -316,7 +316,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
     if (generateWavs || extractResources)
     {
         resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::AudioMap, ResourceEnumFlags::MostRecentOnly | ResourceEnumFlags::ExcludePatchFiles);
-        for (auto &blob : *resourceContainer)
+        for (auto& blob : *resourceContainer)
         {
             if (blob->GetNumber() != version.AudioMapResourceNumber)
             {
@@ -333,7 +333,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
     // Get it again, because we don't supprot reset.
     resourceContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::All, ResourceEnumFlags::MostRecentOnly | ResourceEnumFlags::ExcludePatchFiles);
     bool keepGoing = true;
-    for (auto &blob : *resourceContainer)
+    for (auto& blob : *resourceContainer)
     {
         std::string filename = GetFileNameFor(*blob);
         std::string fullPath = destinationFolder + filename;
@@ -352,7 +352,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
             }
 
             if (keepGoing)
-            {   
+            {
                 if (extractMessages && (blob->GetType() == ResourceType::Text))
                 {
                     std::string possibleTextPath = fullPath + ".txt";
@@ -382,13 +382,42 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                         file_out << outStr << endl;
                     }
                 }
+
+                CBitmap bitmap;
+                SCIBitmapInfo bmi;
+                BYTE* pBitsDest = nullptr;
+                std::string possibleImagePath = fullPath + ".bmp";
+
                 if (extractPicImages && (blob->GetType() == ResourceType::Pic))
                 {
                     count++;
-
                     if (progress)
                     {
-                        keepGoing = progress->SetProgress(fullPath + "...", count, totalCount);
+                        keepGoing = progress->SetProgress(fullPath + "_v.bmp", count, totalCount);
+                    }
+
+                    // Get priority image
+                    CBitmap bitmap_vis;
+                    SCIBitmapInfo bmi_vis;
+                    BYTE* pBitsDest_vis = nullptr;
+
+                    std::unique_ptr<ResourceEntity> resource_vis = CreateResourceFromResourceData(*blob);
+                    PicComponent& pic_vis = resource_vis->GetComponent<PicComponent>();
+                    PaletteComponent* palette_vis = resource_vis->TryGetComponent<PaletteComponent>();
+                    bitmap_vis.Attach(GetPicBitmap(PicScreen::Visual, pic_vis, palette_vis, pic_vis.Size.cx, pic_vis.Size.cy, &bmi_vis, &pBitsDest_vis));
+
+                    if ((HBITMAP)bitmap_vis)
+                    {
+                        Save8BitBmp(fullPath + "_v.bmp", bmi_vis, pBitsDest_vis, 0);
+                    }
+                }
+
+                if (extractPicImages && (blob->GetType() == ResourceType::Pic))
+                {
+                    count++;
+                    if (progress)
+                    {
+                        keepGoing = progress->SetProgress(fullPath + "_p.bmp", count, totalCount);
                     }
 
                     // Get priority image
@@ -401,101 +430,21 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     PaletteComponent* palette_prio = resource_prio->TryGetComponent<PaletteComponent>();
                     bitmap_prio.Attach(GetPicBitmap(PicScreen::Priority, pic_prio, palette_prio, pic_prio.Size.cx, pic_prio.Size.cy, &bmi_prio, &pBitsDest_prio));
 
-                    CBitmap bitmap;
-                    SCIBitmapInfo bmi;
-                    BYTE* pBitsDest = nullptr;
-
-                    std::unique_ptr<ResourceEntity> resource = CreateResourceFromResourceData(*blob);
-                    PicComponent& pic = resource->GetComponent<PicComponent>();
-                    PaletteComponent* palette = resource->TryGetComponent<PaletteComponent>();
-                    bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
-
-                    CImage img;
-                    img.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
-                    img.Attach(bitmap);
-                    /* Doesn't Work...
-                    if (palette != NULL) {
-                        int value = 15;
-                        for (int y = 0; y < 16; y++)
-                        {
-                            for (int x = 0; x < 16; x++)
-                            {
-                                int paletteIndex = x + y * 16;
-
-                                if (&palette->Colors[paletteIndex].rgbReserved == 0x0)
-                                {
-                                    value = palette->Mapping[paletteIndex];
-                                }
-                            }
-                        }
-                        RGBQUAD transparent = { palette->Colors[value].rgbRed, palette->Colors[value].rgbGreen, palette->Colors[value].rgbBlue, palette->Colors[value].rgbReserved };
-                        img.SetTransparentColor(_ColorRefFromRGBQuad(transparent));
+                    if ((HBITMAP)bitmap_prio)
+                    {
+                        Save8BitBmp(fullPath + "_p.bmp", bmi_prio, pBitsDest_prio, 0);
                     }
-                    */
-                    std::string possibleImagePathOrig = fullPath;
-                    possibleImagePathOrig += "_256.png";
-                    img.Save(_T(possibleImagePathOrig.c_str()), Gdiplus::ImageFormatPNG);
-                    BYTE* bmpBufferAlpha = NULL;
-                    // Then picture layers
-                    for (int n = 0; n < 16; n++) {
+                }
 
-                        bitmap.Attach(GetPicBitmap(PicScreen::Visual, pic, palette, pic.Size.cx, pic.Size.cy, &bmi, &pBitsDest));
-                        BITMAP bmp;
-                        BITMAP bmp_prio;
-                        std::string possibleImagePath = fullPath + "_p.";
-                        possibleImagePath += std::to_string(n) + ".png";
-                        bitmap.GetBitmap(&bmp);
-                        bitmap_prio.GetBitmap(&bmp_prio);
-                        BYTE* bmpBuffer = (BYTE*)GlobalAlloc(GPTR,
-                            bmp.bmWidthBytes * bmp.bmHeight);
-                        BYTE* bmpBuffer_prio = (BYTE*)GlobalAlloc(GPTR,
-                            bmp_prio.bmWidthBytes * bmp_prio.bmHeight);
-                        BYTE* bmpBuffer_prioAlpha = (BYTE*)GlobalAlloc(GPTR,
-                            bmp.bmWidthBytes * bmp.bmHeight);
-                        bitmap.GetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
-                            bmpBuffer);
-                        bitmap_prio.GetBitmapBits(bmp_prio.bmWidthBytes * bmp_prio.bmHeight,
-                            bmpBuffer_prio);
-                        bitmap_prio.GetBitmapBits(bmp_prio.bmWidthBytes* bmp_prio.bmHeight,
-                            bmpBuffer_prioAlpha);
-
-                        bitmap.SetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
-                            bmpBuffer);
-
-                        //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
-
-                        img.Attach(bitmap);
-                        CImage imgout;
-                        imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
-                        bool saveFile = false;
-                        for (int x = 0; x < pic.Size.cx; ++x)
-                            for (int y = 0; y < pic.Size.cy; ++y)
-                            {
-                                COLORREF c1;
-                                c1 = img.GetPixel(x, y);  // user image
-                                if (bmpBuffer_prio[((y * pic.Size.cx) + x)] == n) {
-                                    if (bmi.bmiColors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0)
-                                    {
-                                        imgout.SetPixel(x, y, RGB(128, 67, 31));
-                                        BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                        *pAlpha = 0x0;
-                                    }
-                                    else
-                                    {
-                                        imgout.SetPixel(x, y, c1);
-                                        BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                        *pAlpha = 0xff;
-                                        saveFile = true;
-                                    }
-                                }
-                            }
-                        //image.SetTransparentColor(long(255));
-                        if (saveFile)
-                        imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
-
-
+                if (extractPicImages && (blob->GetType() == ResourceType::Pic))
+                {
+                    count++;
+                    if (progress)
+                    {
+                        keepGoing = progress->SetProgress(fullPath + "_c.bmp", count, totalCount);
                     }
-                    // Get control image
+
+                    // Get priority image
                     CBitmap bitmap_control;
                     SCIBitmapInfo bmi_control;
                     BYTE* pBitsDest_control = nullptr;
@@ -505,163 +454,11 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     PaletteComponent* palette_control = resource_control->TryGetComponent<PaletteComponent>();
                     bitmap_control.Attach(GetPicBitmap(PicScreen::Control, pic_control, palette_control, pic_control.Size.cx, pic_control.Size.cy, &bmi_control, &pBitsDest_control));
 
-                    CBitmap bitmap2;
-                    SCIBitmapInfo bmi2;
-                    BYTE* pBitsDest2 = nullptr;
-
-                    std::unique_ptr<ResourceEntity> resource2 = CreateResourceFromResourceData(*blob);
-                    PicComponent& pic2 = resource2->GetComponent<PicComponent>();
-                    PaletteComponent* palette2 = resource2->TryGetComponent<PaletteComponent>();
-                    bitmap2.Attach(GetPicBitmap(PicScreen::Visual, pic2, palette2, pic2.Size.cx, pic2.Size.cy, &bmi2, &pBitsDest2));
-
-                    CImage img2;
-                    img2.Create(pic2.Size.cx, pic2.Size.cy, 32, CImage::createAlphaChannel);
-                    img2.Attach(bitmap2);
-                    std::string possibleImagePathOrig2 = fullPath;
-                    possibleImagePathOrig2 += "_c_256.png";
-                    img2.Save(_T(possibleImagePathOrig2.c_str()), Gdiplus::ImageFormatPNG);
-                    BYTE* bmpBufferAlpha2 = NULL;
-                    // Then picture layers
-                    for (int n = 0; n < 16; n++) {
-
-                        bitmap2.Attach(GetPicBitmap(PicScreen::Visual, pic2, palette2, pic2.Size.cx, pic2.Size.cy, &bmi2, &pBitsDest2));
-                        BITMAP bmp3;
-                        BITMAP bmp_control;
-                        std::string possibleImagePath = fullPath + "_c.";
-                        possibleImagePath += std::to_string(n) + ".png";
-                        bitmap.GetBitmap(&bmp3);
-                        bitmap_control.GetBitmap(&bmp_control);
-                        BYTE* bmpBuffer3 = (BYTE*)GlobalAlloc(GPTR,
-                            bmp3.bmWidthBytes * bmp3.bmHeight);
-                        BYTE* bmpBuffer_control = (BYTE*)GlobalAlloc(GPTR,
-                            bmp_control.bmWidthBytes * bmp_control.bmHeight);
-                        BYTE* bmpBuffer_controlAlpha = (BYTE*)GlobalAlloc(GPTR,
-                            bmp3.bmWidthBytes * bmp3.bmHeight);
-                        bitmap.GetBitmapBits(bmp3.bmWidthBytes * bmp3.bmHeight,
-                            bmpBuffer3);
-                        bitmap_control.GetBitmapBits(bmp_control.bmWidthBytes * bmp_control.bmHeight,
-                            bmpBuffer_control);
-                        bitmap_control.GetBitmapBits(bmp_control.bmWidthBytes * bmp_control.bmHeight,
-                            bmpBuffer_controlAlpha);
-
-                        bitmap.SetBitmapBits(bmp3.bmWidthBytes * bmp3.bmHeight,
-                            bmpBuffer3);
-
-                        //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
-
-                        img2.Attach(bitmap2);
-                        CImage imgout2;
-                        imgout2.Create(pic2.Size.cx, pic2.Size.cy, 32, CImage::createAlphaChannel);
-                        bool saveFile2 = false;
-                        for (int x = 0; x < pic2.Size.cx; ++x)
-                            for (int y = 0; y < pic2.Size.cy; ++y)
-                            {
-                                COLORREF c12;
-                                c12 = img2.GetPixel(x, y);  // user image
-                                if (bmpBuffer_control[((y * pic2.Size.cx) + x)] == n) {
-                                    if (bmi.bmiColors[bmpBuffer3[((y * pic2.Size.cx) + x)]].rgbReserved == 0x0)
-                                    {
-                                        imgout2.SetPixel(x, y, RGB(128, 67, 31));
-                                        BYTE* pAlpha2 = (BYTE*)imgout2.GetPixelAddress(x, y) + 3;
-                                        *pAlpha2 = 0x0;
-                                    }
-                                    else
-                                    {
-                                        imgout2.SetPixel(x, y, c12);
-                                        BYTE* pAlpha2 = (BYTE*)imgout2.GetPixelAddress(x, y) + 3;
-                                        *pAlpha2 = 0xff;
-                                        saveFile2 = true;
-                                    }
-                                }
-                            }
-                        //image.SetTransparentColor(long(255));
-                        if (saveFile2)
-                            imgout2.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
-
-
+                    if ((HBITMAP)bitmap_control)
+                    {
+                        Save8BitBmp(fullPath + "_c.bmp", bmi_control, pBitsDest_control, 0);
                     }
-                    // Then possible pictures (control)
-
-                    BITMAP bmp;
-                    pBitsDest = nullptr;
-                    std::string possibleImagePath = fullPath + ".png";
-                    std::string possibleImagePathNoWhite = fullPath + "_No_White.png";
-                    bitmap.GetBitmap(&bmp);
-                    BYTE* bmpBuffer = (BYTE*)GlobalAlloc(GPTR,
-                        bmp.bmWidthBytes * bmp.bmHeight);
-                    bitmap.GetBitmapBits(bmp.bmWidthBytes * bmp.bmHeight,
-                        bmpBuffer);
-                    img.Attach(bitmap);
-                    CImage imgout;
-                    imgout.Create(pic.Size.cx, pic.Size.cy, 32, CImage::createAlphaChannel);
-
-                    for (int x = 0; x < pic.Size.cx; ++x)
-                        for (int y = 0; y < pic.Size.cy; ++y)
-                        {
-                            COLORREF c1;
-                            c1 = img.GetPixel(x, y);  // user image
-                            
-                            if (bmi.bmiColors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0)
-                            {
-                                imgout.SetPixel(x, y, RGB(128, 67, 31, 0));
-                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                *pAlpha = 0x0;
-                            }
-                            else
-                            {
-                                imgout.SetPixel(x, y, c1);
-                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                *pAlpha = 0xff;
-                            }
-                        }
-                    //imgout.SetTransparentColor(long(255));
-                    imgout.Save(_T(possibleImagePath.c_str()), Gdiplus::ImageFormatPNG);
-
-                    if (palette != NULL) {
-                        int value = 15;
-                        for (int y = 0; y < 16; y++)
-                        {
-                            for (int x = 0; x < 16; x++)
-                            {
-                                int paletteIndex = x + y * 16;
-
-                                if (&palette->Colors[paletteIndex].rgbReserved == 0x0)
-                                {
-                                    value = palette->Mapping[paletteIndex];
-                                }
-                            }
-                        }
-                        RGBQUAD transparent = { palette->Colors[value].rgbRed, palette->Colors[value].rgbGreen, palette->Colors[value].rgbBlue, palette->Colors[value].rgbReserved };
-                        img.SetTransparentColor(_ColorRefFromRGBQuad(transparent));
-                    }
-
-                    for (int x = 0; x < pic.Size.cx; ++x)
-                        for (int y = 0; y < pic.Size.cy; ++y)
-                        {
-                            COLORREF c1;
-                            c1 = img.GetPixel(x, y);  // user image
-                            imgout.SetPixel(x, y, c1);
-
-                            if (&palette->Colors[bmpBuffer[((y * pic.Size.cx) + x)]].rgbReserved == 0x0 || c1 == RGB(255, 255, 255))
-                            {
-                                imgout.SetPixel(x, y, RGB(128, 67, 31, 0));
-                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                *pAlpha = 0x0;
-                            }
-                            else
-                            {
-                                imgout.SetPixel(x, y, c1);
-                                BYTE* pAlpha = (BYTE*)imgout.GetPixelAddress(x, y) + 3;
-                                *pAlpha = 0xff;
-                            }
-                        }
-                    //imgout.SetTransparentColor(long(255));
-                    imgout.Save(_T(possibleImagePathNoWhite.c_str()), Gdiplus::ImageFormatPNG);
                 }
-                CBitmap bitmap;
-                SCIBitmapInfo bmi;
-                BYTE* pBitsDest = nullptr;
-                std::string possibleImagePath = fullPath + ".bmp";
 
                 if (extractViewImages && (blob->GetType() == ResourceType::View))
                 {
@@ -699,9 +496,10 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                     bitmap.Attach(CreateBitmapFromResource(*font, optionalPalette.get(), &bmi, &pBitsDest));
                     ExportFontResourceAsCelImages(*font, optionalPalette.get(), destinationFolder.c_str());
                 }
+
                 if ((HBITMAP)bitmap)
                 {
-                    //Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
+                    Save8BitBmp(possibleImagePath, bmi, pBitsDest, 0);
                 }
 
                 if (disassembleScripts && (blob->GetType() == ResourceType::Script))
@@ -755,7 +553,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
     if (keepGoing)
     {
         auto audioMapContainer = appState->GetResourceMap().Resources(ResourceTypeFlags::AudioMap, ResourceEnumFlags::MostRecentOnly | ResourceEnumFlags::ExcludePatchFiles);
-        for (auto &blob : *audioMapContainer)
+        for (auto& blob : *audioMapContainer)
         {
             if (extractResources)
             {
@@ -775,7 +573,7 @@ void ExtractAllResources(SCIVersion version, const std::string &destinationFolde
                 }
                 if (keepGoing)
                 {
-                    for (auto &blobSubs : *subResourceContainer)
+                    for (auto& blobSubs : *subResourceContainer)
                     {
                         if (extractResources)
                         {
