@@ -9,5 +9,12 @@ The bulk of the code is in SCICompanionLib\Src
 
 SCICompanion is the .exe which is just a thin wrapper over SCICompanionLib
 
-Fork of SCI Companion X, itself a fork of SCI Companion. Just some fixes from that fork to make it compile on the latest Visual Studio + the ability to actually get an export of the Visual, Priority and Control out at the same time as separate bitmaps when extracting all resources.
+Fork of SCI Companion X, itself a fork of SCI Companion. 
+
+Features
+========
+
+- Compiles on Visual Studio 2022
+- Exports room Visual, Priority and Control BMPs out at the same time as separate bitmaps when extracting all resources.
+- Can export any resource as a pure <resource_name>.raw file
 
