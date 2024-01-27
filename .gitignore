@@ -1,4 +1,4 @@
-.res
+*.res
 .vs/*
 Release/*
 Debug/*/
