@@ -687,7 +687,7 @@ void CResourceListCtrl::OnExtractResourcesAsRawFiles()
 
                                 // now just write the buffer to the file
                                 FILE* file = nullptr; 
-                                errno_t result = fopen_s(&file, (filename + ".raw").c_str(), "wb");
+                                errno_t result = fopen_s(&file, filename.c_str(), "wb");
 
                                 if (file)
 								{
