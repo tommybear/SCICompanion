@@ -584,6 +584,7 @@ BEGIN
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &as",                    ID_FILE_SAVE_AS
         MENUITEM "&Export as patch file",       ID_FILE_EXPORTASRESOURCE
+        MENUITEM "E&xport as raw file",         ID_FILE_EXPORTASRAWFILE
         MENUITEM SEPARATOR
         MENUITEM "&Close resource",             ID_FILE_CLOSE
         MENUITEM "Close game",                  ID_FILE_CLOSEGAME
@@ -846,6 +847,7 @@ BEGIN
         MENUITEM "&Rename",                     ID_EDIT_RENAME
         MENUITEM SEPARATOR
         MENUITEM "&Export as patch file",       ID_FILE_EXPORTASRESOURCE
+        MENUITEM "E&xport as raw file",         ID_FILE_EXPORTASRAWFILE
         MENUITEM "&View raw data",              ID_VIEWITEM_VIEWRAWDATA
     END
 END
@@ -3577,8 +3579,8 @@ END
 STRINGTABLE
 BEGIN
     ID_FILE_OPENRESOURCE    "Open a resource that is in its own file."
-    ID_FILE_EXPORTASRESOURCE 
-                            "Export this resource in a separate file.\nExport to file"
+    ID_FILE_EXPORTASRESOURCE "Export this resource in a separate file.\nExport to file"
+    ID_FILE_EXPORTASRAWFILE "Export this resource in a raw file.\nExport to file"
 END
 
 STRINGTABLE

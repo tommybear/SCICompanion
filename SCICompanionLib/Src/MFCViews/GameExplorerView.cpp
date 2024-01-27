@@ -324,9 +324,11 @@ BEGIN_MESSAGE_MAP(CGameExplorerView, CView)
     ON_UPDATE_COMMAND_UI(ID_EDIT_DELETE, OnUpdateDelete)
     ON_UPDATE_COMMAND_UI(ID_EDIT_RENAME, OnUpdateDelete)
     ON_UPDATE_COMMAND_UI(ID_FILE_EXPORTASRESOURCE, OnUpdateDelete)
+    ON_UPDATE_COMMAND_UI(ID_FILE_EXPORTASRAWFILE, OnUpdateDelete)
     ON_UPDATE_COMMAND_UI(ID_VIEWITEM_VIEWRAWDATA, OnUpdateDelete)
     ON_COMMAND(ID_EDIT_RENAME, OnRename)
     ON_COMMAND(ID_FILE_EXPORTASRESOURCE, OnExtractResources)
+    ON_COMMAND(ID_FILE_EXPORTASRAWFILE, OnExtractResourcesAsRawFiles)
     ON_COMMAND(ID_VIEWITEM_VIEWRAWDATA, OnViewRawData)
     ON_UPDATE_COMMAND_UI(ID_INDICATOR_RESCOUNT, OnUpdateItemCount)
 END_MESSAGE_MAP()
@@ -492,6 +494,15 @@ void CGameExplorerView::OnExtractResources()
     if (pView && !pView->InLabelEdit())
     {
         pView->OnExtractResources();
+    }
+}
+
+void CGameExplorerView::OnExtractResourcesAsRawFiles()
+{
+    CResourceListCtrl* pView = _GetSelectedView();
+    if (pView && !pView->InLabelEdit())
+    {
+        pView->OnExtractResourcesAsRawFiles();
     }
 }
 

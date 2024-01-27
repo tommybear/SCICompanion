@@ -857,6 +857,7 @@
 #define ID_PREFERENCES                  32821
 #define ID_FILE_OPENRESOURCE            32829
 #define ID_FILE_EXPORTASRESOURCE        32830
+#define ID_FILE_EXPORTASRAWFILE	        32831
 #define ID_COPYCOMMANDS                 32832
 #define ID_COMPILE                      32838
 #define ID_RUNGAME                      32839
@@ -1235,6 +1236,7 @@
 #define ID_SCRIPT_PASTE_X               33362
 #define ID_INDICATOR_PRI                59138
 #define ID_INDICATOR_COORDS             59142
+
 
 // Next default values for new objects
 // 

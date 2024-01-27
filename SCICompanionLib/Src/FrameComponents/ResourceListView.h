@@ -60,6 +60,7 @@ public:
     BOOL InLabelEdit() { return _bInLabelEdit; }
     void OnRename();
     void OnExtractResources();
+    void OnExtractResourcesAsRawFiles();
     void OnViewRawData();
     BOOL PreTranslateMessage(MSG *pMsg);
 

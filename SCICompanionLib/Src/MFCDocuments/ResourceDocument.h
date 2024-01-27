@@ -55,6 +55,7 @@ private:
     
     BOOL DoPreResourceSave(BOOL fSaveAs);
     void OnExportAsResource();
+    void OnExportAsRawFile();
 
 protected:
     void OnExportAsBitmap();

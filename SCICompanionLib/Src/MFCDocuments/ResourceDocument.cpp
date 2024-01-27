@@ -34,9 +34,11 @@ BEGIN_MESSAGE_MAP(CResourceDocument, CDocument)
 	ON_COMMAND(ID_FILE_SAVE, OnFileSave)
     ON_COMMAND(ID_FILE_SAVE_AS, OnFileSaveAs)
     ON_COMMAND(ID_FILE_EXPORTASRESOURCE, OnExportAsResource)
+    ON_COMMAND(ID_FILE_EXPORTASRAWFILE, OnExportAsRawFile)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE, OnUpdateFileSave)
     ON_UPDATE_COMMAND_UI(ID_FILE_SAVE_AS, OnUpdateAlwaysOn)
     ON_UPDATE_COMMAND_UI(ID_FILE_EXPORTASRESOURCE, OnUpdateAlwaysOn)
+    ON_UPDATE_COMMAND_UI(ID_FILE_EXPORTASRAWFILE, OnUpdateAlwaysOn)
     ON_UPDATE_COMMAND_UI(ID_INDICATOR_RESSIZE, OnUpdateResSize)
 END_MESSAGE_MAP()
 
@@ -335,6 +337,59 @@ void CResourceDocument::OnExportAsResource()
                 ResourceBlob data;
 
                 sci::istream readStream = istream_from_ostream(serial);
+                if (SUCCEEDED(data.CreateFromBits(appState->GetResourceMap().Helper(), nullptr, _GetType(), &readStream, pResource->PackageNumber, iNumber, NoBase36, appState->GetVersion(), ResourceSourceFlags::PatchFile)))
+                {
+                    HRESULT hr = data.SaveToFile((PCSTR)strFileName);
+                    if (FAILED(hr))
+                    {
+                        DisplayFileError(hr, FALSE, strFileName);
+                    }
+                    fSaved = SUCCEEDED(hr);
+                }
+            }
+            if (fSaved)
+            {
+                SetModifiedFlag(FALSE);
+            }
+            // else if we didn't save, we don't want to touch the modified flag.
+            // The document may not have been dirty at all.
+        }
+    }
+}
+
+void CResourceDocument::OnExportAsRawFile()
+{
+    // Ignore path name.
+    const ResourceEntity* pResource = GetResource();
+    if (pResource)
+    {
+        if (!pResource->CanWrite())
+        {
+            _ShowCantSaveMessage();
+        }
+        else
+        {
+            sci::ostream serial;
+            bool fSaved = false;
+            pResource->WriteToTest(serial, false, pResource->ResourceNumber);
+            // Bring up the file dialog
+            int iNumber = pResource->ResourceNumber;
+            if (iNumber == -1)
+            {
+                iNumber = 0;
+            }
+
+            std::string filename = GetFileNameFor(GetType(), iNumber, pResource->Base36Number, appState->GetVersion()) + ".raw";
+            std::string filter = _GetFileDialogFilter();
+            CFileDialog fileDialog(FALSE, nullptr, filename.c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, filter.c_str());
+            if (IDOK == fileDialog.DoModal())
+            {
+                CString strFileName = fileDialog.GetPathName();
+                ResourceBlob data;
+
+                sci::istream readStream = istream_from_ostream(serial);
+
+
                 if (SUCCEEDED(data.CreateFromBits(appState->GetResourceMap().Helper(), nullptr, _GetType(), &readStream, pResource->PackageNumber, iNumber, NoBase36, appState->GetVersion(), ResourceSourceFlags::PatchFile)))
                 {
                     HRESULT hr = data.SaveToFile((PCSTR)strFileName);

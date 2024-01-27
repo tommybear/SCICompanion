@@ -650,6 +650,128 @@ void CResourceListCtrl::OnExtractResources()
     }
 }
 
+void CResourceListCtrl::OnExtractResourcesAsRawFiles()
+{
+    UINT cCount = GetSelectedCount();
+    if (cCount > 1)
+    {
+        if (SUCCEEDED(CoInitialize(nullptr)))
+        {
+            BROWSEINFO browseInfo = { 0 };
+            browseInfo.hwndOwner = AfxGetMainWnd()->GetSafeHwnd();
+            browseInfo.lpszTitle = TEXT("Please choose a folder where you would like to export the resources.");
+            browseInfo.ulFlags = BIF_RETURNONLYFSDIRS;
+            browseInfo.lpfn = BrowseCallbackProc;
+            LPITEMIDLIST pidl = SHBrowseForFolder(&browseInfo);
+            if (pidl)
+            {
+                TCHAR szFolder[MAX_PATH];
+                if (SHGetPathFromIDList(pidl, szFolder))
+                {
+                    DWORD dwCount = 0;
+                    HRESULT hr = S_OK;
+                    POSITION pos = GetFirstSelectedItemPosition();
+                    const ResourceBlob* pData = nullptr; // keep this in scope for below
+                    while (SUCCEEDED(hr) && (pos != nullptr))
+                    {
+                        int nItem = GetNextSelectedItem(pos);
+                        pData = _GetResourceForItemRealized(nItem);
+                        if (pData)
+                        {
+                            std::string filename = szFolder;
+                            filename = filename + "\\" + GetFileNameFor(*pData) + ".raw";
+                            if (SUCCEEDED(hr))
+                            {
+                                auto buffer = pData->GetData();
+                                int bufferSize = pData->GetLength();
+
+                                // now just write the buffer to the file
+                                FILE* file = nullptr; 
+                                errno_t result = fopen_s(&file, (filename + ".raw").c_str(), "wb");
+
+                                if (file)
+								{
+									fwrite(buffer, 1, bufferSize, file);
+									fclose(file);
+									dwCount++;
+								}
+								else
+								{
+									hr = E_FAIL;
+								}
+                            }
+                        }
+                    }
+
+                    TCHAR szMsg[MAX_PATH * 2];
+                    if (SUCCEEDED(hr))
+                    {
+                        StringCchPrintf(szMsg, ARRAYSIZE(szMsg), TEXT("Success!  Wrote %d resources to %s."), dwCount, szFolder);
+                        AfxMessageBox(szMsg, MB_OK | MB_APPLMODAL);
+                    }
+                    else
+                    {
+                        // Prepare error.
+                        TCHAR szError[MAX_PATH];
+                        szError[0] = 0;
+                        FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, HRESULT_CODE(hr), 0, szError, ARRAYSIZE(szError), NULL);
+
+                        StringCchPrintf(szMsg, ARRAYSIZE(szMsg), TEXT("There was an error writing the resource %03d to %s\n%s"), pData->GetNumber(), szFolder, szError);
+                        AfxMessageBox(szMsg, MB_OK | MB_ICONEXCLAMATION | MB_APPLMODAL, 0);
+                    }
+                }
+
+                appState->SetExportFolder(pidl); // Takes ownership of pidl.
+                //CoTaskMemFree(pidl);
+            }
+            CoUninitialize();
+        }
+    }
+    else if (cCount == 1)
+    {
+        const ResourceBlob* pData = _GetResourceForItemRealized(GetSelectedItem());
+        if (pData)
+        {
+            std::string filename = GetFileNameFor(*pData) + ".raw";
+            std::string filter = GetFileDialogFilterFor(pData->GetType(), pData->GetVersion());
+            CFileDialog fileDialog(FALSE, NULL, filename.c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR, filter.c_str());
+            if (IDOK == fileDialog.DoModal())
+            {
+                CString strFileName = fileDialog.GetPathName();
+                auto buffer = pData->GetData();
+                int bufferSize = pData->GetLength();
+
+                HRESULT hr = S_OK;
+
+                // now just write the buffer to the file
+                FILE* file = nullptr;
+                errno_t result = fopen_s(&file, strFileName, "wb");
+
+                if (file)
+                {
+                    fwrite(buffer, 1, bufferSize, file);
+                    fclose(file);
+                }
+                else
+                {
+                    hr = E_FAIL;
+                }
+
+                if (FAILED(hr))
+                {
+                    DisplayFileError(hr, FALSE, strFileName);
+                }
+#ifdef MAKE_UNITTEST_FILES
+                else
+                {
+                    TempPhil(*pData, (PCSTR)strFileName);
+                }
+#endif
+            }
+        }
+    }
+}
+
 void CResourceListCtrl::OnDelete()
 {
     // Bail out for heap...

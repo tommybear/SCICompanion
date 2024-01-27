@@ -1,6 +1,9 @@
-
+.res
 .vs/*
 Release/*
 Debug/*/
 */Release/*
 */Bin_1000/*
+*/Debug/*
+*.log
+Debug/
