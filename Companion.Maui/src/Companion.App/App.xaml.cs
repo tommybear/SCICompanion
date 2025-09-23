@@ -1,6 +1,7 @@
+using Microsoft.Maui.Controls;
 namespace Companion.App;
 
-public partial class App : Application
+public partial class App : Microsoft.Maui.Controls.Application
 {
     private readonly MainPage _mainPage;
 
