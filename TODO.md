@@ -14,7 +14,7 @@
 - [x] Deliver CLI smoke tool for project loading to inform early consumers
 
 ## Resource Serialization Core (Weeks 6-14)
-- [ ] Define `IResource` abstraction and codec registry
+- [x] Define `IResource` abstraction and codec registry
 - [ ] Implement PIC codec (commands, visual/priority/control layers) with golden files
 - [ ] Implement View/Animation codec (loops, cels, palettes)
 - [ ] Implement Palette, Text/Message, Vocabulary codecs with validation tests
