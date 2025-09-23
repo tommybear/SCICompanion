@@ -1,9 +1,9 @@
 # Compression TODO
 
 ## Algorithm Implementation
-- [ ] Raw passthrough service (completed, verify API consistency).
-- [ ] LZW (SCI0) decoder with 9–12 bit token handling.
-- [ ] LZW_1 decoder (SCI1) covering bit-width resets and token table growth.
+- [x] Raw passthrough service (verify API consistency).
+- [x] LZW (SCI0) decoder with 9–12 bit token handling.
+- [x] LZW_1 decoder (SCI1) covering bit-width resets and token table growth.
 - [ ] ReorderPic transformation post LZW_1 (SCI1 PIC specific).
 - [ ] ReorderView transformation (for views; ensures compatibility).
 - [ ] DCL decoder for SCI1.x (methods 18–20).
@@ -17,7 +17,7 @@
 
 ## Testing
 - [ ] Capture compressed/decompressed fixtures from template resources (SCI0/SCI1.1).
-- [ ] Write unit tests per algorithm verifying output matches fixtures.
+- [ ] Write unit tests per algorithm verifying output matches fixtures (synthetic coverage exists for raw/LZW/LZW_1; fixture parity pending).
 - [ ] Add failure tests (unexpected method, corrupted token stream).
 - [ ] Optional property tests for LZW to cover random token sequences.
 

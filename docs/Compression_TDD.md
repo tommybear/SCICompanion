@@ -47,7 +47,7 @@
 ### 3.1 Algorithms
 - **Raw (0)**: Passthrough for completeness.
 - **LZW (method 1)**: SCI0 variant (Carl Muckenhoupt’s algorithm) with 9–12 bit tokens.
-- **LZW_1 (method 2)**: SCI1 variation used for views and PIC; tied to reorderPic/reorderView post-processing.
+- **LZW_1 (method 2)**: SCI1 variation used for views and PIC; tied to reorderPic/reorderView post-processing. *Status:* decoder implemented (2025-09-23) with synthetic regression tests; fixture comparison still pending.
 - **LZW_Pic (method 4)**: LZW_1 + reorderPic transformation.
 - **DCL (methods 18–20)**: SCI1.x decompression used for PIC and other resources.
 - **STACpack (method 32)**: For later SCI2 resources (optional but plan for extension).

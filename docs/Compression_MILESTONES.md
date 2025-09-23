@@ -10,6 +10,9 @@
 - SCI0 PICs and views decompress successfully with new services.
 - Tests confirm byte-equivalence with legacy outputs.
 
+**Status (2025-09-23)**
+- Raw (0), LZW (1), and LZW_1 (2) decompressors are implemented and wired through the registry with unit coverage. Fixture-based SCI0 verification remains outstanding.
+
 ## Milestone C2 – PIC-Specific Reorders & SCI1 Extensions (Weeks 2–4)
 **Objectives**
 - Add reorderPic/reorderView transformations.

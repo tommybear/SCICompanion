@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IResourceDiscoveryService, ResourceDiscoveryService>();
         services.AddSingleton<ICompressionService>(new PassthroughCompressionService(0, 20));
         services.AddSingleton<ICompressionService>(new LzwCompressionService(1));
+        services.AddSingleton<ICompressionService>(new Lzw1CompressionService(2));
         services.AddSingleton<ICompressionRegistry, CompressionRegistry>();
         services.AddSingleton<IResourceCodec>(sp => new PicResourceCodec(sp.GetRequiredService<ICompressionRegistry>()));
         services.AddSingleton<IResourceCodec, ViewResourceCodec>();
