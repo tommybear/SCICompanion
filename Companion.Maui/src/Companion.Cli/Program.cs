@@ -1,8 +1,10 @@
 using System.Linq;
 using Companion.Application.DependencyInjection;
 using Companion.Application.Projects;
+using Companion.Application.Resources;
 using Companion.Infrastructure.DependencyInjection;
 using Companion.Domain.Projects;
+using Companion.Domain.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text;
@@ -21,16 +23,22 @@ sealed class ProjectInspector
 {
     private readonly IProjectMetadataStore _metadataStore;
     private readonly IResourceDiscoveryService _resourceDiscovery;
+    private readonly IResourceRepository _repository;
 
-    public ProjectInspector(IProjectMetadataStore metadataStore, IResourceDiscoveryService resourceDiscovery)
+    public ProjectInspector(
+        IProjectMetadataStore metadataStore,
+        IResourceDiscoveryService resourceDiscovery,
+        IResourceRepository repository)
     {
         _metadataStore = metadataStore;
         _resourceDiscovery = resourceDiscovery;
+        _repository = repository;
     }
 
     public async Task RunAsync(string[] args)
     {
         var target = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
+        var inspectSelector = args.Length > 1 ? args[1] : null;
         target = Path.GetFullPath(target);
 
         string? projectFile = null;
@@ -66,10 +74,17 @@ sealed class ProjectInspector
         }
 
         var catalog = _resourceDiscovery.Discover(gameFolder);
-        RenderReport(metadata, gameFolder, catalog);
+        var resources = catalog.Resources;
+
+        RenderReport(metadata, gameFolder, catalog.Version, resources);
+
+        if (!string.IsNullOrWhiteSpace(inspectSelector))
+        {
+            InspectResource(gameFolder, resources, inspectSelector!);
+        }
     }
 
-    private static void RenderReport(ProjectMetadata? metadata, string gameFolder, ResourceCatalog catalog)
+    private static void RenderReport(ProjectMetadata? metadata, string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources)
     {
         var writer = new StringBuilder();
         writer.AppendLine($"Game folder: {gameFolder}");
@@ -78,10 +93,10 @@ sealed class ProjectInspector
             writer.AppendLine($"Project: {metadata.Title}");
             writer.AppendLine($"Interpreter: {metadata.Interpreter.Kind} ({metadata.Interpreter.Executable})");
         }
-        writer.AppendLine($"Detected SCI version: {catalog.Version}");
+        writer.AppendLine($"Detected SCI version: {version}");
         writer.AppendLine();
 
-        var grouped = catalog.Resources
+        var grouped = resources
             .GroupBy(r => r.Type)
             .OrderBy(g => g.Key);
 
@@ -100,5 +115,53 @@ sealed class ProjectInspector
         }
 
         Console.WriteLine(writer.ToString());
+    }
+
+    private void InspectResource(string gameFolder, IReadOnlyList<ResourceDescriptor> resources, string selector)
+    {
+        if (!TryParseSelector(selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse selector '{selector}'. Use format type:number (e.g. pic:0).");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            Console.WriteLine($"Inspecting {type}:{number}");
+            Console.WriteLine($"  Package: {descriptor.Package}");
+            Console.WriteLine($"  Offset:  0x{descriptor.Offset:X}");
+            Console.WriteLine($"  Payload: {decoded.Payload.Length} bytes");
+            Console.WriteLine($"  Compression method: {decoded.Header.CompressionMethod}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to inspect resource {type}:{number}: {ex.Message}");
+        }
+    }
+
+    private static bool TryParseSelector(string selector, out ResourceType type, out int number)
+    {
+        type = ResourceType.Unknown;
+        number = -1;
+        var parts = selector.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (parts.Length != 2)
+        {
+            return false;
+        }
+
+        if (!Enum.TryParse(parts[0], ignoreCase: true, out type))
+        {
+            return false;
+        }
+
+        return int.TryParse(parts[1], out number) && number >= 0;
     }
 }

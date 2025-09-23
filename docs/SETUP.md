@@ -20,6 +20,8 @@
 4. **Inspect resources via CLI** (optional) to validate map parsing:
    ```bash
    dotnet run --project Companion.Maui/src/Companion.Cli/Companion.Cli.csproj -- TemplateGame/SCI0
+   # Inspect a specific resource (type:number)
+   dotnet run --project Companion.Maui/src/Companion.Cli/Companion.Cli.csproj -- TemplateGame/SCI0 pic:0
    ```
 
 5. **Sample assets** referenced by the app reside under the repository root (see `docs/M0-Scope.md`). Ensure they remain intact for characterization tests.
