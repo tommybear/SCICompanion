@@ -7,6 +7,7 @@ using Companion.Application.Tests.Support;
 using Companion.Domain.Projects;
 using Companion.Domain.Resources;
 using Companion.Domain.Resources.Pic;
+using Companion.Domain.Compression;
 
 namespace Companion.Application.Tests;
 
@@ -14,7 +15,7 @@ public class PicResourceCodecTests
 {
     private readonly ResourceDiscoveryService _discovery = new();
     private readonly ResourceVolumeReader _reader = new();
-    private readonly PicResourceCodec _codec = new();
+    private readonly PicResourceCodec _codec = new(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20) }));
 
     [Fact]
     public void Sci0_Pic_RoundTrips()

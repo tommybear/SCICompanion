@@ -5,6 +5,7 @@ using Companion.Domain.Projects;
 using Companion.Domain.Resources;
 using Companion.Domain.Assets;
 using Microsoft.Extensions.DependencyInjection;
+using Companion.Domain.Compression;
 
 namespace Companion.Application.DependencyInjection;
 
@@ -15,7 +16,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISampleAssetCatalog, StaticSampleAssetCatalog>();
         services.AddSingleton<IProjectMetadataStore, ProjectMetadataStore>();
         services.AddSingleton<IResourceDiscoveryService, ResourceDiscoveryService>();
-        services.AddSingleton<IResourceCodec, PicResourceCodec>();
+        services.AddSingleton<ICompressionService>(new PassthroughCompressionService(0, 20));
+        services.AddSingleton<ICompressionRegistry, CompressionRegistry>();
+        services.AddSingleton<IResourceCodec>(sp => new PicResourceCodec(sp.GetRequiredService<ICompressionRegistry>()));
         services.AddSingleton<IResourceCodec, ViewResourceCodec>();
         services.AddSingleton<IResourceCodec, PaletteResourceCodec>();
         services.AddSingleton<IResourceCodec, TextResourceCodec>();

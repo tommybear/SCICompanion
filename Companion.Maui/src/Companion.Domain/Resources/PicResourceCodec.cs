@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Companion.Domain.Compression;
 using Companion.Domain.Projects;
 using Companion.Domain.Resources.Pic;
 
@@ -6,21 +7,32 @@ namespace Companion.Domain.Resources;
 
 public sealed class PicResourceCodec : IResourceCodec
 {
-    public ResourceType ResourceType => ResourceType.Pic;
-
     private const string CompressionMethodKey = "CompressionMethod";
     private const string CommandsKey = "PicCommands";
     private const string OpcodeCountsKey = "PicOpcodeCounts";
+    private const string DecodedPayloadKey = "PicDecodedPayload";
+
+    private readonly ICompressionRegistry _compressionRegistry;
+
+    public PicResourceCodec(ICompressionRegistry compressionRegistry)
+    {
+        _compressionRegistry = compressionRegistry;
+    }
+
+    public ResourceType ResourceType => ResourceType.Pic;
 
     public DecodedResource Decode(ResourcePackage package)
     {
-        var commands = PicParser.Parse(package.Body);
+        var decodedPayload = DecodePayload(package);
+        var commands = PicParser.Parse(decodedPayload);
         var opcodeCounts = PicParser.AggregateOpcodeCounts(commands);
+
         var metadata = new Dictionary<string, object?>
         {
             [CompressionMethodKey] = package.Header.CompressionMethod,
             [CommandsKey] = commands,
-            [OpcodeCountsKey] = opcodeCounts
+            [OpcodeCountsKey] = opcodeCounts,
+            [DecodedPayloadKey] = decodedPayload
         };
         return new DecodedResource(package, package.Body, metadata);
     }
@@ -42,5 +54,16 @@ public sealed class PicResourceCodec : IResourceCodec
         {
             throw new InvalidOperationException("PIC resource payload cannot be empty.");
         }
+    }
+
+    private byte[] DecodePayload(ResourcePackage package)
+    {
+        var method = package.Header.CompressionMethod;
+        if (method == 0)
+        {
+            return package.Body;
+        }
+
+        return _compressionRegistry.Decompress(package.Body, method);
     }
 }

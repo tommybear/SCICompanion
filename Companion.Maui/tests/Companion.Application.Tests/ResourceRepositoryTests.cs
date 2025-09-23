@@ -3,6 +3,7 @@ using Companion.Application.Projects;
 using Companion.Application.Resources;
 using Companion.Application.Tests.Support;
 using Companion.Domain.Resources;
+using Companion.Domain.Compression;
 
 namespace Companion.Application.Tests;
 
@@ -16,7 +17,7 @@ public class ResourceRepositoryTests
         var volumeReader = new ResourceVolumeReader();
         var codecRegistry = new ResourceCodecRegistry(new IResourceCodec[]
         {
-            new PicResourceCodec()
+            new PicResourceCodec(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20) }))
         }, type => new RawBinaryCodec(type));
         _repository = new ResourceRepository(discovery, volumeReader, codecRegistry);
     }
