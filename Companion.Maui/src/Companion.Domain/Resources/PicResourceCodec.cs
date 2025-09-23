@@ -3,21 +3,16 @@ using Companion.Domain.Projects;
 
 namespace Companion.Domain.Resources;
 
-/// <summary>
-/// Fallback codec that preserves raw bytes. Useful for unsupported resource types.
-/// </summary>
-public sealed class RawBinaryCodec : IResourceCodec
+public sealed class PicResourceCodec : IResourceCodec
 {
-    public RawBinaryCodec(ResourceType type)
-    {
-        ResourceType = type;
-    }
-
-    public ResourceType ResourceType { get; }
+    public ResourceType ResourceType => ResourceType.Pic;
 
     public DecodedResource Decode(ResourcePackage package)
     {
-        var metadata = new Dictionary<string, object?>();
+        var metadata = new Dictionary<string, object?>
+        {
+            ["CompressionMethod"] = package.Header.CompressionMethod
+        };
         return new DecodedResource(package, package.Body, metadata);
     }
 
@@ -34,7 +29,7 @@ public sealed class RawBinaryCodec : IResourceCodec
     {
         if (resource.Payload.Length == 0)
         {
-            throw new InvalidOperationException("Resource payload is empty.");
+            throw new InvalidOperationException("PIC resource payload cannot be empty.");
         }
     }
 }

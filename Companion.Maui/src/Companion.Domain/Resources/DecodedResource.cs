@@ -1,23 +1,15 @@
 using System.Collections.Generic;
+
 using Companion.Domain.Projects;
 
 namespace Companion.Domain.Resources;
 
 public sealed record DecodedResource(
-    ResourceType Type,
-    int Number,
-    int Package,
-    uint Offset,
-    IReadOnlyDictionary<string, object?> Metadata,
-    byte[] Payload
-)
+    ResourcePackage Package,
+    byte[] Payload,
+    IReadOnlyDictionary<string, object?> Metadata)
 {
-    public T GetMetadata<T>(string key, T defaultValue = default!)
-    {
-        if (Metadata.TryGetValue(key, out var value) && value is T typed)
-        {
-            return typed;
-        }
-        return defaultValue;
-    }
+    public ResourcePackageHeader Header => Package.Header;
+    public SCIVersion Version => Package.Version;
+    public ResourceType ResourceType => Header.Type;
 }

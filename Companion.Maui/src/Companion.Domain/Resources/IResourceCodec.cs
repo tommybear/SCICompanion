@@ -6,9 +6,9 @@ public interface IResourceCodec
 {
     ResourceType ResourceType { get; }
 
-    DecodedResource Decode(Span<byte> data);
+    DecodedResource Decode(ResourcePackage package);
 
-    void Encode(DecodedResource resource, Stream destination);
+    ResourcePackage Encode(DecodedResource resource);
 
     void Validate(DecodedResource resource);
 }
