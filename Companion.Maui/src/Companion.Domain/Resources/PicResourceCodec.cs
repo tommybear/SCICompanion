@@ -70,16 +70,5 @@ public sealed class PicResourceCodec : IResourceCodec
         return _compressionRegistry.Decompress(package.Body, method, package.Header.DecompressedLength);
     }
 
-    private static int NormalizeCompressionMethod(SCIVersion version, int method)
-    {
-        return version switch
-        {
-            SCIVersion.SCI1 or SCIVersion.SCI11 => method switch
-            {
-                20 => 4,
-                _ => method
-            },
-            _ => method
-        };
-    }
+    private static int NormalizeCompressionMethod(SCIVersion version, int method) => method;
 }

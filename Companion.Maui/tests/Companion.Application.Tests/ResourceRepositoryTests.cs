@@ -15,9 +15,16 @@ public class ResourceRepositoryTests
     {
         var discovery = new ResourceDiscoveryService();
         var volumeReader = new ResourceVolumeReader();
+        var passthrough = new PassthroughCompressionService(0);
+        var lzw = new LzwCompressionService(1);
+        var lzw1 = new Lzw1CompressionService(2);
+        var lzwView = new LzwViewCompressionService(lzw1, 3);
+        var lzwPic = new LzwPicCompressionService(lzw1, 4);
+        var dcl = new DclCompressionService(8, 18, 19, 20);
+        var compressionRegistry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic, dcl });
         var codecRegistry = new ResourceCodecRegistry(new IResourceCodec[]
         {
-            new PicResourceCodec(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20), new LzwCompressionService(1) }))
+            new PicResourceCodec(compressionRegistry)
         }, type => new RawBinaryCodec(type));
         _repository = new ResourceRepository(discovery, volumeReader, codecRegistry);
     }

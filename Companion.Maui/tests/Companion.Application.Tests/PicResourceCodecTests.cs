@@ -19,12 +19,13 @@ public class PicResourceCodecTests
 
     public PicResourceCodecTests()
     {
-        var passthrough = new PassthroughCompressionService(0, 20);
+        var passthrough = new PassthroughCompressionService(0);
         var lzw = new LzwCompressionService(1);
         var lzw1 = new Lzw1CompressionService(2);
         var lzwView = new LzwViewCompressionService(lzw1, 3);
         var lzwPic = new LzwPicCompressionService(lzw1, 4);
-        var registry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic });
+        var dcl = new DclCompressionService(8, 18, 19, 20);
+        var registry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic, dcl });
         _codec = new PicResourceCodec(registry);
     }
 

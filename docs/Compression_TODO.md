@@ -6,12 +6,12 @@
 - [x] LZW_1 decoder (SCI1) covering bit-width resets and token table growth.
 - [x] ReorderPic transformation post LZW_1 (SCI1 PIC specific).
 - [x] ReorderView transformation (for views; ensures compatibility).
-- [ ] DCL decoder for SCI1.x (methods 18–20) — required before PIC reorder tests can pass.
+- [x] DCL decoder for SCI1.x (methods 18–20).
 - [ ] STACpack decoder (method 32) – plan for future support.
 - [ ] Optional encoders (LZW/DCL) if round-trip compression is required later.
 
 ## Registry & DI
-- [ ] Register method→service mappings (0,1,2,3,4,18–20,32) once DCL/STACpack landing enables end-to-end coverage.
+- [ ] Register method→service mappings (0,1,2,3,4,18–20,32) once STACpack landing enables end-to-end coverage.
 - [ ] Provide fallback diagnostics for unsupported methods.
 - [ ] Ensure DI injects registry into PIC/View codecs.
 

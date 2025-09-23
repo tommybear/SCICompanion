@@ -12,9 +12,10 @@ public class CompressionRegistryTests
     {
         var registry = new CompressionRegistry(new ICompressionService[]
         {
-            new PassthroughCompressionService(0, 20),
+            new PassthroughCompressionService(0),
             new LzwCompressionService(1),
-            new LzwPicCompressionService((_, _, length) => new byte[length], 4)
+            new LzwPicCompressionService((_, _, length) => new byte[length], 4),
+            new DclCompressionService(8, 18, 19, 20)
         });
 
         var data = new byte[] { 1, 2, 3 };
@@ -28,7 +29,7 @@ public class CompressionRegistryTests
     {
         var registry = new CompressionRegistry(new ICompressionService[]
         {
-            new PassthroughCompressionService(0, 20),
+            new PassthroughCompressionService(0),
             new LzwCompressionService(1)
         });
 

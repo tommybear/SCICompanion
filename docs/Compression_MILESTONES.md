@@ -24,13 +24,16 @@
 - PIC parser consumes decoded data without fallback.
 
 **Status (2025-09-23)**
-- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Fixture-based validation for SCI1/SCI1.1 assets remains outstanding pending DCL decompression support.
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Regression fixtures for SCI1/SCI1.1 assets still outstanding.
 
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**
 - Implement DCL decoder (methods 18–20) and integrate with registry.
 - (Optional) STACpack support for future compatibility.
 - Provide CLI diagnostics for compression metadata.
+
+**Status (2025-09-23)**
+- DCL decoder integrated (methods 8/18/19/20) and exercised by PIC/Sound tests. STACpack and CLI diagnostics remain.
 
 **Exit Criteria**
 - SCI1.x resources using DCL decode correctly; tests cover success/failure paths.
