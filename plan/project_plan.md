@@ -2,325 +2,106 @@
 
 ## Overview
 
-SCICompanion is a comprehensive IDE and toolkit for authoring, editing, and managing resources for Sierra Creative Interpreter (SCI) games. SCI was the engine powering many classic adventure games from the late 1980s and early 1990s, such as King's Quest, Space Quest, and Leisure Suit Larry series. These games featured point-and-click interfaces, scripted interactions, and rich multimedia resources including vector-based backgrounds, animated sprites, text dialogs, audio, and more.
+SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bringing IDE, asset, and script authoring support for Sierra Creative Interpreter (SCI0–SCI1.1) games to a modern, cross-platform .NET 8 MAUI stack. The solution currently focuses on foundational project services and resource inspection while laying groundwork for editors, compilers, and extensibility.
 
-The original SCICompanion was a Windows-only application built with MFC/C++, providing tools for:
-- Editing PIC (Picture) resources: Vector-based backgrounds with visual, priority, and control layers
-- Creating and animating VIEW resources: Sprites with loops and cels
-- Managing palettes, text tables, vocabulary, and audio
-- Compiling and decompiling SCI scripts
-- Running games through external interpreters like DOSBox or ScummVM
-
-This project represents a clean-room rewrite of SCICompanion as a cross-platform .NET MAUI application, targeting desktop platforms (Windows, macOS, Linux) while maintaining full feature parity for SCI0 through SCI1.1 game development.
+## Supporting References
+- `MILESTONES.md` — canonical milestone definitions; keep the sections below aligned.
+- `TODO.md` — cross-cutting backlog items that feed upcoming milestone work.
+- `TDD.md` — global testing approach; expand as new test suites land.
+- `docs/Compression_MILESTONES.md`, `docs/Compression_TDD.md`, `docs/Compression_TODO.md` — detailed compression roadmap, test criteria, and backlog.
+- `docs/PIC_MILESTONES.md`, `docs/PIC_TDD.md`, `docs/PIC_TODO.md` — PIC renderer/codec breakdown and open items.
+- `Reference_Deprecated_Project/` — read-only legacy implementation for behaviour parity research.
 
 ## Project Goals
 
 ### Primary Objectives
-- **Cross-Platform Compatibility**: Deliver a native desktop experience on Windows 11+, macOS 14+, and Ubuntu 22.04+ using .NET 8 MAUI
-- **Modern Architecture**: Implement a layered, testable codebase with clean separation of concerns (Domain, Application, Infrastructure, UI)
-- **Feature Parity**: Preserve all core functionality from the legacy tool, including advanced features like lip-sync generation and plugin support
-- **Test-Driven Development**: Build with comprehensive automated tests (unit, integration, snapshot, property-based) to ensure correctness and prevent regressions
-- **Extensibility**: Provide a managed plugin system for third-party extensions and future SCI version support
+- **Cross-Platform Compatibility**: Deliver a native desktop experience on Windows 11+, macOS 14+, and Ubuntu 22.04+ via .NET 8 MAUI.
+- **Modern Architecture**: Maintain clean separation of Domain, Application, Infrastructure, and UI layers with testable boundaries.
+- **Feature Parity**: Reproduce legacy SCI Companion capabilities, including lip-sync tooling and plugin extensibility.
+- **Evidence-Driven Development**: Follow the testing guidance in `TDD.md`, expanding automated coverage (unit, integration, snapshot, property-based) alongside new features.
+- **Extensibility**: Provide a managed plugin surface that can evolve to support future SCI formats.
 
 ### Non-Goals
-- Mobile platform support (iOS, Android)
-- In-app game emulation (relies on external interpreters)
-- SCI2+ resource formats (scoped to SCI0-SCI1.1)
-- Binary compatibility with legacy native plugins
+- Mobile platforms (iOS/Android).
+- Bundled emulation (continue delegating to DOSBox/ScummVM/etc.).
+- SCI2+ resource formats.
+- Binary compatibility with legacy native plugins.
 
 ## Architecture Overview
 
-The rewrite follows a clean architecture pattern with four main layers:
-
 ### Companion.Domain
-Core business logic and data models, platform-agnostic and fully testable:
-- Resource models (PIC, View, Palette, Text, Message, Vocabulary, Sound)
-- Script AST, parser, compiler, and decompiler
-- Compression algorithms (LZW, DCL, STACpack)
-- Validation and version detection services
+- **Current capabilities**: Resource descriptor models, `ResourcePackage` abstractions, basic codecs (Palette/Text/Message/Vocabulary/Sound/View with header parsing), PIC command parser, and a compression registry with passthrough (methods 0, 20) plus LZW (method 1).
+- **Upcoming priorities**: Finish codec round-tripping, add reorder transforms and DCL/LZW variants (`docs/Compression_TODO.md`), implement script AST/compiler/decompiler pipelines, and derive rendering primitives for PIC/VIEW assets (`docs/PIC_TODO.md`).
 
 ### Companion.Application
-Orchestrates domain operations and provides application services:
-- Project and workspace management
-- Command system with undo/redo
-- Document lifecycle and autosave
-- Search, IntelliSense, and class browser
-- External tool integration (interpreters, plugins)
+- **Current capabilities**: Dependency injection wiring, sample asset catalog, JSON project metadata store, resource discovery (SCI0/SCI1/SCI1.1 map parsing), resource repository/volume reader, and CLI project inspector.
+- **Upcoming priorities**: Command/undo infrastructure, document lifecycle, richer diagnostics, and integration glue for future editors (see `TODO.md`).
 
 ### Companion.Infrastructure
-Platform-specific implementations:
-- File I/O and virtual file systems
-- Native codec bridges (audio processing)
-- Cross-platform process management
-- Persistence (JSON/YAML serialization)
+- **Current capabilities**: Placeholder project with DI shim.
+- **Upcoming priorities**: File-system abstractions, native codec bridges, audio tooling, and process orchestration once editors and interpreter workflows begin.
 
 ### Companion.App (MAUI)
-User interface layer:
-- Cross-platform shell with docking, navigation, and theming
-- Resource editors (PIC, View, Script, Audio, etc.)
-- Output panes, settings, and diagnostics
-- MVVM patterns with data binding
+- **Current capabilities**: Bootstrapped MAUI project referencing Application/Domain/Infrastructure layers; no functional UI yet.
+- **Upcoming priorities**: Establish shell, docking, theming, and begin editor surface work after M2 stabilization.
 
-## Current Status (As of September 2025)
+## Current Status (Updated 2025-09-23)
 
-### Completed Milestones
+### Completed
+- **M0 – Project Initiation**: Solution skeleton, layered project layout, dependency injection setup, initial CI config, and fixture catalog scaffolding delivered in line with `MILESTONES.md`.
 
-#### M0 – Project Initiation (Weeks 0-2) ✅
-- Established .NET 8 MAUI solution with layered projects
-- Configured dependency injection, logging, and CI pipeline
-- Cataloged sample SCI0/SCI1.1 assets for testing
-- Validated clean-room scope and licensing approach
+### Partially Completed
+- **M1 – Core Project Services**: Metadata persistence, resource discovery, CLI smoke inspector, and initial tests shipped. Outstanding items include richer version heuristics, golden fixtures, and CLI automation per `TODO.md` and `docs/Compression_MILESTONES.md`.
 
-#### M1 – Core Project Services (Weeks 2-6) ✅
-- Implemented project metadata models and .sciproj persistence
-- Built resource discovery against SCI resource maps
-- Added version detection heuristics
-- Delivered CLI smoke utility for project inspection
+### Active Work
+- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. Compression coverage lacks reorder transforms, LZW_1, and DCL (track via `docs/Compression_TODO.md`). PIC rendering is limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
+- **Compression Subsystem**: Only passthrough and base LZW implementations are wired. DCL, STACpack, and PIC reorder algorithms must be ported from notes and legacy sources (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
+- **Testing Infrastructure**: xUnit unit tests exercise early services. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
-### In-Progress Work
+## Near-Term Milestones & Focus
+1. **Stabilize M2**
+   - Finish codec round trips and validation.
+   - Land missing compression services and regression fixtures.
+   - Produce minimal rendering outputs for PIC/VIEW assets for inspection tooling.
+2. **Prepare M3 – Script System MVP**
+   - Define grammar/AST structure and semantic analysis skeletons.
+   - Establish compiler test harness referencing fixture games (sync scope with `TODO.md`).
+3. **Lay groundwork for editor framework (M4)**
+   - Design document/command services and capture requirements from `docs/PIC_MILESTONES.md`.
 
-#### M2 – Resource Serialization Core (Weeks 6-14) 🔄
-**Current Focus**: Establishing the codec architecture and implementing core resource serializers.
+Revisit `MILESTONES.md` after each sprint to ensure sequencing stays accurate.
 
-**Completed Subtasks**:
-- Defined IResource abstraction and codec registry
-- Implemented Palette, Text, Message, Vocabulary, and Sound codecs
-- Basic View codec metadata (full decoding pending)
-- Compression infrastructure foundation
-
-**Active Development**:
-- PIC codec implementation (vector commands, layer rendering)
-- Compression algorithms (LZW variants, DCL, reorder transformations)
-- Golden file and regression testing setup
-
-**Key Deliverables**:
-- Full codec implementations for all resource types
-- Property-based and snapshot regression tests
-- Integration with resource repository
-
-#### Compression Subsystem (Parallel to M2) 🔄
-**Status**: Core algorithms in development
-- LZW and LZW_1 decoders implemented
-- PIC-specific reorder transformations in progress
-- DCL decoder for SCI1.x underway
-- Registry wiring and testing fixtures being established
-
-#### PIC Subsystem (Parallel to M2) 🔄
-**Status**: Decoder core and rendering foundation
-- Opcode definitions and state machine ported
-- Parser producing command lists and plane buffers
-- Rendering pipeline with Skia integration
-- CLI tooling for visualization and inspection
-
-### Upcoming Milestones
-
-#### M3 – Script System MVP (Weeks 10-20)
-**Objectives**:
-- Implement SCI script grammar, parser, and immutable AST
-- Build semantic analyzer with scoping and type checking
-- Create p-machine bytecode generator with optimizations
-- Provide CLI compiler for validation and regression testing
-
-**Key Components**:
-- Parser for SCI scripting language
-- Compiler targeting SCI bytecode
-- Decompiler for reverse engineering
-- Comprehensive test suite comparing to legacy outputs
-
-#### M4 – Editor Framework (Weeks 18-28)
-**Objectives**:
-- Implement document service with autosave and undo/redo
-- Create resource explorer with filtering and search
-- Build script editor with syntax highlighting and IntelliSense
-- Establish MVVM patterns and event messaging
-
-**Deliverables**:
-- Core editing infrastructure
-- Basic resource browsing UI
-- Script editing capabilities
-- Output panes for diagnostics
-
-#### M5 – Graphics Editors (Weeks 26-38)
-**Objectives**:
-- Deliver PIC editor with drawing tools and layer previews
-- Implement raster/animation editor with timeline controls
-- Build palette management with quantization
-- Add onion skinning and fake ego overlays
-
-**Features**:
-- Vector-based PIC editing
-- Sprite animation workflows
-- Color palette tools
-- Visual composition aids
-
-#### M6 – Audio & Lip-Sync (Weeks 34-42)
-**Objectives**:
-- Integrate audio waveform editor and loop controls
-- Port phoneme estimation pipeline cross-platform
-- Implement lip-sync timing and validation
-- Add automated testing with sample fixtures
-
-**Components**:
-- Audio resource manipulation
-- Cross-platform speech processing
-- Timing table management
-- Phoneme mapping UI
-
-#### M7 – Build & Run Integration (Weeks 38-46)
-**Objectives**:
-- Implement interpreter profiles (DOSBox, ScummVM, Custom)
-- Provide run/debug commands with monitoring
-- Build configuration UI for launch settings
-- Add process management and error reporting
-
-**Capabilities**:
-- Multi-interpreter support
-- Game launching workflows
-- Debug integration
-- Platform-specific path handling
-
-#### M8 – Plugin Platform (Weeks 44-52)
-**Objectives**:
-- Define managed plugin contract and manifest
-- Implement discovery, sandboxing, and invocation
-- Create sample plugin and documentation
-- Ensure API stability and compatibility
-
-**Architecture**:
-- Plugin hosting framework
-- Security and isolation
-- Extension points
-- Developer tooling
-
-#### M9 – UX Polish & Accessibility (Weeks 48-56)
-**Objectives**:
-- Finalize settings service and layout persistence
-- Add localization and accessibility compliance
-- Implement telemetry and diagnostics
-- Address usability feedback
-
-**Improvements**:
-- Dockable UI framework
-- Internationalization
-- Accessibility standards
-- User experience refinements
-
-#### M10 – Release Stabilization (Weeks 54-60)
-**Objectives**:
-- Execute full regression suite
-- Resolve blockers and migration concerns
-- Prepare documentation and packaging
-- Final quality assurance
-
-**Activities**:
-- End-to-end testing
-- Performance optimization
-- Documentation completion
-- Release preparation
-
-## Technical Implementation Details
+## Technical Implementation Notes
 
 ### Resource System
-SCI games store resources in compressed archives with a resource.map index file. Resources include:
-- **PIC**: Vector-based room backgrounds with three layers (visual, priority for depth, control for walkable areas)
-- **VIEW**: Animated sprites with loops (directions) and cels (frames)
-- **PALETTE**: Color tables supporting palette cycling effects
-- **TEXT/MESSAGE**: Localized dialog and string tables
-- **VOCABULARY**: Word lists for parser input
-- **SOUND**: Digital audio and MIDI sequences
-- **SCRIPT**: Compiled bytecode for game logic
-
-The rewrite implements codecs for each type, handling compression (LZW variants, DCL, STACpack) and serialization.
+- Current implementation supports reading SCI map/index data, projecting descriptors, and decoding payloads to metadata-rich structures for inspection. Round-trip editing is not yet guaranteed. Use `docs/PIC_TODO.md` and `docs/Compression_TODO.md` when refining codecs.
 
 ### Script System
-SCI uses a custom scripting language compiled to p-machine bytecode. The system includes:
-- Parser and AST for the scripting language
-- Semantic analysis and optimization
-- Bytecode generation targeting SCI runtime
-- Decompiler for existing game analysis
+- No managed script tooling exists yet; rely on legacy research notes inside `Reference_Deprecated_Project/`. `TODO.md` tracks prerequisites for kicking off M3.
 
 ### Compression Algorithms
-Critical for resource efficiency in the era's storage constraints:
-- **LZW**: Dictionary-based compression used in SCI0
-- **LZW_1**: Variant with different token handling for SCI1
-- **DCL**: Advanced compression for SCI1.x resources
-- **Reorder**: PIC-specific transformations post-decompression
+- Implemented: raw passthrough (0/20) and basic LZW (1).
+- Outstanding: LZW_1, LZW PIC reorder, DCL (methods 18–20), STACpack, and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
 
 ### Testing Strategy
-- **Unit Tests**: Domain logic, algorithms, parsers
-- **Integration Tests**: End-to-end resource pipelines
-- **Golden File Tests**: Regression against known outputs
-- **Property-Based Tests**: Edge cases and invariants
-- **Snapshot Tests**: UI and rendering verification
-- **Performance Benchmarks**: Decode/encode throughput
+- Current: xUnit unit suites in `Companion.Application.Tests` cover metadata store, resource discovery, codec registry, and basic codecs.
+- Next steps: add golden fixtures, property-based cases, snapshot rendering comparisons, and benchmarks per `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
 ## Development Environment
-
-### Prerequisites
-- .NET 8 SDK with MAUI workloads
-- Platform-specific dependencies (Gtk on Linux, Xcode on macOS)
-- Access to sample SCI assets in repository
-
-### Build Process
-```bash
-# Restore dependencies
-dotnet restore Companion.Maui/Companion.Maui.sln
-
-# Build solution
-dotnet build Companion.Maui/Companion.Maui.sln
-
-# Run CLI tool
-dotnet run --project Companion.Maui/src/Companion.Cli/Companion.Cli.csproj -- TemplateGame/SCI0
-
-# Run MAUI app (platform-specific)
-dotnet run --project Companion.Maui/src/Companion.App/Companion.App.csproj -f net8.0-windows
-```
-
-### CI/CD
-- GitHub Actions/Azure Pipelines with cross-platform runners
-- Automated testing on all target platforms
-- Code coverage and static analysis requirements
+- Prerequisites remain `.NET 8 SDK` with MAUI workloads and platform prerequisites (Gtk/Xcode). Build instructions in this plan mirror the README; keep them synchronized when workflows change.
 
 ## Risks and Mitigation
-
-### Technical Risks
-- **Compression Algorithm Parity**: Complex reverse-engineered algorithms may have edge cases. *Mitigation*: Extensive golden file testing against legacy outputs, cross-reference with ScummVM implementations.
-- **Cross-Platform Rendering**: Skia/Maui differences in graphics handling. *Mitigation*: Pixel-perfect comparison tests, tolerance thresholds for acceptable variations.
-- **Script Compiler Fidelity**: Achieving byte-identical bytecode generation. *Mitigation*: Regression tests against known compilations, staged delivery with fallback to legacy compiler.
-
-### Project Risks
-- **Scope Creep**: Feature parity with legacy tool is extensive. *Mitigation*: Clear milestone boundaries, modular architecture allowing incremental delivery.
-- **Platform Compatibility**: MAUI preview status on Linux. *Mitigation*: Regular validation on all platforms, fallback strategies.
-- **Team Capacity**: Parallel workstreams require coordination. *Mitigation*: Clear ownership, regular integration points.
-
-### External Dependencies
-- **Licensing**: Clean-room rewrite to avoid GPL contamination. *Mitigation*: Information barriers, independent implementation.
-- **Sample Assets**: Reliance on provided SCI fixtures. *Mitigation*: Comprehensive fixture set committed to repo.
+- **Algorithm Fidelity**: Compression and PIC rendering parity are still research-heavy. Mitigate by porting tests/fixtures from legacy sources and documenting edge cases (`docs/Compression_TODO.md`, `docs/PIC_TODO.md`).
+- **Testing Debt**: Lack of golden/property-based coverage risks regressions. Prioritize the testing roadmap in `TDD.md` alongside feature work.
+- **Scope Management**: Ambitious parity goals require disciplined milestone gating. Regularly reconcile this plan with `MILESTONES.md` and `TODO.md`.
+- **Cross-Platform MAUI**: Infrastructure/UI layers are unimplemented; schedule early smoke builds on Windows/macOS/Linux to surface platform blockers.
 
 ## Success Criteria
+- End-to-end resource editing with round-trip fidelity for SCI0–SCI1.1 (verified against fixtures and, where possible, legacy outputs).
+- Script compilation/decompilation matching legacy bytecode expectations.
+- Integrated interpreter launch workflows with actionable diagnostics.
+- Managed plugin system with documented extension points.
+- Automated test coverage aligned with thresholds defined in `TDD.md`.
 
-### Functional Completeness
-- All resource types editable with round-trip fidelity
-- Script compilation matching legacy bytecode
-- Game launching through all supported interpreters
-- Plugin ecosystem functional
-
-### Quality Metrics
-- Code coverage ≥80% for domain layer
-- All automated tests passing on CI
-- Performance within 2x of legacy tool
-- Accessibility compliance (WCAG 2.1 AA)
-
-### User Experience
-- Native feel on each platform
-- Intuitive workflows for game development
-- Comprehensive documentation and tutorials
-- Stable releases with migration support
-
-## Conclusion
-
-The SCICompanion rewrite represents a significant modernization effort, bringing a beloved development tool to new platforms while preserving its rich feature set. By following TDD practices and clean architecture principles, we're building a maintainable foundation for future enhancements and extended SCI support.
-
-The project is currently in the resource serialization phase, with solid progress on core infrastructure. The roadmap provides a clear path through MVP to full feature completion, with careful attention to quality, compatibility, and user experience.
-
-This plan will be updated as milestones are completed and new insights emerge from development.
+## Next Review
+Re-evaluate this document after closing out the remaining M2 compression and codec tasks. Update milestone status, link any new design docs, and ensure parity with `MILESTONES.md` and topical docs.
