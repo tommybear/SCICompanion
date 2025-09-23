@@ -21,7 +21,8 @@ public class ResourceRepositoryTests
         var lzwView = new LzwViewCompressionService(lzw1, 3);
         var lzwPic = new LzwPicCompressionService(lzw1, 4);
         var dcl = new DclCompressionService(8, 18, 19, 20);
-        var compressionRegistry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic, dcl });
+        var stac = new StacCompressionService(32);
+        var compressionRegistry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic, dcl, stac });
         var codecRegistry = new ResourceCodecRegistry(new IResourceCodec[]
         {
             new PicResourceCodec(compressionRegistry)

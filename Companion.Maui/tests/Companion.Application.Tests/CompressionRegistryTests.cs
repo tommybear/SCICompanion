@@ -15,7 +15,8 @@ public class CompressionRegistryTests
             new PassthroughCompressionService(0),
             new LzwCompressionService(1),
             new LzwPicCompressionService((_, _, length) => new byte[length], 4),
-            new DclCompressionService(8, 18, 19, 20)
+            new DclCompressionService(8, 18, 19, 20),
+            new StacCompressionService(32)
         });
 
         var data = new byte[] { 1, 2, 3 };

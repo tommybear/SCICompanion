@@ -11,7 +11,7 @@
 - [ ] Optional encoders (LZW/DCL) if round-trip compression is required later.
 
 ## Registry & DI
-- [ ] Register method→service mappings (0,1,2,3,4,18–20,32) once STACpack landing enables end-to-end coverage.
+- [x] Register method→service mappings (0,1,2,3,4,8,18–20,32) across DI and tests.
 - [ ] Provide fallback diagnostics for unsupported methods.
 - [ ] Ensure DI injects registry into PIC/View codecs.
 

@@ -55,7 +55,7 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 
 ### Active Work
 - **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. DCL support unblocks SCI1.x resources, but PIC rendering is still limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
-- **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, and LZW_Pic/View reorder implementations are wired with unit coverage. STACpack remains open alongside fixture consolidation (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
+- **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, STACpack, and LZW_Pic/View reorder implementations are wired with unit coverage. Fixture consolidation and CLI diagnostics remain (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
 - **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 and reorder pipelines. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
 ## Near-Term Milestones & Focus
@@ -80,8 +80,8 @@ Revisit `MILESTONES.md` after each sprint to ensure sequencing stays accurate.
 - No managed script tooling exists yet; rely on legacy research notes inside `Reference_Deprecated_Project/`. `TODO.md` tracks prerequisites for kicking off M3.
 
 ### Compression Algorithms
-- Implemented: raw passthrough (0), LZW (1), LZW_1 (2), DCL (8/18–20), and LZW_Pic/View reorders (3/4).
-- Outstanding: STACpack and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
+- Implemented: raw passthrough (0), LZW (1), LZW_1 (2), DCL (8/18–20), STACpack (32), and LZW_Pic/View reorders (3/4).
+- Outstanding: Optional encoders and fixture-backed regressions. Follow `docs/Compression_TDD.md` for acceptance criteria.
 
 ### Testing Strategy
 - Current: xUnit unit suites in `Companion.Application.Tests` cover metadata store, resource discovery, codec registry, and basic codecs.
