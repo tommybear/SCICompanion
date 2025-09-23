@@ -30,6 +30,8 @@ public class PicResourceCodecTests
 
         Assert.True(decoded.Metadata.TryGetValue("PicCommands", out var commandValue));
         Assert.IsAssignableFrom<IReadOnlyList<PicCommand>>(commandValue);
+        Assert.True(decoded.Metadata.TryGetValue("PicOpcodeCounts", out var countValue));
+        Assert.IsAssignableFrom<IReadOnlyDictionary<PicOpcode, int>>(countValue);
 
         Assert.Equal(package.Header.CompressedLength, encoded.Header.CompressedLength);
         Assert.Equal(package.Body, encoded.Body);
@@ -55,6 +57,9 @@ public class PicResourceCodecTests
 
         Assert.True(decoded.Metadata.TryGetValue("PicCommands", out var commandValue));
         Assert.IsAssignableFrom<IReadOnlyList<PicCommand>>(commandValue);
+        Assert.True(decoded.Metadata.TryGetValue("PicOpcodeCounts", out var countValue));
+        var counts = Assert.IsAssignableFrom<IReadOnlyDictionary<PicOpcode, int>>(countValue);
+        Assert.NotEmpty(counts);
 
         Assert.Equal(package.Header.CompressedLength, encoded.Header.CompressedLength);
         Assert.Equal(package.Body, encoded.Body);

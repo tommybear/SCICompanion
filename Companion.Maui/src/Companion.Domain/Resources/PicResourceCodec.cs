@@ -10,13 +10,17 @@ public sealed class PicResourceCodec : IResourceCodec
 
     private const string CompressionMethodKey = "CompressionMethod";
     private const string CommandsKey = "PicCommands";
+    private const string OpcodeCountsKey = "PicOpcodeCounts";
 
     public DecodedResource Decode(ResourcePackage package)
     {
+        var commands = PicParser.Parse(package.Body);
+        var opcodeCounts = PicParser.AggregateOpcodeCounts(commands);
         var metadata = new Dictionary<string, object?>
         {
             [CompressionMethodKey] = package.Header.CompressionMethod,
-            [CommandsKey] = PicParser.Parse(package.Body)
+            [CommandsKey] = commands,
+            [OpcodeCountsKey] = opcodeCounts
         };
         return new DecodedResource(package, package.Body, metadata);
     }

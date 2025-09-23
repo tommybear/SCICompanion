@@ -37,6 +37,18 @@ public static class PicParser
         return commands;
     }
 
+    public static IReadOnlyDictionary<PicOpcode, int> AggregateOpcodeCounts(IEnumerable<PicCommand> commands)
+    {
+        var counts = new Dictionary<PicOpcode, int>();
+        foreach (var command in commands)
+        {
+            counts[command.Opcode] = counts.TryGetValue(command.Opcode, out var existing)
+                ? existing + 1
+                : 1;
+        }
+        return counts;
+    }
+
     private static PicCommand SetPaletteFallback => new PicCommand.SetPalette(0, Array.Empty<byte>());
     
     private static PicCommand ParsePalette(byte[] payload, ref int index)
