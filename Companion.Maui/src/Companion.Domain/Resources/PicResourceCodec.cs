@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Companion.Domain.Compression;
 using Companion.Domain.Projects;
@@ -61,9 +62,11 @@ public sealed class PicResourceCodec : IResourceCodec
         var method = package.Header.CompressionMethod;
         if (method == 0)
         {
-            return package.Body;
+            var copy = new byte[package.Body.Length];
+            Array.Copy(package.Body, copy, copy.Length);
+            return copy;
         }
 
-        return _compressionRegistry.Decompress(package.Body, method);
+        return _compressionRegistry.Decompress(package.Body, method, package.Header.DecompressedLength);
     }
 }

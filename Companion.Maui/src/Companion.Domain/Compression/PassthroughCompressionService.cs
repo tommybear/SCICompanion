@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Companion.Domain.Compression;
@@ -13,13 +14,30 @@ public sealed class PassthroughCompressionService : ICompressionService
 
     public bool SupportsMethod(int method) => _supportedMethods.Contains(method);
 
-    public byte[] Decompress(byte[] data, int method)
+    public byte[] Decompress(byte[] data, int method, int expectedLength)
     {
         if (!SupportsMethod(method))
         {
             throw new NotSupportedException($"Compression method {method} is not supported.");
         }
 
-        return data;
+        if (expectedLength < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(expectedLength));
+        }
+
+        if (expectedLength > data.Length)
+        {
+            throw new InvalidOperationException("Expected length exceeds raw payload size for passthrough compression.");
+        }
+
+        if (expectedLength == data.Length)
+        {
+            return data.ToArray();
+        }
+
+        var result = new byte[expectedLength];
+        Array.Copy(data, result, expectedLength);
+        return result;
     }
 }

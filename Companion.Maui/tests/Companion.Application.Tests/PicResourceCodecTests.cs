@@ -15,7 +15,7 @@ public class PicResourceCodecTests
 {
     private readonly ResourceDiscoveryService _discovery = new();
     private readonly ResourceVolumeReader _reader = new();
-    private readonly PicResourceCodec _codec = new(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20) }));
+    private readonly PicResourceCodec _codec = new(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20), new LzwCompressionService(1) }));
 
     [Fact]
     public void Sci0_Pic_RoundTrips()

@@ -1,3 +1,4 @@
+using Xunit;
 using System;
 using Companion.Domain.Compression;
 
@@ -10,11 +11,12 @@ public class CompressionRegistryTests
     {
         var registry = new CompressionRegistry(new ICompressionService[]
         {
-            new PassthroughCompressionService(0, 20)
+            new PassthroughCompressionService(0, 20),
+            new LzwCompressionService(1)
         });
 
         var data = new byte[] { 1, 2, 3 };
-        var result = registry.Decompress(data, 0);
+        var result = registry.Decompress(data, 0, data.Length);
 
         Assert.Equal(data, result);
     }
@@ -24,9 +26,10 @@ public class CompressionRegistryTests
     {
         var registry = new CompressionRegistry(new ICompressionService[]
         {
-            new PassthroughCompressionService(0, 20)
+            new PassthroughCompressionService(0, 20),
+            new LzwCompressionService(1)
         });
 
-        Assert.Throws<NotSupportedException>(() => registry.Decompress(Array.Empty<byte>(), 5));
+        Assert.Throws<NotSupportedException>(() => registry.Decompress(Array.Empty<byte>(), 5, 0));
     }
 }

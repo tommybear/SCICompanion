@@ -17,7 +17,7 @@ public class ResourceRepositoryTests
         var volumeReader = new ResourceVolumeReader();
         var codecRegistry = new ResourceCodecRegistry(new IResourceCodec[]
         {
-            new PicResourceCodec(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20) }))
+            new PicResourceCodec(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20), new LzwCompressionService(1) }))
         }, type => new RawBinaryCodec(type));
         _repository = new ResourceRepository(discovery, volumeReader, codecRegistry);
     }
