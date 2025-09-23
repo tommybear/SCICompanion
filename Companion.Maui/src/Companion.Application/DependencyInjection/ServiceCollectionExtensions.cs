@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IResourceCodec, TextResourceCodec>();
         services.AddSingleton<IResourceCodec, MessageResourceCodec>();
         services.AddSingleton<IResourceCodec, VocabularyResourceCodec>();
+        services.AddSingleton<IResourceCodec, SoundResourceCodec>();
         services.AddSingleton<IResourceCodec>(new RawBinaryCodec(ResourceType.Unknown));
         services.AddSingleton<IResourceCodecRegistry>(sp => new ResourceCodecRegistry(sp.GetServices<IResourceCodec>(), type => new RawBinaryCodec(type)));
         services.AddSingleton<ResourceVolumeReader>();

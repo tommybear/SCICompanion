@@ -21,7 +21,7 @@
 - [x] Implement Text codec with validation tests
 - [x] Implement Message codec with validation tests
 - [x] Implement Vocabulary codec with validation tests
-- [ ] Implement Sound codec support (digital, MIDI) and ensure interpreter compatibility
+- [x] Implement Sound codec with validation tests (future compression work pending)
 - [ ] Introduce property-based and snapshot regression tests for resource pipelines
 
 ## Script System MVP (Weeks 10-20)
