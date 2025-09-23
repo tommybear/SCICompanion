@@ -15,7 +15,18 @@ public class PicResourceCodecTests
 {
     private readonly ResourceDiscoveryService _discovery = new();
     private readonly ResourceVolumeReader _reader = new();
-    private readonly PicResourceCodec _codec = new(new CompressionRegistry(new ICompressionService[] { new PassthroughCompressionService(0, 20), new LzwCompressionService(1) }));
+    private readonly PicResourceCodec _codec;
+
+    public PicResourceCodecTests()
+    {
+        var passthrough = new PassthroughCompressionService(0, 20);
+        var lzw = new LzwCompressionService(1);
+        var lzw1 = new Lzw1CompressionService(2);
+        var lzwView = new LzwViewCompressionService(lzw1, 3);
+        var lzwPic = new LzwPicCompressionService(lzw1, 4);
+        var registry = new CompressionRegistry(new ICompressionService[] { passthrough, lzw, lzw1, lzwView, lzwPic });
+        _codec = new PicResourceCodec(registry);
+    }
 
     [Fact]
     public void Sci0_Pic_RoundTrips()

@@ -54,14 +54,14 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 - **M1 – Core Project Services**: Metadata persistence, resource discovery, CLI smoke inspector, and initial tests shipped. Outstanding items include richer version heuristics, golden fixtures, and CLI automation per `TODO.md` and `docs/Compression_MILESTONES.md`.
 
 ### Active Work
-- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. Compression coverage still lacks DCL support (track via `docs/Compression_TODO.md`). PIC rendering is limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
-- **Compression Subsystem**: Passthrough, base LZW, LZW_1, and LZW_Pic/View reorder implementations are wired with unit coverage. DCL and STACpack algorithms must be ported from notes and legacy sources (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
+- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. Compression coverage still lacks DCL support (blocking SCI1.x PIC round-trip tests; track via `docs/Compression_TODO.md`). PIC rendering is limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
+- **Compression Subsystem**: Passthrough, base LZW, LZW_1, and LZW_Pic/View reorder implementations are wired with unit coverage. SCI1.x assets still require DCL decompression before reorder can succeed; STACpack remains open (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
 - **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 and reorder pipelines. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
 ## Near-Term Milestones & Focus
 1. **Stabilize M2**
    - Finish codec round trips and validation.
-   - Land missing compression services and regression fixtures.
+   - Land missing compression services (DCL/STACpack) and regression fixtures; unblock SCI1.x PIC tests.
    - Produce minimal rendering outputs for PIC/VIEW assets for inspection tooling.
 2. **Prepare M3 – Script System MVP**
    - Define grammar/AST structure and semantic analysis skeletons.
@@ -81,7 +81,7 @@ Revisit `MILESTONES.md` after each sprint to ensure sequencing stays accurate.
 
 ### Compression Algorithms
 - Implemented: raw passthrough (0/20), LZW (1), LZW_1 (2), and LZW_Pic/View reorders (3/4).
-- Outstanding: DCL (methods 18–20), STACpack, and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
+- Outstanding: DCL (methods 18–20) — required for SCI1.x PIC decode parity — STACpack, and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
 
 ### Testing Strategy
 - Current: xUnit unit suites in `Companion.Application.Tests` cover metadata store, resource discovery, codec registry, and basic codecs.

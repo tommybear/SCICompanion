@@ -24,7 +24,7 @@
 - PIC parser consumes decoded data without fallback.
 
 **Status (2025-09-23)**
-- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Fixture-based validation for SCI1/SCI1.1 assets remains outstanding.
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Fixture-based validation for SCI1/SCI1.1 assets remains outstanding pending DCL decompression support.
 
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**
