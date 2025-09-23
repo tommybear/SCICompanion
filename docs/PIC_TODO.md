@@ -1,7 +1,7 @@
 # PIC Implementation TODO
 
 ## Compression Layer
-- [ ] Implement SCI LZW (method 0x0000) decoder in managed code with streaming API.
+- [x] Implement SCI LZW (method 0x0000) decoder in managed code with streaming API.
 - [x] Implement SCI LZW_1 variant (method 0x0002).
 - [ ] Implement LZW_Pic post-processing (reorderPic) after LZW_1 decode.
 - [ ] Implement DCL decompression (methods 0x0012-0x0014, 0x0014 used for PIC in SCI1.1).
