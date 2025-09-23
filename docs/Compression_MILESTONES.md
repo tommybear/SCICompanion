@@ -11,7 +11,7 @@
 - Tests confirm byte-equivalence with legacy outputs.
 
 **Status (2025-09-23)**
-- Raw (0), LZW (1), and LZW_1 (2) decompressors are implemented and wired through the registry with unit coverage. Fixture-based SCI0 verification remains outstanding.
+- Raw (0), LZW (1), and LZW_1 (2) decompressors are implemented and wired through the registry with unit coverage. SCI0 PIC decompression now has a golden baseline in `CompressionFixtureTests`.
 
 ## Milestone C2 – PIC-Specific Reorders & SCI1 Extensions (Weeks 2–4)
 **Objectives**
@@ -24,7 +24,7 @@
 - PIC parser consumes decoded data without fallback.
 
 **Status (2025-09-23)**
-- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Regression fixtures for SCI1/SCI1.1 assets still outstanding.
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). SCI1.1 PIC decompression validated via baseline fixture; VIEW fixtures still outstanding.
 
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**

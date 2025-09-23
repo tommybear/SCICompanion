@@ -16,8 +16,9 @@
 - [ ] Ensure DI injects registry into PIC/View codecs.
 
 ## Testing
-- [ ] Capture compressed/decompressed fixtures from template resources (SCI0/SCI1.1).
-- [ ] Write unit tests per algorithm verifying output matches fixtures (synthetic coverage exists for raw/LZW/LZW_1/reorder; fixture parity pending).
+- [x] Capture compressed/decompressed fixtures from template PIC resources (SCI0/SCI1.1).
+- [ ] Capture additional fixtures for VIEW/SOUND resources as needed.
+- [x] Write unit tests per algorithm verifying output matches fixtures (PIC coverage in `CompressionFixtureTests`).
 - [ ] Add failure tests (unexpected method, corrupted token stream).
 - [ ] Optional property tests for LZW to cover random token sequences.
 
