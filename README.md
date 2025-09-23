@@ -21,3 +21,6 @@ Features
 
 ## Clean-Room Rewrite (Preview)
 A cross-platform .NET MAUI proof-of-concept lives under `Companion.Maui/`. See `docs/M0-Scope.md` for goals and `docs/SETUP.md` for build instructions during the Milestone 0 phase.
+
+### Tooling
+- `Companion.Maui/src/Companion.Cli` offers a console inspector that summarizes resources for a game folder or `.sciproj`.

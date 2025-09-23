@@ -17,7 +17,12 @@
    dotnet run --project Companion.Maui/src/Companion.App/Companion.App.csproj -f net8.0-maccatalyst
    ```
 
-4. **Sample assets** referenced by the app reside under the repository root (see `docs/M0-Scope.md`). Ensure they remain intact for characterization tests.
+4. **Inspect resources via CLI** (optional) to validate map parsing:
+   ```bash
+   dotnet run --project Companion.Maui/src/Companion.Cli/Companion.Cli.csproj -- TemplateGame/SCI0
+   ```
+
+5. **Sample assets** referenced by the app reside under the repository root (see `docs/M0-Scope.md`). Ensure they remain intact for characterization tests.
 
 ## Known Issues
 - CI and local restores require internet access to nuget.org. In restricted environments, configure an offline NuGet feed before building.

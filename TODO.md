@@ -7,11 +7,11 @@
 - [x] Collect and catalog sample SCI0/SCI1.1 assets for fixture-based testing
 
 ## Foundation (Weeks 0-6)
-- [ ] Implement project metadata models (`ProjectMetadata`, `ResourceDescriptor`, `WorkspaceState`)
-- [ ] Build YAML/JSON loader & writer for new `.sciproj` format with round-trip tests
-- [ ] Implement resource discovery against SCI resource maps with characterization tests
-- [ ] Port version detection heuristics with sample coverage
-- [ ] Deliver CLI smoke tool for project loading to inform early consumers
+- [x] Implement project metadata models (`ProjectMetadata`, `ResourceDescriptor`)
+- [x] Build JSON loader & writer for new `.sciproj` format with round-trip tests (YAML pending)
+- [x] Implement resource discovery against SCI resource maps with characterization tests
+- [x] Port version detection heuristics with sample coverage
+- [x] Deliver CLI smoke tool for project loading to inform early consumers
 
 ## Resource Serialization Core (Weeks 6-14)
 - [ ] Define `IResource` abstraction and codec registry

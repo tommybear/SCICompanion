@@ -2,7 +2,7 @@
 
 ## Objectives
 - Introduce project metadata models capturing game identity, interpreter targets, and resource management settings.
-- Persist metadata to a new `.sciproj` format (JSON/YAML) with deterministic round-trip behavior.
+- Persist metadata to a new `.sciproj` format (JSON first, YAML optional) with deterministic round-trip behavior.
 - Discover existing SCI resource maps (`resource.map` + volume files) and emit normalized descriptors the rewrite can consume.
 - Port version detection heuristics to classify SCI0 vs SCI1.1 projects and flag interpreter profiles.
 - Deliver a CLI smoke utility that loads a project and enumerates resources for early adopters.
