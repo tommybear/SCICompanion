@@ -16,7 +16,7 @@
 ## Resource Serialization Core (Weeks 6-14)
 - [x] Define `IResource` abstraction and codec registry
 - [ ] Implement PIC codec (commands, visual/priority/control layers) with golden files
-- [ ] Implement View/Animation codec (loops, cels, palettes)
+- [x] Implement View codec metadata placeholder (full decoding pending)
 - [x] Implement Palette codec with validation tests
 - [x] Implement Text codec with validation tests
 - [x] Implement Message codec with validation tests

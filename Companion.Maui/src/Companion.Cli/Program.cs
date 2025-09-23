@@ -182,6 +182,13 @@ sealed class ProjectInspector
                 Console.WriteLine($"  Sound header bytes: {soundHeader.Length}");
                 Console.WriteLine($"    {BitConverter.ToString(soundHeader.Take(16).ToArray())}");
             }
+
+            if (type == ResourceType.View && decoded.Metadata.TryGetValue("ViewHeader", out var viewHeaderValue)
+                && viewHeaderValue is byte[] viewHeader)
+            {
+                Console.WriteLine($"  View header bytes: {viewHeader.Length}");
+                Console.WriteLine($"    {BitConverter.ToString(viewHeader.Take(16).ToArray())}");
+            }
         }
         catch (Exception ex)
         {

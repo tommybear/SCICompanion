@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IProjectMetadataStore, ProjectMetadataStore>();
         services.AddSingleton<IResourceDiscoveryService, ResourceDiscoveryService>();
         services.AddSingleton<IResourceCodec, PicResourceCodec>();
+        services.AddSingleton<IResourceCodec, ViewResourceCodec>();
         services.AddSingleton<IResourceCodec, PaletteResourceCodec>();
         services.AddSingleton<IResourceCodec, TextResourceCodec>();
         services.AddSingleton<IResourceCodec, MessageResourceCodec>();
