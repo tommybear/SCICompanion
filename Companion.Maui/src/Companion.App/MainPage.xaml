@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Companion.App.MainPage"
+             Title="SCI Companion – M0">
+    <ContentPage.Resources>
+        <Style TargetType="CollectionView">
+            <Setter Property="Margin" Value="0,16,0,0" />
+        </Style>
+        <Style TargetType="Label" x:Key="CategoryLabel">
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+        <Style TargetType="Label" x:Key="PathLabel">
+            <Setter Property="FontFamily" Value="Courier New" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="TextColor" Value="#555" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24" Spacing="16">
+            <Label Text="SCI Companion MAUI – Milestone 0"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+            <Label Text="Verified sample assets available for early testing and onboarding." />
+
+            <CollectionView ItemsSource="{Binding Assets}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="#ddd" CornerRadius="6" Padding="12" Margin="0,4">
+                            <VerticalStackLayout Spacing="6">
+                                <Label Style="{StaticResource CategoryLabel}" Text="{Binding Category}" />
+                                <Label Style="{StaticResource PathLabel}" Text="{Binding RelativePath}" />
+                                <Label Text="{Binding Description}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

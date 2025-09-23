@@ -1,0 +1,29 @@
+name: Companion MAUI CI
+
+on:
+  push:
+    paths:
+      - 'Companion.Maui/**'
+      - '.github/workflows/maui-ci.yml'
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'Companion.Maui/**'
+      - '.github/workflows/maui-ci.yml'
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Install MAUI workloads
+        run: dotnet workload install maui maccatalyst android ios
+      - name: Restore solution
+        run: dotnet restore Companion.Maui/Companion.Maui.sln
+      - name: Build desktop targets
+        run: dotnet build Companion.Maui/Companion.Maui.sln -c Release -f net8.0-maccatalyst

@@ -18,3 +18,6 @@ Features
 - Exports room Visual, Priority and Control BMPs out at the same time as separate bitmaps when extracting all resources.
 - Can export any resource as a pure <resource_name>.raw file
 
+
+## Clean-Room Rewrite (Preview)
+A cross-platform .NET MAUI proof-of-concept lives under `Companion.Maui/`. See `docs/M0-Scope.md` for goals and `docs/SETUP.md` for build instructions during the Milestone 0 phase.

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "kIctusgC7rU=",
+  "success": true,
+  "projectFilePath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Infrastructure/Companion.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "/Users/thomasmayer/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512",
+    "/Users/thomasmayer/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512"
+  ],
+  "logs": []
+}

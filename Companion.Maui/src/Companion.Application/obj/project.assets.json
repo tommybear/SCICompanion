@@ -1,0 +1,106 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Companion.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Companion.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Companion.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Companion.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Companion.Domain/Companion.Domain.csproj",
+      "msbuildProject": "../Companion.Domain/Companion.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Companion.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/thomasmayer/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
+      "projectName": "Companion.Application",
+      "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
+      "packagesPath": "/Users/thomasmayer/.nuget/packages/",
+      "outputPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/thomasmayer/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "/usr/local/share/dotnet/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj": {
+              "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.19, 8.0.19]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.19, 8.0.19]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
