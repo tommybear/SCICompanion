@@ -1,34 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj": {}
+    "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj": {}
   },
   "projects": {
-    "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj": {
+    "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
+        "projectUniqueName": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
         "projectName": "Companion.Application",
-        "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
-        "packagesPath": "/Users/thomasmayer/.nuget/packages/",
-        "outputPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/obj/",
+        "projectPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
+        "packagesPath": "/Users/tmayer/.nuget/packages/",
+        "outputPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/thomasmayer/.nuget/NuGet/NuGet.Config"
+          "/Users/tmayer/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj": {
-                "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj"
+              "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj": {
+                "projectPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj"
               }
             }
           }
@@ -84,23 +83,22 @@
         }
       }
     },
-    "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj": {
+    "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
+        "projectUniqueName": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
         "projectName": "Companion.Domain",
-        "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
-        "packagesPath": "/Users/thomasmayer/.nuget/packages/",
-        "outputPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/obj/",
+        "projectPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
+        "packagesPath": "/Users/tmayer/.nuget/packages/",
+        "outputPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/thomasmayer/.nuget/NuGet/NuGet.Config"
+          "/Users/tmayer/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

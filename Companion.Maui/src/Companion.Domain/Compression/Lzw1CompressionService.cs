@@ -37,104 +37,8 @@ public sealed class Lzw1CompressionService : ICompressionService
 
         var state = new Decrypt3State(data);
         var output = new byte[expectedLength];
-        var destIndex = 0;
-
-        while (true)
-        {
-            switch (state.DecryptStage)
-            {
-                case 0:
-                case 1:
-                    state.BitString = (int)state.ReadBits(state.NumBits);
-                    if (state.BitString == 0x101)
-                    {
-                        state.DecryptStage = 4;
-                        goto case 4;
-                    }
-
-                    if (state.DecryptStage == 0)
-                    {
-                        state.DecryptStage = 1;
-                        state.LastBits = state.BitString;
-                        WriteByte(ref destIndex, output, (byte)(state.BitString & 0xFF));
-                        state.LastChar = (byte)(state.BitString & 0xFF);
-                        if (destIndex >= expectedLength)
-                        {
-                            return output;
-                        }
-                        continue;
-                    }
-
-                    if (state.BitString == 0x100)
-                    {
-                        state.ResetAfterClear();
-                        continue;
-                    }
-
-                    var token = state.BitString;
-                    if (token >= state.CurrentToken)
-                    {
-                        token = state.LastBits;
-                        state.PushToStack(state.LastChar);
-                    }
-
-                    while (token > 0xFF && token < state.TokenTable.Length)
-                    {
-                        var entry = state.TokenTable[token];
-                        state.PushToStack(entry.Data);
-                        token = entry.Next;
-                    }
-
-                    state.LastChar = (byte)(token & 0xFF);
-                    state.PushToStack(state.LastChar);
-                    state.DecryptStage = 2;
-                    goto case 2;
-
-                case 2:
-                    while (state.StackPointer > 0)
-                    {
-                        var value = state.PopFromStack();
-                        WriteByte(ref destIndex, output, value);
-                        if (destIndex >= expectedLength)
-                        {
-                            state.DecryptStage = 2;
-                            return output;
-                        }
-                    }
-
-                    state.DecryptStage = 1;
-                    if (state.CurrentToken <= state.EndToken)
-                    {
-                        state.TokenTable[state.CurrentToken].Data = state.LastChar;
-                        state.TokenTable[state.CurrentToken].Next = state.LastBits;
-                        state.CurrentToken++;
-                        if (state.CurrentToken == state.EndToken && state.NumBits < 12)
-                        {
-                            state.NumBits++;
-                            state.EndToken = (state.EndToken << 1) | 1;
-                        }
-                    }
-
-                    state.LastBits = state.BitString;
-                    continue;
-
-                case 4:
-                    return destIndex == output.Length ? output : ResizeOutput(output, destIndex);
-
-                default:
-                    throw new InvalidOperationException($"Unknown LZW_1 decrypt stage {state.DecryptStage}.");
-            }
-        }
-    }
-
-    private static void WriteByte(ref int index, byte[] destination, byte value)
-    {
-        if (index >= destination.Length)
-        {
-            throw new InvalidOperationException("LZW_1 decoding overflow (output index).");
-        }
-
-        destination[index++] = value;
+        var written = state.Decompress(output);
+        return written == output.Length ? output : ResizeOutput(output, written);
     }
 
     private static byte[] ResizeOutput(byte[] buffer, int length)
@@ -151,53 +55,157 @@ public sealed class Lzw1CompressionService : ICompressionService
 
     private sealed class Decrypt3State
     {
-        public struct Token
+        private struct Token
         {
             public byte Data;
-            public int Next;
+            public short Next;
         }
 
         private readonly byte[] _source;
-
-        public Token[] TokenTable { get; } = new Token[0x1004];
-        public byte[] Stack { get; } = new byte[0x1014];
-        public int StackPointer { get; set; }
-        public byte LastChar { get; set; }
-        public int NumBits { get; set; }
-        public int BitString { get; set; }
-        public int LastBits { get; set; }
-        public int DecryptStage { get; set; }
-        public int CurrentToken { get; set; }
-        public int EndToken { get; set; }
-        public int BitPosition { get; set; }
+        private readonly Token[] _tokens = new Token[0x1004];
+        private readonly byte[] _stack = new byte[0x1014];
+        private short _stackPtr;
+        private byte _lastChar;
+        private ushort _numBits;
+        private ushort _bitString;
+        private ushort _lastBits;
+        private short _curToken;
+        private short _endToken;
+        private ushort _decryptStart;
+        private int _whichBit;
 
         public Decrypt3State(byte[] source)
         {
             _source = source;
-            Initialize();
+            Reset();
         }
 
-        public void ResetAfterClear()
+        public int Decompress(Span<byte> destination)
         {
-            NumBits = 9;
-            CurrentToken = 0x102;
-            EndToken = 0x1FF;
-            DecryptStage = 0;
-            StackPointer = 0;
-            LastChar = 0;
-            LastBits = 0;
-            Array.Clear(TokenTable, 0, TokenTable.Length);
+            var lengthRemaining = destination.Length;
+            var destIndex = 0;
+
+            while (lengthRemaining >= 0)
+            {
+                switch (_decryptStart)
+                {
+                    case 0:
+                    case 1:
+                        _bitString = (ushort)Gbits(_numBits);
+                        if (_bitString == 0x101)
+                        {
+                            _decryptStart = 4;
+                            goto case 4;
+                        }
+
+                        if (_decryptStart == 0)
+                        {
+                            _decryptStart = 1;
+                            _lastBits = _bitString;
+                            destination[destIndex++] = _lastChar = (byte)(_bitString & 0xFF);
+                            lengthRemaining--;
+                            if (lengthRemaining > 0)
+                            {
+                                continue;
+                            }
+                            return destIndex;
+                        }
+
+                        if (_bitString == 0x100)
+                        {
+                            ResetAfterClear();
+                            continue;
+                        }
+
+                        var token = (short)_bitString;
+                        if (token >= _curToken)
+                        {
+                            token = (short)_lastBits;
+                            PushToStack(_lastChar);
+                        }
+
+                        while (token > 0xFF && token < _tokens.Length)
+                        {
+                            PushToStack(_tokens[token].Data);
+                            token = _tokens[token].Next;
+                        }
+
+                        _lastChar = (byte)(token & 0xFF);
+                        PushToStack(_lastChar);
+                        _decryptStart = 2;
+                        goto case 2;
+
+                    case 2:
+                        while (_stackPtr > 0)
+                        {
+                            destination[destIndex++] = PopFromStack();
+                            lengthRemaining--;
+                            if (lengthRemaining == 0)
+                            {
+                                _decryptStart = 2;
+                                return destIndex;
+                            }
+                        }
+
+                        _decryptStart = 1;
+                        if (_curToken <= _endToken)
+                        {
+                            _tokens[_curToken].Data = _lastChar;
+                            _tokens[_curToken].Next = (short)_lastBits;
+                            _curToken++;
+                            if (_curToken == _endToken && _numBits < 12)
+                            {
+                                _numBits++;
+                                _endToken = (short)((_endToken << 1) | 1);
+                            }
+                        }
+
+                        _lastBits = _bitString;
+                        continue;
+
+                    case 4:
+                        return destIndex;
+
+                    default:
+                        throw new InvalidOperationException($"Unexpected LZW_1 decrypt stage {_decryptStart}.");
+                }
+            }
+
+            return destIndex;
         }
 
-        public uint ReadBits(int numBits)
+        private void Reset()
+        {
+            _stackPtr = 0;
+            _lastChar = 0;
+            _numBits = 9;
+            _bitString = 0;
+            _lastBits = 0;
+            _curToken = 0x102;
+            _endToken = 0x1FF;
+            _decryptStart = 0;
+            _whichBit = 0;
+            Array.Clear(_tokens);
+        }
+
+        private void ResetAfterClear()
+        {
+            _numBits = 9;
+            _curToken = 0x102;
+            _endToken = 0x1FF;
+            _decryptStart = 0;
+            _stackPtr = 0;
+        }
+
+        private uint Gbits(int numBits)
         {
             if (numBits == 0)
             {
-                BitPosition = 0;
+                _whichBit = 0;
                 return 0;
             }
 
-            var place = BitPosition >> 3;
+            var place = _whichBit >> 3;
             uint bitstring = 0;
             for (var i = (numBits >> 3) + 1; i >= 0; i--)
             {
@@ -208,48 +216,35 @@ public sealed class Lzw1CompressionService : ICompressionService
                 }
             }
 
-            var shift = 24 - (BitPosition & 7) - numBits;
+            var shift = 24 - (_whichBit & 7) - numBits;
             if (shift > 0)
             {
                 bitstring >>= shift;
             }
+
             bitstring &= uint.MaxValue >> (32 - numBits);
-            BitPosition += numBits;
+            _whichBit += numBits;
             return bitstring;
         }
 
-        public void PushToStack(byte value)
+        private void PushToStack(byte value)
         {
-            if (StackPointer >= Stack.Length)
+            if (_stackPtr >= _stack.Length)
             {
                 throw new InvalidOperationException("LZW_1 decoding stack overflow.");
             }
 
-            Stack[StackPointer++] = value;
+            _stack[_stackPtr++] = value;
         }
 
-        public byte PopFromStack()
+        private byte PopFromStack()
         {
-            if (StackPointer <= 0)
+            if (_stackPtr <= 0)
             {
                 throw new InvalidOperationException("LZW_1 decoding stack underflow.");
             }
 
-            return Stack[--StackPointer];
-        }
-
-        private void Initialize()
-        {
-            NumBits = 9;
-            CurrentToken = 0x102;
-            EndToken = 0x1FF;
-            DecryptStage = 0;
-            StackPointer = 0;
-            LastChar = 0;
-            BitString = 0;
-            LastBits = 0;
-            BitPosition = 0;
-            Array.Clear(TokenTable, 0, TokenTable.Length);
+            return _stack[--_stackPtr];
         }
     }
 }

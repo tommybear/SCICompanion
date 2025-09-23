@@ -23,6 +23,9 @@
 - SCI1.1 PICs decompress to buffers matching legacy tool outputs.
 - PIC parser consumes decoded data without fallback.
 
+**Status (2025-09-23)**
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). Fixture-based validation for SCI1/SCI1.1 assets remains outstanding.
+
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**
 - Implement DCL decoder (methods 18–20) and integrate with registry.

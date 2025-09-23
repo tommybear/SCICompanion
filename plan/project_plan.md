@@ -31,7 +31,7 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 
 ### Companion.Domain
 - **Current capabilities**: Resource descriptor models, `ResourcePackage` abstractions, basic codecs (Palette/Text/Message/Vocabulary/Sound/View with header parsing), PIC command parser, and a compression registry with passthrough (methods 0, 20) plus LZW (method 1).
-- **Upcoming priorities**: Finish codec round-tripping, add reorder transforms and DCL/LZW variants (`docs/Compression_TODO.md`), implement script AST/compiler/decompiler pipelines, and derive rendering primitives for PIC/VIEW assets (`docs/PIC_TODO.md`).
+- **Upcoming priorities**: Finish codec round-tripping, land DCL/STACpack support (`docs/Compression_TODO.md`), implement script AST/compiler/decompiler pipelines, and derive rendering primitives for PIC/VIEW assets (`docs/PIC_TODO.md`).
 
 ### Companion.Application
 - **Current capabilities**: Dependency injection wiring, sample asset catalog, JSON project metadata store, resource discovery (SCI0/SCI1/SCI1.1 map parsing), resource repository/volume reader, and CLI project inspector.
@@ -54,9 +54,9 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 - **M1 – Core Project Services**: Metadata persistence, resource discovery, CLI smoke inspector, and initial tests shipped. Outstanding items include richer version heuristics, golden fixtures, and CLI automation per `TODO.md` and `docs/Compression_MILESTONES.md`.
 
 ### Active Work
-- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. Compression coverage still lacks PIC reorder transforms and DCL (track via `docs/Compression_TODO.md`). PIC rendering is limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
-- **Compression Subsystem**: Passthrough, base LZW, and LZW_1 implementations are wired with unit coverage. DCL, STACpack, and PIC reorder algorithms must be ported from notes and legacy sources (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
-- **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 parsers. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
+- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. Compression coverage still lacks DCL support (track via `docs/Compression_TODO.md`). PIC rendering is limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
+- **Compression Subsystem**: Passthrough, base LZW, LZW_1, and LZW_Pic/View reorder implementations are wired with unit coverage. DCL and STACpack algorithms must be ported from notes and legacy sources (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
+- **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 and reorder pipelines. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
 ## Near-Term Milestones & Focus
 1. **Stabilize M2**
@@ -80,8 +80,8 @@ Revisit `MILESTONES.md` after each sprint to ensure sequencing stays accurate.
 - No managed script tooling exists yet; rely on legacy research notes inside `Reference_Deprecated_Project/`. `TODO.md` tracks prerequisites for kicking off M3.
 
 ### Compression Algorithms
-- Implemented: raw passthrough (0/20), LZW (1), and LZW_1 (2).
-- Outstanding: LZW PIC reorder, DCL (methods 18–20), STACpack, and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
+- Implemented: raw passthrough (0/20), LZW (1), LZW_1 (2), and LZW_Pic/View reorders (3/4).
+- Outstanding: DCL (methods 18–20), STACpack, and optional encoders. Follow `docs/Compression_TDD.md` for acceptance criteria.
 
 ### Testing Strategy
 - Current: xUnit unit suites in `Companion.Application.Tests` cover metadata store, resource discovery, codec registry, and basic codecs.

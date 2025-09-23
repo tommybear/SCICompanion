@@ -8,25 +8,24 @@
     "net8.0": []
   },
   "packageFolders": {
-    "/Users/thomasmayer/.nuget/packages/": {}
+    "/Users/tmayer/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
+      "projectUniqueName": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
       "projectName": "Companion.Domain",
-      "projectPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
-      "packagesPath": "/Users/thomasmayer/.nuget/packages/",
-      "outputPath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/obj/",
+      "projectPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/Companion.Domain.csproj",
+      "packagesPath": "/Users/tmayer/.nuget/packages/",
+      "outputPath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/thomasmayer/.nuget/NuGet/NuGet.Config"
+        "/Users/tmayer/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

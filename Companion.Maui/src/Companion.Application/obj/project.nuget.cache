@@ -1,12 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "xRg4kusZwcs=",
+  "dgSpecHash": "B732FOoKE5c=",
   "success": true,
-  "projectFilePath": "/Users/thomasmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
+  "projectFilePath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/src/Companion.Application/Companion.Application.csproj",
   "expectedPackageFiles": [
-    "/Users/thomasmayer/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
-    "/Users/thomasmayer/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512",
-    "/Users/thomasmayer/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512"
+    "/Users/tmayer/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "/Users/tmayer/.nuget/packages/microsoft.netcore.app.ref/8.0.19/microsoft.netcore.app.ref.8.0.19.nupkg.sha512",
+    "/Users/tmayer/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.19/microsoft.aspnetcore.app.ref.8.0.19.nupkg.sha512"
   ],
   "logs": []
 }
