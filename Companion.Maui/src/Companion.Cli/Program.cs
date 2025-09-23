@@ -161,6 +161,20 @@ sealed class ProjectInspector
                     Console.WriteLine($"    ... ({palette.Count - 5} more)");
                 }
             }
+
+            if (type == ResourceType.Message && decoded.Metadata.TryGetValue("MessageOffsets", out var offsetsValue)
+                && offsetsValue is IReadOnlyList<int> offsets)
+            {
+                Console.WriteLine($"  Message offsets: {offsets.Count}");
+                foreach (var offset in offsets.Take(5))
+                {
+                    Console.WriteLine($"    0x{offset:X}");
+                }
+                if (offsets.Count > 5)
+                {
+                    Console.WriteLine($"    ... ({offsets.Count - 5} more)");
+                }
+            }
         }
         catch (Exception ex)
         {
