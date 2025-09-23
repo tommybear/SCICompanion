@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Companion.Application.Projects;
@@ -5,6 +6,7 @@ using Companion.Application.Resources;
 using Companion.Application.Tests.Support;
 using Companion.Domain.Projects;
 using Companion.Domain.Resources;
+using Companion.Domain.Resources.Pic;
 
 namespace Companion.Application.Tests;
 
@@ -25,6 +27,9 @@ public class PicResourceCodecTests
         var decoded = _codec.Decode(package);
         _codec.Validate(decoded);
         var encoded = _codec.Encode(decoded);
+
+        Assert.True(decoded.Metadata.TryGetValue("PicCommands", out var commandValue));
+        Assert.IsAssignableFrom<IReadOnlyList<PicCommand>>(commandValue);
 
         Assert.Equal(package.Header.CompressedLength, encoded.Header.CompressedLength);
         Assert.Equal(package.Body, encoded.Body);
@@ -47,6 +52,9 @@ public class PicResourceCodecTests
         var decoded = _codec.Decode(package);
         _codec.Validate(decoded);
         var encoded = _codec.Encode(decoded);
+
+        Assert.True(decoded.Metadata.TryGetValue("PicCommands", out var commandValue));
+        Assert.IsAssignableFrom<IReadOnlyList<PicCommand>>(commandValue);
 
         Assert.Equal(package.Header.CompressedLength, encoded.Header.CompressedLength);
         Assert.Equal(package.Body, encoded.Body);
