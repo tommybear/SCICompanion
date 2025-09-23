@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IResourceDiscoveryService, ResourceDiscoveryService>();
         services.AddSingleton<IResourceCodec, PicResourceCodec>();
         services.AddSingleton<IResourceCodec, PaletteResourceCodec>();
+        services.AddSingleton<IResourceCodec, TextResourceCodec>();
         services.AddSingleton<IResourceCodec>(new RawBinaryCodec(ResourceType.Unknown));
         services.AddSingleton<IResourceCodecRegistry>(sp => new ResourceCodecRegistry(sp.GetServices<IResourceCodec>(), type => new RawBinaryCodec(type)));
         services.AddSingleton<ResourceVolumeReader>();
