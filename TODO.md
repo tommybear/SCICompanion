@@ -17,7 +17,8 @@
 - [x] Define `IResource` abstraction and codec registry
 - [ ] Implement PIC codec (commands, visual/priority/control layers) with golden files
 - [ ] Implement View/Animation codec (loops, cels, palettes)
-- [ ] Implement Palette, Text/Message, Vocabulary codecs with validation tests
+- [x] Implement Palette codec with validation tests
+- [ ] Implement Text/Message, Vocabulary codecs with validation tests
 - [ ] Implement Sound codec support (digital, MIDI) and ensure interpreter compatibility
 - [ ] Introduce property-based and snapshot regression tests for resource pipelines
 

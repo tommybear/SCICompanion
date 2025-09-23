@@ -5,6 +5,7 @@ using Companion.Application.Resources;
 using Companion.Infrastructure.DependencyInjection;
 using Companion.Domain.Projects;
 using Companion.Domain.Resources;
+using Companion.Domain.Resources.Pic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text;
@@ -140,6 +141,26 @@ sealed class ProjectInspector
             Console.WriteLine($"  Offset:  0x{descriptor.Offset:X}");
             Console.WriteLine($"  Payload: {decoded.Payload.Length} bytes");
             Console.WriteLine($"  Compression method: {decoded.Header.CompressionMethod}");
+
+            if (type == ResourceType.Pic && decoded.Metadata.TryGetValue("PicCommands", out var commandValue)
+                && commandValue is IReadOnlyCollection<PicCommand> commands)
+            {
+                Console.WriteLine($"  Commands: {commands.Count}");
+            }
+
+            if (type == ResourceType.Palette && decoded.Metadata.TryGetValue("PaletteEntries", out var paletteValue)
+                && paletteValue is IReadOnlyList<PaletteEntry> palette)
+            {
+                Console.WriteLine($"  Palette entries: {palette.Count}");
+                foreach (var (r, g, b) in palette.Take(5).Select(p => p.ToTuple()))
+                {
+                    Console.WriteLine($"    RGB({r},{g},{b})");
+                }
+                if (palette.Count > 5)
+                {
+                    Console.WriteLine($"    ... ({palette.Count - 5} more)");
+                }
+            }
         }
         catch (Exception ex)
         {
