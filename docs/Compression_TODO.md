@@ -26,7 +26,7 @@
 
 ## Tooling
 - [x] CLI command to dump compression metadata (method name, size before/after) via `Companion.Cli --compression`.
-- [ ] Debug helper to decompress resource via CLI for manual inspection.
+- [x] Debug helper to decompress resource via CLI for manual inspection (`--dump type:number`).
 
 ## Documentation
 - [ ] Document algorithm implementations, references (SCI Companion, ScummVM, FreeSCI).

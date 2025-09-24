@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Companion.Application.DependencyInjection;
@@ -97,16 +98,23 @@ sealed class ProjectInspector
         {
             InspectResource(gameFolder, resources, inspectSelector!);
         }
+
+        if (!string.IsNullOrWhiteSpace(options.DumpSelector))
+        {
+            DumpResource(gameFolder, catalog.Version, resources, options.DumpSelector!);
+        }
     }
 
     private static CliOptions ParseOptions(string[] args)
     {
         string? targetPath = null;
         string? selector = null;
+        string? dumpSelector = null;
         var showCompression = false;
 
-        foreach (var arg in args)
+        for (var i = 0; i < args.Length; i++)
         {
+            var arg = args[i];
             if (string.IsNullOrWhiteSpace(arg))
             {
                 continue;
@@ -115,6 +123,18 @@ sealed class ProjectInspector
             if (IsCompressionFlag(arg))
             {
                 showCompression = true;
+                continue;
+            }
+
+            if (IsDumpFlag(arg))
+            {
+                var selectorValue = ReadSelectorValue(arg, args, ref i);
+                if (!TryParseSelector(selectorValue, out _, out _))
+                {
+                    throw new ArgumentException($"Invalid resource selector '{selectorValue}' provided to --dump.");
+                }
+
+                dumpSelector = selectorValue;
                 continue;
             }
 
@@ -127,12 +147,34 @@ sealed class ProjectInspector
             targetPath ??= arg;
         }
 
-        return new CliOptions(targetPath, selector, showCompression);
+        return new CliOptions(targetPath, selector, showCompression, dumpSelector);
     }
 
     private static bool IsCompressionFlag(string value) =>
         string.Equals(value, "--compression", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(value, "-c", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsDumpFlag(string value) =>
+        string.Equals(value, "--dump", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "-d", StringComparison.OrdinalIgnoreCase) ||
+        value.StartsWith("--dump=", StringComparison.OrdinalIgnoreCase);
+
+    private static string ReadSelectorValue(string current, string[] args, ref int index)
+    {
+        var equalsIndex = current.IndexOf('=');
+        if (equalsIndex >= 0)
+        {
+            return current[(equalsIndex + 1)..];
+        }
+
+        if (index + 1 >= args.Length)
+        {
+            throw new ArgumentException("--dump requires a resource selector (e.g. --dump pic:0).");
+        }
+
+        index++;
+        return args[index];
+    }
 
     private static void RenderReport(ProjectMetadata? metadata, string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources)
     {
@@ -347,7 +389,57 @@ sealed class ProjectInspector
         return int.TryParse(parts[1], out number) && number >= 0;
     }
 
-    private sealed record CliOptions(string? TargetPath, string? ResourceSelector, bool ShowCompressionSummary);
+    private void DumpResource(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, string selector)
+    {
+        if (!TryParseSelector(selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse selector '{selector}'. Use format type:number (e.g. pic:0).");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            var package = _volumeReader.Read(gameFolder, descriptor, version);
+            Console.WriteLine($"Dumping {type}:{number}");
+            Console.WriteLine($"  Package: {descriptor.Package}");
+            Console.WriteLine($"  Compression method: {package.Header.CompressionMethod}");
+            Console.WriteLine($"  Compressed length: {package.Header.CompressedLength} bytes");
+            Console.WriteLine($"  Decompressed length: {decoded.Payload.Length} bytes");
+            Console.WriteLine("  Base64 (decompressed payload):");
+            foreach (var line in ChunkString(Convert.ToBase64String(decoded.Payload), 76))
+            {
+                Console.WriteLine($"    {line}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to dump resource {type}:{number}: {ex.Message}");
+        }
+    }
+
+    private static IEnumerable<string> ChunkString(string value, int length)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            yield break;
+        }
+
+        for (var index = 0; index < value.Length; index += length)
+        {
+            var chunkLength = Math.Min(length, value.Length - index);
+            yield return value.Substring(index, chunkLength);
+        }
+    }
+
+    private sealed record CliOptions(string? TargetPath, string? ResourceSelector, bool ShowCompressionSummary, string? DumpSelector);
 
     private sealed record CompressionStat(
         ResourceDescriptor Descriptor,
