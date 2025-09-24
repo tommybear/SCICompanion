@@ -112,6 +112,16 @@ sealed class ProjectInspector
         {
             ExportResource(gameFolder, catalog.Version, resources, export);
         }
+
+        foreach (var summarySelector in options.Summaries)
+        {
+            SummarizePic(gameFolder, catalog.Version, resources, summarySelector);
+        }
+
+        foreach (var comparison in options.Comparisons)
+        {
+            CompareExport(gameFolder, catalog.Version, resources, comparison);
+        }
     }
 
     private static CliOptions ParseOptions(string[] args)
@@ -120,6 +130,8 @@ sealed class ProjectInspector
         string? selector = null;
         string? dumpSelector = null;
         var exports = new List<ExportRequest>();
+        var summaries = new List<string>();
+        var comparisons = new List<CompareRequest>();
         var showCompression = false;
 
         for (var i = 0; i < args.Length; i++)
@@ -155,6 +167,25 @@ sealed class ProjectInspector
                 continue;
             }
 
+            if (IsSummaryFlag(arg))
+            {
+                var summarySelector = ReadSelectorValue(arg, args, ref i);
+                if (!TryParseSelector(summarySelector, out _, out _))
+                {
+                    throw new ArgumentException($"Invalid resource selector '{summarySelector}' provided to --pic-summary.");
+                }
+
+                summaries.Add(summarySelector);
+                continue;
+            }
+
+            if (IsCompareFlag(arg))
+            {
+                var compareValue = ReadExportValue(arg, args, ref i);
+                comparisons.Add(ParseCompareDefinition(compareValue));
+                continue;
+            }
+
             if (selector is null && TryParseSelector(arg, out _, out _))
             {
                 selector = arg;
@@ -164,7 +195,7 @@ sealed class ProjectInspector
             targetPath ??= arg;
         }
 
-        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports);
+        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports, summaries, comparisons);
     }
 
     private static bool IsCompressionFlag(string value) =>
@@ -180,6 +211,15 @@ sealed class ProjectInspector
         string.Equals(value, "--export", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(value, "-e", StringComparison.OrdinalIgnoreCase) ||
         value.StartsWith("--export=", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsSummaryFlag(string value) =>
+        string.Equals(value, "--pic-summary", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "--summary", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsCompareFlag(string value) =>
+        string.Equals(value, "--compare", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "-C", StringComparison.OrdinalIgnoreCase) ||
+        value.StartsWith("--compare=", StringComparison.OrdinalIgnoreCase);
 
     private static string ReadSelectorValue(string current, string[] args, ref int index)
     {
@@ -535,6 +575,121 @@ sealed class ProjectInspector
         }
     }
 
+    private void SummarizePic(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, string selector)
+    {
+        if (!TryParseSelector(selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse summary selector '{selector}'.");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            if (type != ResourceType.Pic || !decoded.Metadata.TryGetValue("PicDocument", out var docValue) || docValue is not PicDocument document)
+            {
+                Console.WriteLine($"Resource {type}:{number} is not a PIC or lacks rendering data.");
+                return;
+            }
+
+            Console.WriteLine($"Summary for {type}:{number} ({version})");
+            Console.WriteLine($"  Dimensions: {document.Width}x{document.Height}");
+            Console.WriteLine($"  Command count: {document.Commands.Count}");
+
+            if (decoded.Metadata.TryGetValue("PicOpcodeCounts", out var countsValue) && countsValue is IReadOnlyDictionary<PicOpcode, int> counts)
+            {
+                Console.WriteLine("  Opcode histogram:");
+                foreach (var entry in counts.OrderByDescending(k => k.Value).ThenBy(k => k.Key))
+                {
+                    Console.WriteLine($"    {entry.Key}: {entry.Value}");
+                }
+            }
+
+            var finalState = document.FinalState;
+            Console.WriteLine($"  Final state pen: ({finalState.PenX}, {finalState.PenY}) flags={finalState.Flags}");
+
+            if (version <= SCIVersion.SCI0)
+            {
+                SummarizeEgaPalettes(finalState.PaletteBanks);
+            }
+            else
+            {
+                SummarizeVgaPalette(finalState.VgaPalette, document.VisualPlane);
+            }
+
+            SummarizePriorityBands(finalState.PriorityBands);
+            SummarizePlane("Priority", document.PriorityPlane);
+            SummarizePlane("Control", document.ControlPlane);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to summarize resource {type}:{number}: {ex.Message}");
+        }
+    }
+
+    private void CompareExport(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, CompareRequest request)
+    {
+        if (!TryParseSelector(request.Selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse compare selector '{request.Selector}'.");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        if (!File.Exists(request.Path))
+        {
+            Console.WriteLine($"Baseline image '{request.Path}' not found for comparison.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            if (type != ResourceType.Pic || !decoded.Metadata.TryGetValue("PicDocument", out var docValue) || docValue is not PicDocument document)
+            {
+                Console.WriteLine($"Resource {type}:{number} is not a PIC or lacks rendering data.");
+                return;
+            }
+
+            var planeData = request.Plane switch
+            {
+                PicPlane.Visual => document.VisualPlane,
+                PicPlane.Priority => document.PriorityPlane,
+                PicPlane.Control => document.ControlPlane,
+                _ => document.VisualPlane
+            };
+
+            using var actual = CreatePlaneImage(document, planeData, request.Plane, version, document.FinalState);
+            using var expected = Image.Load<Rgba32>(request.Path);
+
+            if (actual.Width != expected.Width || actual.Height != expected.Height)
+            {
+                Console.WriteLine($"Comparison {type}:{number} {request.Plane}: dimension mismatch (actual {actual.Width}x{actual.Height}, expected {expected.Width}x{expected.Height}).");
+                return;
+            }
+
+            var diff = ComputeDiffMetrics(actual, expected);
+            Console.WriteLine($"Comparison {type}:{number} {request.Plane}: {diff.Mismatched} / {diff.TotalPixels} pixels differ ({diff.MismatchPercentage:P2}), max delta {diff.MaxDelta}, avg delta {diff.AverageDelta:F2} (R {diff.AverageDeltaR:F2}, G {diff.AverageDeltaG:F2}, B {diff.AverageDeltaB:F2}).");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to compare resource {type}:{number}: {ex.Message}");
+        }
+    }
+
     private static void WritePgm(string path, int width, int height, byte[] data)
     {
         using var writer = new StreamWriter(path, append: false);
@@ -556,39 +711,38 @@ sealed class ProjectInspector
 
     private static void WriteImage(string path, PicDocument document, byte[] data, PicPlane plane, SCIVersion version)
     {
-        var image = new Image<Rgba32>(document.Width, document.Height);
+        using var image = CreatePlaneImage(document, data, plane, version, document.FinalState);
+        if (plane is PicPlane.Priority or PicPlane.Control)
+        {
+            using var withLegend = AppendLegend(image, data, plane);
+            withLegend.Save(path);
+        }
+        else
+        {
+            image.Save(path);
+        }
+    }
 
-        try
+    private static Image<Rgba32> CreatePlaneImage(PicDocument document, byte[] data, PicPlane plane, SCIVersion version, PicStateSnapshot finalState)
+    {
+        var image = new Image<Rgba32>(document.Width, document.Height);
+        for (var y = 0; y < document.Height; y++)
         {
-            for (var y = 0; y < document.Height; y++)
+            for (var x = 0; x < document.Width; x++)
             {
-                for (var x = 0; x < document.Width; x++)
+                var value = data[y * document.Width + x];
+                var color = plane switch
                 {
-                    var value = data[y * document.Width + x];
-                    var color = plane switch
-                    {
-                        PicPlane.Visual => MapVisualColor(value, version, document.FinalState),
-                        PicPlane.Priority => MapPriorityColor(value),
-                        PicPlane.Control => MapControlColor(value),
-                        _ => new Rgba32(value, value, value)
-                    };
-                    image[x, y] = color;
-                }
-            }
-            if (plane is PicPlane.Priority or PicPlane.Control)
-            {
-                using var withLegend = AppendLegend(image, data, plane);
-                withLegend.Save(path);
-            }
-            else
-            {
-                image.Save(path);
+                    PicPlane.Visual => MapVisualColor(value, version, finalState),
+                    PicPlane.Priority => MapPriorityColor(value),
+                    PicPlane.Control => MapControlColor(value),
+                    _ => new Rgba32(value, value, value)
+                };
+                image[x, y] = color;
             }
         }
-        finally
-        {
-            image.Dispose();
-        }
+
+        return image;
     }
 
     private static Rgba32 MapVisualColor(byte value, SCIVersion version, PicStateSnapshot finalState)
@@ -709,6 +863,14 @@ sealed class ProjectInspector
     }
 
     private static readonly Rgba32 LegendTextColor = new Rgba32(255, 255, 255);
+    private static readonly byte[] DefaultEgaPalette =
+    {
+        0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+        0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0x88,
+        0x88, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x88,
+        0x88, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF,
+        0x08, 0x91, 0x2A, 0x3B, 0x4C, 0x5D, 0x6E, 0x88
+    };
 
     private static Dictionary<char, string[]> LegendGlyphs { get; } = new()
     {
@@ -844,6 +1006,160 @@ sealed class ProjectInspector
         }
     }
 
+    private static void SummarizeEgaPalettes(byte[][] paletteBanks)
+    {
+        if (paletteBanks is null || paletteBanks.Length == 0)
+        {
+            Console.WriteLine("  EGA palette banks: unavailable");
+            return;
+        }
+
+        Console.WriteLine("  EGA palette banks:");
+        for (var i = 0; i < paletteBanks.Length; i++)
+        {
+            var bank = paletteBanks[i];
+            if (bank is null || bank.Length == 0)
+            {
+                Console.WriteLine($"    Bank {i}: empty");
+                continue;
+            }
+
+            var max = Math.Min(DefaultEgaPalette.Length, bank.Length);
+            var differences = 0;
+            for (var j = 0; j < max; j++)
+            {
+                if (bank[j] != DefaultEgaPalette[j])
+                {
+                    differences++;
+                }
+            }
+
+            Console.WriteLine(differences == 0
+                ? $"    Bank {i}: default"
+                : $"    Bank {i}: modified ({differences} entries differ)");
+        }
+    }
+
+    private static void SummarizeVgaPalette(byte[] palette, byte[] visualPlane)
+    {
+        if (palette is null || palette.Length < 3)
+        {
+            Console.WriteLine("  VGA palette: unavailable");
+            return;
+        }
+
+        var definedEntries = 0;
+        for (var entry = 0; entry * 3 + 2 < palette.Length; entry++)
+        {
+            var offset = entry * 3;
+            if (palette[offset] != 0 || palette[offset + 1] != 0 || palette[offset + 2] != 0)
+            {
+                definedEntries++;
+            }
+        }
+
+        var usedIndices = new HashSet<byte>(visualPlane);
+        byte min = usedIndices.Count > 0 ? usedIndices.Min() : (byte)0;
+        byte max = usedIndices.Count > 0 ? usedIndices.Max() : (byte)0;
+
+        Console.WriteLine($"  VGA palette entries defined: {definedEntries}");
+        Console.WriteLine($"  Visual plane uses {usedIndices.Count} indices (range {min}..{max})");
+    }
+
+    private static void SummarizePriorityBands(ushort[]? priorityBands)
+    {
+        if (priorityBands is null || priorityBands.Length == 0)
+        {
+            return;
+        }
+
+        var min = priorityBands.Min();
+        var max = priorityBands.Max();
+        Console.WriteLine($"  Priority bands: count={priorityBands.Length}, range={min}..{max}");
+        Console.WriteLine($"    First bands: {string.Join(", ", priorityBands.Take(5))}");
+    }
+
+    private static void SummarizePlane(string name, byte[] data)
+    {
+        if (data is null || data.Length == 0)
+        {
+            Console.WriteLine($"  {name} plane: (empty)");
+            return;
+        }
+
+        byte min = byte.MaxValue;
+        byte max = byte.MinValue;
+        var counts = new Dictionary<byte, int>();
+        foreach (var value in data)
+        {
+            if (value < min)
+            {
+                min = value;
+            }
+            if (value > max)
+            {
+                max = value;
+            }
+
+            counts[value] = counts.TryGetValue(value, out var existing) ? existing + 1 : 1;
+        }
+
+        Console.WriteLine($"  {name} plane: unique={counts.Count}, range={min}..{max}");
+        foreach (var entry in counts.OrderByDescending(k => k.Value).ThenBy(k => k.Key).Take(5))
+        {
+            Console.WriteLine($"    {entry.Key}: {entry.Value}");
+        }
+    }
+
+    private static DiffMetrics ComputeDiffMetrics(Image<Rgba32> actual, Image<Rgba32> expected)
+    {
+        var width = actual.Width;
+        var height = actual.Height;
+        var totalPixels = width * height;
+        var mismatched = 0;
+        var maxDelta = 0;
+        long totalDelta = 0;
+        long totalDeltaR = 0;
+        long totalDeltaG = 0;
+        long totalDeltaB = 0;
+
+        for (var y = 0; y < height; y++)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                var a = actual[x, y];
+                var e = expected[x, y];
+                var deltaR = Math.Abs(a.R - e.R);
+                var deltaG = Math.Abs(a.G - e.G);
+                var deltaB = Math.Abs(a.B - e.B);
+                var pixelMax = Math.Max(deltaR, Math.Max(deltaG, deltaB));
+
+                if (pixelMax > 0)
+                {
+                    mismatched++;
+                }
+
+                if (pixelMax > maxDelta)
+                {
+                    maxDelta = pixelMax;
+                }
+
+                totalDelta += deltaR + deltaG + deltaB;
+                totalDeltaR += deltaR;
+                totalDeltaG += deltaG;
+                totalDeltaB += deltaB;
+            }
+        }
+
+        var mismatchPercentage = totalPixels == 0 ? 0 : mismatched / (double)totalPixels;
+        var averageDelta = totalPixels == 0 ? 0 : totalDelta / (double)(totalPixels * 3);
+        var averageDeltaR = totalPixels == 0 ? 0 : totalDeltaR / (double)totalPixels;
+        var averageDeltaG = totalPixels == 0 ? 0 : totalDeltaG / (double)totalPixels;
+        var averageDeltaB = totalPixels == 0 ? 0 : totalDeltaB / (double)totalPixels;
+
+        return new DiffMetrics(totalPixels, mismatched, mismatchPercentage, maxDelta, averageDelta, averageDeltaR, averageDeltaG, averageDeltaB);
+    }
+
     private static ExportRequest ParseExportDefinition(string value)
     {
         var selectorSplit = value.Split('=', 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
@@ -868,7 +1184,38 @@ sealed class ProjectInspector
         return new ExportRequest(selector, plane, outputPath);
     }
 
-    private sealed record CliOptions(string? TargetPath, string? ResourceSelector, bool ShowCompressionSummary, string? DumpSelector, IReadOnlyList<ExportRequest> Exports);
+    private static CompareRequest ParseCompareDefinition(string value)
+    {
+        var selectorSplit = value.Split('=', 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (selectorSplit.Length != 2)
+        {
+            throw new ArgumentException($"Invalid --compare value '{value}'. Expected format selector=plane:path");
+        }
+
+        var selector = selectorSplit[0];
+        var planeSplit = selectorSplit[1].Split(':', 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (planeSplit.Length != 2)
+        {
+            throw new ArgumentException($"Invalid --compare value '{value}'. Expected format selector=plane:path");
+        }
+
+        if (!Enum.TryParse<PicPlane>(planeSplit[0], true, out var plane))
+        {
+            throw new ArgumentException($"Unknown plane '{planeSplit[0]}' in --compare.");
+        }
+
+        var comparisonPath = Path.GetFullPath(planeSplit[1]);
+        return new CompareRequest(selector, plane, comparisonPath);
+    }
+
+    private sealed record CliOptions(
+        string? TargetPath,
+        string? ResourceSelector,
+        bool ShowCompressionSummary,
+        string? DumpSelector,
+        IReadOnlyList<ExportRequest> Exports,
+        IReadOnlyList<string> Summaries,
+        IReadOnlyList<CompareRequest> Comparisons);
 
     private sealed record CompressionStat(
         ResourceDescriptor Descriptor,
@@ -878,6 +1225,18 @@ sealed class ProjectInspector
         Exception? Error);
 
     private sealed record ExportRequest(string Selector, PicPlane Plane, string Path);
+
+    private sealed record CompareRequest(string Selector, PicPlane Plane, string Path);
+
+    private sealed record DiffMetrics(
+        int TotalPixels,
+        int Mismatched,
+        double MismatchPercentage,
+        int MaxDelta,
+        double AverageDelta,
+        double AverageDeltaR,
+        double AverageDeltaG,
+        double AverageDeltaB);
 
     private enum PicPlane
     {

@@ -21,7 +21,7 @@
 - Opcode histogram matches legacy tool output for sampled PICs.
 
 **Status (2025-09-23)**
-- Decoder/regression tests (`PicPhaseTwoValidationTests`) cover TemplateGame PICs and assert opcode histograms, satisfying Phase 2 exit gates. Additional analytics (palette usage/draw order) tracked under Phase 3 tooling.
+- Decoder/regression tests (`PicPhaseTwoValidationTests`) cover TemplateGame PICs and assert opcode histograms, satisfying Phase 2 exit gates. Draw-order analytics tracked under Phase 3 tooling.
 
 ## Phase 3: Rendering & Analytics (Weeks 4–8)
 **Objectives**
@@ -30,7 +30,7 @@
 - Add CLI tooling to visualize and inspect decoded scenes.
 
 **Status (2025-09-23)**
-- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. Export analytics and automated comparisons remain.
+- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. CLI summaries (`--pic-summary`) surface opcode/plane analytics and palette deltas, and `--compare` enables pixel-diff checks against baseline renders. Draw-order analytics and automated diff baselines remain.
 
 **Exit Criteria**
 - Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates.

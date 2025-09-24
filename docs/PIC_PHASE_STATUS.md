@@ -29,3 +29,18 @@
 | Opcode histogram matches legacy tool output for sampled PICs. | ✅ Done | Snapshot tests assert opcode histograms for representative TemplateGame PICs (`PicPhaseTwoValidationTests`). |
 
 **Outcome:** Phase 2 decoder criteria satisfied. Remaining analytics (palette usage/draw order) move under Phase 3 tooling work.
+
+### Phase 3 – Rendering & Analytics
+
+| Objective | Status | Notes |
+|-----------|--------|-------|
+| Finalize `PicDocument` model (commands + planes + metadata). | ✅ Done | Document encapsulates commands, planes, state timeline, and metadata wiring via `PicResourceCodec`. |
+| Implement renderer/exporter creating PNG/BMP outputs for visual/priority/control. | ✅ Done | CLI export (`--export`) produces palette-aware PNG/BMP with legends for priority/control planes. |
+| Add CLI tooling to visualize and inspect decoded scenes. | ⚠️ In Progress | CLI now supports summaries (`--pic-summary`) covering opcode/plane/palette analytics and pixel comparisons (`--compare`). Draw-order analytics and opcode stream dumps remain. |
+
+| Exit Criteria | Status | Notes |
+|---------------|--------|-------|
+| Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates. | ⚠️ In Progress | `--compare` enables manual diffing; automated baselines/tests still outstanding. |
+| CLI can export planes and show state info for arbitrary PICs. | ✅ Done | `--export`, `--pic-summary`, and inspection paths cover arbitrary PIC resources. |
+
+**Next Steps:** automate diff baselines, surface draw-order analytics, and extend CLI inspections (opcode stream dumps) before closing Phase 3.
