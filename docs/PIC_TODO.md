@@ -44,7 +44,7 @@
 - [x] Seed default palette banks so export colors are stable before any in-stream palette commands.
 - [x] Add CLI summaries for opcode/plane stats and palette analytics (`--pic-summary`).
 - [x] Provide pixel-diff comparisons against baseline renders (`--compare selector=plane:path`, `--compare-baseline path`).
-  - Baseline images follow naming convention `<type>_<number>_<plane>.png` (e.g., `pic_000_visual.png`).
+  - Baseline images follow naming convention `<type>_<number>_<plane>.png` (e.g., `pic_000_visual.png`) and are stored under `Companion.Maui/tests/Baselines/Pic/<Version>/`.
 - [ ] Add command to dump opcode stream with interpreted state (e.g., textual diff).
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 

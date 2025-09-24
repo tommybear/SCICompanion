@@ -40,7 +40,7 @@
 
 | Exit Criteria | Status | Notes |
 |---------------|--------|-------|
-| Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates. | ⚠️ In Progress | `--compare`/`--compare-baseline` enable diff automation; curated baselines/tests still outstanding. |
+| Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates. | ⚠️ In Progress | Baseline PNGs captured under `Companion.Maui/tests/Baselines/Pic` (e.g., `pic_001_visual.png`); `--compare`/`--compare-baseline` enable diff automation. CI wiring still pending. |
 | CLI can export planes and show state info for arbitrary PICs. | ✅ Done | `--export`, `--pic-summary`, and inspection paths cover arbitrary PIC resources. |
 
 **Next Steps:** curate baseline images for automated comparisons, add opcode stream dumps, and surface plane dirty analytics before closing Phase 3.
