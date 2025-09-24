@@ -51,7 +51,7 @@ public sealed class PicResourceCodec : IResourceCodec
             resource.Metadata.TryGetValue(DecodedPayloadKey, out var payloadValue) && payloadValue is byte[] originalPayload)
         {
             var encoder = new PicEncoder();
-            var encodedPayload = encoder.Encode(document, originalPayload);
+            var encodedPayload = encoder.Encode(document, resource.Version, originalPayload);
 
             if (header.CompressionMethod == 0)
             {
