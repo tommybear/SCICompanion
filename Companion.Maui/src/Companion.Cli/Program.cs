@@ -122,6 +122,11 @@ sealed class ProjectInspector
         {
             CompareExport(gameFolder, catalog.Version, resources, comparison);
         }
+
+        if (!string.IsNullOrWhiteSpace(options.BaselineDirectory))
+        {
+            CompareBaseline(gameFolder, catalog.Version, resources, options.BaselineDirectory!);
+        }
     }
 
     private static CliOptions ParseOptions(string[] args)
@@ -129,6 +134,7 @@ sealed class ProjectInspector
         string? targetPath = null;
         string? selector = null;
         string? dumpSelector = null;
+        string? compareBaseline = null;
         var exports = new List<ExportRequest>();
         var summaries = new List<string>();
         var comparisons = new List<CompareRequest>();
@@ -186,6 +192,12 @@ sealed class ProjectInspector
                 continue;
             }
 
+            if (IsCompareBaselineFlag(arg))
+            {
+                compareBaseline = ReadSelectorValue(arg, args, ref i);
+                continue;
+            }
+
             if (selector is null && TryParseSelector(arg, out _, out _))
             {
                 selector = arg;
@@ -195,7 +207,7 @@ sealed class ProjectInspector
             targetPath ??= arg;
         }
 
-        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports, summaries, comparisons);
+        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports, summaries, comparisons, compareBaseline);
     }
 
     private static bool IsCompressionFlag(string value) =>
@@ -220,6 +232,9 @@ sealed class ProjectInspector
         string.Equals(value, "--compare", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(value, "-C", StringComparison.OrdinalIgnoreCase) ||
         value.StartsWith("--compare=", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsCompareBaselineFlag(string value) =>
+        string.Equals(value, "--compare-baseline", StringComparison.OrdinalIgnoreCase);
 
     private static string ReadSelectorValue(string current, string[] args, ref int index)
     {
@@ -627,6 +642,7 @@ sealed class ProjectInspector
             SummarizePriorityBands(finalState.PriorityBands);
             SummarizePlane("Priority", document.PriorityPlane);
             SummarizePlane("Control", document.ControlPlane);
+            SummarizeDrawOrder(document.Commands);
         }
         catch (Exception ex)
         {
@@ -687,6 +703,55 @@ sealed class ProjectInspector
         catch (Exception ex)
         {
             Console.WriteLine($"Failed to compare resource {type}:{number}: {ex.Message}");
+        }
+    }
+
+    private void CompareBaseline(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, string baselineRoot)
+    {
+        if (!Directory.Exists(baselineRoot))
+        {
+            Console.WriteLine($"Baseline directory '{baselineRoot}' not found.");
+            return;
+        }
+
+        foreach (var descriptor in resources.Where(r => r.Type == ResourceType.Pic))
+        {
+            var selector = $"{descriptor.Type.ToString().ToLowerInvariant()}:{descriptor.Number}";
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            if (!decoded.Metadata.TryGetValue("PicDocument", out var docValue) || docValue is not PicDocument document)
+            {
+                continue;
+            }
+
+            foreach (var plane in Enum.GetValues<PicPlane>())
+            {
+                var fileName = $"{descriptor.Type.ToString().ToLowerInvariant()}_{descriptor.Number:D3}_{plane.ToString().ToLowerInvariant()}.png";
+                var baselinePath = Path.Combine(baselineRoot, fileName);
+                if (!File.Exists(baselinePath))
+                {
+                    continue;
+                }
+
+                var planeData = plane switch
+                {
+                    PicPlane.Visual => document.VisualPlane,
+                    PicPlane.Priority => document.PriorityPlane,
+                    PicPlane.Control => document.ControlPlane,
+                    _ => document.VisualPlane
+                };
+
+                using var actual = CreatePlaneImage(document, planeData, plane, version, document.FinalState);
+                using var expected = Image.Load<Rgba32>(baselinePath);
+
+                if (actual.Width != expected.Width || actual.Height != expected.Height)
+                {
+                    Console.WriteLine($"Baseline compare {selector} {plane}: dimension mismatch (actual {actual.Width}x{actual.Height}, expected {expected.Width}x{expected.Height}).");
+                    continue;
+                }
+
+                var diff = ComputeDiffMetrics(actual, expected);
+                Console.WriteLine($"Baseline compare {selector} {plane}: {diff.Mismatched}/{diff.TotalPixels} pixels differ ({diff.MismatchPercentage:P2}), max delta {diff.MaxDelta}, avg delta {diff.AverageDelta:F2} (R {diff.AverageDeltaR:F2}, G {diff.AverageDeltaG:F2}, B {diff.AverageDeltaB:F2}).");
+            }
         }
     }
 
@@ -1111,6 +1176,44 @@ sealed class ProjectInspector
         }
     }
 
+    private static void SummarizeDrawOrder(IReadOnlyList<PicCommand> commands)
+    {
+        var drawCommands = commands
+            .Where(IsDrawCommand)
+            .Select((command, index) => (command, index))
+            .ToList();
+
+        Console.WriteLine($"  Draw commands: {drawCommands.Count}");
+        foreach (var (command, index) in drawCommands.Take(3))
+        {
+            Console.WriteLine($"    [{index}] {DescribeDrawCommand(command)}");
+        }
+        if (drawCommands.Count > 6)
+        {
+            Console.WriteLine("    …");
+        }
+        foreach (var (command, index) in drawCommands.Skip(Math.Max(0, drawCommands.Count - 3)))
+        {
+            Console.WriteLine($"    [{index}] {DescribeDrawCommand(command)}");
+        }
+    }
+
+    private static bool IsDrawCommand(PicCommand command) => command switch
+    {
+        PicCommand.RelativeLine => true,
+        PicCommand.PatternDraw => true,
+        PicCommand.FloodFill => true,
+        _ => false
+    };
+
+    private static string DescribeDrawCommand(PicCommand command) => command switch
+    {
+        PicCommand.RelativeLine line => $"Line segments={line.Segments.Count} start=({line.StartX},{line.StartY}) end=({line.EndX},{line.EndY}) color={line.ColorIndex}",
+        PicCommand.PatternDraw pattern => $"Pattern instances={pattern.Instances.Count} brush={(pattern.UseBrush ? "yes" : "no")} size={pattern.PatternSize}",
+        PicCommand.FloodFill fill => $"Fill color={fill.ColorIndex} at ({fill.X},{fill.Y})",
+        _ => command.Opcode.ToString()
+    };
+
     private static DiffMetrics ComputeDiffMetrics(Image<Rgba32> actual, Image<Rgba32> expected)
     {
         var width = actual.Width;
@@ -1215,7 +1318,8 @@ sealed class ProjectInspector
         string? DumpSelector,
         IReadOnlyList<ExportRequest> Exports,
         IReadOnlyList<string> Summaries,
-        IReadOnlyList<CompareRequest> Comparisons);
+        IReadOnlyList<CompareRequest> Comparisons,
+        string? BaselineDirectory);
 
     private sealed record CompressionStat(
         ResourceDescriptor Descriptor,

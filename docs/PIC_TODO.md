@@ -31,7 +31,8 @@
 - [x] Provide exporter to produce raster images for verification (PNG/BMP via Skia/WriteableBitmap).
 - [ ] Implement analytics utilities (opcode histogram, palette usage, draw order).
   - [x] Opcode histogram and palette usage surfaced via CLI summaries.
-  - [ ] Draw order / plane dirty analytics.
+  - [x] Draw order samples surfaced via CLI summary.
+  - [ ] Plane dirty analytics.
 
 ## Encoder
 - [ ] Map `PicDocument` back to opcode stream preserving semantics.
@@ -42,7 +43,8 @@
 - [x] Extend CLI to export visual/priority/control planes as images (palette-aware PNG/BMP with legends for priority/control planes).
 - [x] Seed default palette banks so export colors are stable before any in-stream palette commands.
 - [x] Add CLI summaries for opcode/plane stats and palette analytics (`--pic-summary`).
-- [x] Provide pixel-diff comparisons against baseline renders (`--compare selector=plane:path`).
+- [x] Provide pixel-diff comparisons against baseline renders (`--compare selector=plane:path`, `--compare-baseline path`).
+  - Baseline images follow naming convention `<type>_<number>_<plane>.png` (e.g., `pic_000_visual.png`).
 - [ ] Add command to dump opcode stream with interpreted state (e.g., textual diff).
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 
