@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Companion.Application.DependencyInjection;
 using Companion.Application.Projects;
@@ -12,6 +13,8 @@ using Companion.Domain.Compression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Text;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services
@@ -103,6 +106,11 @@ sealed class ProjectInspector
         {
             DumpResource(gameFolder, catalog.Version, resources, options.DumpSelector!);
         }
+
+        foreach (var export in options.Exports)
+        {
+            ExportResource(gameFolder, catalog.Version, resources, export);
+        }
     }
 
     private static CliOptions ParseOptions(string[] args)
@@ -110,6 +118,7 @@ sealed class ProjectInspector
         string? targetPath = null;
         string? selector = null;
         string? dumpSelector = null;
+        var exports = new List<ExportRequest>();
         var showCompression = false;
 
         for (var i = 0; i < args.Length; i++)
@@ -138,6 +147,13 @@ sealed class ProjectInspector
                 continue;
             }
 
+            if (IsExportFlag(arg))
+            {
+                var exportValue = ReadExportValue(arg, args, ref i);
+                exports.Add(ParseExportDefinition(exportValue));
+                continue;
+            }
+
             if (selector is null && TryParseSelector(arg, out _, out _))
             {
                 selector = arg;
@@ -147,7 +163,7 @@ sealed class ProjectInspector
             targetPath ??= arg;
         }
 
-        return new CliOptions(targetPath, selector, showCompression, dumpSelector);
+        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports);
     }
 
     private static bool IsCompressionFlag(string value) =>
@@ -158,6 +174,11 @@ sealed class ProjectInspector
         string.Equals(value, "--dump", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(value, "-d", StringComparison.OrdinalIgnoreCase) ||
         value.StartsWith("--dump=", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsExportFlag(string value) =>
+        string.Equals(value, "--export", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "-e", StringComparison.OrdinalIgnoreCase) ||
+        value.StartsWith("--export=", StringComparison.OrdinalIgnoreCase);
 
     private static string ReadSelectorValue(string current, string[] args, ref int index)
     {
@@ -170,6 +191,23 @@ sealed class ProjectInspector
         if (index + 1 >= args.Length)
         {
             throw new ArgumentException("--dump requires a resource selector (e.g. --dump pic:0).");
+        }
+
+        index++;
+        return args[index];
+    }
+
+    private static string ReadExportValue(string current, string[] args, ref int index)
+    {
+        var equalsIndex = current.IndexOf('=');
+        if (equalsIndex >= 0)
+        {
+            return current[(equalsIndex + 1)..];
+        }
+
+        if (index + 1 >= args.Length)
+        {
+            throw new ArgumentException("--export requires an argument (e.g. --export pic:0=visual:out.pgm).");
         }
 
         index++;
@@ -439,7 +477,148 @@ sealed class ProjectInspector
         }
     }
 
-    private sealed record CliOptions(string? TargetPath, string? ResourceSelector, bool ShowCompressionSummary, string? DumpSelector);
+    private void ExportResource(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, ExportRequest request)
+    {
+        if (!TryParseSelector(request.Selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse export selector '{request.Selector}'.");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            if (type != ResourceType.Pic || !decoded.Metadata.TryGetValue("PicDocument", out var docValue) || docValue is not PicDocument document)
+            {
+                Console.WriteLine($"Resource {type}:{number} is not a PIC or lacks rendering data.");
+                return;
+            }
+
+            var planeData = request.Plane switch
+            {
+                PicPlane.Visual => document.VisualPlane,
+                PicPlane.Priority => document.PriorityPlane,
+                PicPlane.Control => document.ControlPlane,
+                _ => document.VisualPlane
+            };
+
+            var directory = Path.GetDirectoryName(request.Path);
+            if (!string.IsNullOrEmpty(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            var extension = Path.GetExtension(request.Path);
+            if (string.Equals(extension, ".png", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(extension, ".bmp", StringComparison.OrdinalIgnoreCase))
+            {
+                WriteImage(request.Path, document, planeData, request.Plane);
+            }
+            else
+            {
+                WritePgm(request.Path, document.Width, document.Height, planeData);
+            }
+
+            Console.WriteLine($"Exported {type}:{number} {request.Plane} plane to {request.Path}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to export resource {type}:{number}: {ex.Message}");
+        }
+    }
+
+    private static void WritePgm(string path, int width, int height, byte[] data)
+    {
+        using var writer = new StreamWriter(path, append: false);
+        writer.WriteLine("P2");
+        writer.WriteLine($"{width} {height}");
+        writer.WriteLine("255");
+
+        for (var y = 0; y < height; y++)
+        {
+            for (var x = 0; x < width; x++)
+            {
+                var value = data[y * width + x];
+                writer.Write(value);
+                writer.Write(' ');
+            }
+            writer.WriteLine();
+        }
+    }
+
+    private static void WriteImage(string path, PicDocument document, byte[] data, PicPlane plane)
+    {
+        using var image = new Image<Rgba32>(document.Width, document.Height);
+        for (var y = 0; y < document.Height; y++)
+        {
+            for (var x = 0; x < document.Width; x++)
+            {
+                var value = data[y * document.Width + x];
+                var color = plane switch
+                {
+                    PicPlane.Visual => MapVisualColor(document, value),
+                    PicPlane.Priority => MapPriorityColor(value),
+                    PicPlane.Control => MapControlColor(value),
+                    _ => new Rgba32(value, value, value)
+                };
+                image[x, y] = color;
+            }
+        }
+
+        image.Save(path);
+    }
+
+    private static Rgba32 MapVisualColor(PicDocument document, byte value)
+    {
+        _ = document;
+        return new Rgba32(value, value, value);
+    }
+
+    private static Rgba32 MapPriorityColor(byte value)
+    {
+        var scaled = (byte)Math.Clamp(value * 17, 0, 255);
+        return new Rgba32(scaled, 0, (byte)(255 - scaled));
+    }
+
+    private static Rgba32 MapControlColor(byte value)
+    {
+        var green = value;
+        var blue = (byte)(255 - value);
+        return new Rgba32(0, green, blue);
+    }
+
+    private static ExportRequest ParseExportDefinition(string value)
+    {
+        var selectorSplit = value.Split('=', 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (selectorSplit.Length != 2)
+        {
+            throw new ArgumentException($"Invalid --export value '{value}'. Expected format selector=plane:path");
+        }
+
+        var selector = selectorSplit[0];
+        var planeSplit = selectorSplit[1].Split(':', 2, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+        if (planeSplit.Length != 2)
+        {
+            throw new ArgumentException($"Invalid --export value '{value}'. Expected format selector=plane:path");
+        }
+
+        if (!Enum.TryParse<PicPlane>(planeSplit[0], true, out var plane))
+        {
+            throw new ArgumentException($"Unknown plane '{planeSplit[0]}' in --export.");
+        }
+
+        var outputPath = Path.GetFullPath(planeSplit[1]);
+        return new ExportRequest(selector, plane, outputPath);
+    }
+
+    private sealed record CliOptions(string? TargetPath, string? ResourceSelector, bool ShowCompressionSummary, string? DumpSelector, IReadOnlyList<ExportRequest> Exports);
 
     private sealed record CompressionStat(
         ResourceDescriptor Descriptor,
@@ -447,4 +626,13 @@ sealed class ProjectInspector
         int? CompressedLength,
         int? DecompressedLength,
         Exception? Error);
+
+    private sealed record ExportRequest(string Selector, PicPlane Plane, string Path);
+
+    private enum PicPlane
+    {
+        Visual,
+        Priority,
+        Control
+    }
 }

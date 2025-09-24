@@ -88,6 +88,14 @@ internal static class PicRasterizer
             case PicCommand.RelativeLine line:
                 DrawLine(line, state, version, visual, priority, control, width, height);
                 return state with { PenX = line.EndX, PenY = line.EndY };
+            case PicCommand.PatternDraw pattern:
+                DrawPattern(pattern, state, version, visual, priority, control, width, height);
+                if (pattern.Instances.Count > 0)
+                {
+                    var last = pattern.Instances[^1];
+                    return state with { PenX = last.X, PenY = last.Y };
+                }
+                return state;
             case PicCommand.FloodFill fill:
                 FloodFill(fill, state, version, visual, priority, control, width, height);
                 return state with { PenX = fill.X, PenY = fill.Y };
@@ -220,6 +228,114 @@ internal static class PicRasterizer
             stack.Push((x - 1, y));
             stack.Push((x, y + 1));
             stack.Push((x, y - 1));
+        }
+    }
+
+    private static void DrawPattern(
+        PicCommand.PatternDraw pattern,
+        PicStateSnapshot state,
+        SCIVersion version,
+        byte[] visual,
+        byte[] priority,
+        byte[] control,
+        int width,
+        int height)
+    {
+        var drawVisual = state.Flags.HasFlag(PicStateFlags.VisualEnabled);
+        var drawPriority = state.Flags.HasFlag(PicStateFlags.PriorityEnabled);
+        var drawControl = state.Flags.HasFlag(PicStateFlags.ControlEnabled);
+
+        if (!drawVisual && !drawPriority && !drawControl)
+        {
+            return;
+        }
+
+        var color = GetVisualColorValue(state, state.VisualColorIndex, version);
+
+        foreach (var instance in pattern.Instances)
+        {
+            DrawPatternInstance(
+                instance,
+                pattern,
+                drawVisual ? visual : null,
+                drawPriority ? priority : null,
+                drawControl ? control : null,
+                color,
+                state.PriorityValue,
+                state.ControlValue,
+                width,
+                height);
+        }
+    }
+
+    private static void DrawPatternInstance(
+        PatternInstance instance,
+        PicCommand.PatternDraw pattern,
+        byte[]? visual,
+        byte[]? priority,
+        byte[]? control,
+        byte color,
+        byte priorityValue,
+        byte controlValue,
+        int width,
+        int height)
+    {
+        var radius = (int)pattern.PatternSize;
+        var centerX = instance.X;
+        var centerY = instance.Y;
+
+        if (radius <= 0)
+        {
+            if (pattern.UseBrush)
+            {
+                var brushBit = PicPatternTables.GetJunqSeed(instance.PatternNumber);
+                if (!PicPatternTables.ShouldStamp(ref brushBit))
+                {
+                    return;
+                }
+            }
+
+            PlotPixel(centerX, centerY, width, height, visual, priority, control, color, priorityValue, controlValue);
+            return;
+        }
+
+        centerX = Math.Clamp(centerX, 0, width - 1);
+        centerY = Math.Clamp(centerY, 0, height - 1);
+        var maxCenterX = Math.Max(radius, width - 1 - radius);
+        var maxCenterY = Math.Max(radius, height - 1 - radius);
+        centerX = Math.Clamp(centerX, radius, maxCenterX);
+        centerY = Math.Clamp(centerY, radius, maxCenterY);
+
+        var minX = centerX - radius;
+        var maxX = centerX + radius + 1;
+        var minY = centerY - radius;
+        var maxY = centerY + radius;
+        var columns = PicPatternTables.GetCircleColumnCount(radius);
+
+        var rowIndex = 0;
+        var junqBit = pattern.UseBrush ? PicPatternTables.GetJunqSeed(instance.PatternNumber) : 0;
+
+        for (var y = minY; y <= maxY; y++, rowIndex++)
+        {
+            var columnIndex = 0;
+            for (var x = minX; x <= maxX; x++, columnIndex++)
+            {
+                if (!pattern.IsRectangle)
+                {
+                    var bitIndex = rowIndex * columns + columnIndex;
+                    if (!PicPatternTables.CircleHasPixel(radius, bitIndex))
+                    {
+                        continue;
+                    }
+                }
+
+                if (pattern.UseBrush && !PicPatternTables.ShouldStamp(ref junqBit))
+                {
+                    continue;
+                }
+
+                PlotPixel(x, y, width, height, visual, priority, control, color, priorityValue, controlValue);
+            }
         }
     }
 

@@ -8,11 +8,13 @@ internal sealed class PicStateMachine
 {
     private const int PaletteBankCount = 4;
     private const int PaletteSize = 40;
+    private const int PriorityBandCount = 14;
 
     private readonly SCIVersion _version;
     private readonly byte[][] _paletteBanks;
     private readonly bool[] _paletteLocks;
     private readonly byte[] _vgaPalette;
+    private readonly ushort[] _priorityBands;
 
     public PicStateMachine(SCIVersion version)
     {
@@ -24,6 +26,7 @@ internal sealed class PicStateMachine
         }
         _paletteLocks = new bool[PaletteSize];
         _vgaPalette = new byte[256];
+        _priorityBands = new ushort[PriorityBandCount];
         Snapshot = new PicStateSnapshot(
             Flags: PicStateFlags.VisualEnabled | PicStateFlags.PriorityEnabled | PicStateFlags.ControlEnabled,
             VisualPalette: 0,
@@ -37,7 +40,8 @@ internal sealed class PicStateMachine
             PaletteToDraw: 0,
             PaletteLocks: new bool[PaletteSize],
             PaletteBanks: ClonePaletteBanks(),
-            VgaPalette: new byte[_vgaPalette.Length]);
+            VgaPalette: new byte[_vgaPalette.Length],
+            PriorityBands: (ushort[])_priorityBands.Clone());
     }
 
     public PicStateSnapshot Snapshot { get; private set; }
@@ -48,7 +52,8 @@ internal sealed class PicStateMachine
         {
             PaletteLocks = (bool[])Snapshot.PaletteLocks.Clone(),
             PaletteBanks = ClonePaletteBanks(),
-            VgaPalette = (byte[])Snapshot.VgaPalette.Clone()
+            VgaPalette = (byte[])Snapshot.VgaPalette.Clone(),
+            PriorityBands = (ushort[])Snapshot.PriorityBands.Clone()
         };
     }
 
@@ -137,6 +142,14 @@ internal sealed class PicStateMachine
         };
     }
 
+    public void UpdatePatternNumber(byte number)
+    {
+        Snapshot = Snapshot with
+        {
+            PatternNumber = number
+        };
+    }
+
     public void UpdatePen(int x, int y)
     {
         Snapshot = Snapshot with
@@ -167,38 +180,41 @@ internal sealed class PicStateMachine
     {
         switch (opcode)
         {
-            case PicExtendedOpcode.SetPalette:
-                if (_version <= SCIVersion.SCI0)
+            case PicExtendedOpcode.SetPalette when _version <= SCIVersion.SCI0:
                 {
                     var bank = Snapshot.PaletteToDraw % PaletteBankCount;
                     var target = _paletteBanks[bank];
                     var count = Math.Min(target.Length, data.Length);
                     data[..count].CopyTo(target);
                 }
-                else
+                break;
+            case PicExtendedOpcode.SetPaletteEntry when _version <= SCIVersion.SCI0:
+                for (var i = 0; i + 1 < data.Length; i += 2)
+                {
+                    var palette = (data[i] / PaletteSize) % PaletteBankCount;
+                    var offset = data[i] % PaletteSize;
+                    _paletteBanks[palette][offset] = data[i + 1];
+                }
+                break;
+            case PicExtendedOpcode.SetPalette when _version > SCIVersion.SCI0:
+            case PicExtendedOpcode.Sci1SetPalette when _version > SCIVersion.SCI0:
                 {
                     var count = Math.Min(_vgaPalette.Length, data.Length);
                     data[..count].CopyTo(_vgaPalette);
                 }
                 break;
-            case PicExtendedOpcode.SetPaletteEntry:
-                if (_version <= SCIVersion.SCI0)
+            case PicExtendedOpcode.SetPaletteEntry when _version > SCIVersion.SCI0:
+                for (var i = 0; i + 1 < data.Length; i += 2)
                 {
-                    for (var i = 0; i + 1 < data.Length; i += 2)
-                    {
-                        var palette = (data[i] / PaletteSize) % PaletteBankCount;
-                        var offset = data[i] % PaletteSize;
-                        _paletteBanks[palette][offset] = data[i + 1];
-                    }
+                    var index = data[i];
+                    _vgaPalette[index] = data[i + 1];
                 }
-                else
-                {
-                    for (var i = 0; i + 1 < data.Length; i += 2)
-                    {
-                        var index = data[i];
-                        _vgaPalette[index] = data[i + 1];
-                    }
-                }
+                break;
+            case PicExtendedOpcode.Sci1SetPriorityBands:
+                ApplyPriorityBands(data);
+                break;
+            case PicExtendedOpcode.Sci1DrawBitmap:
+                // TODO: Support embedded VGA bitmap drawing.
                 break;
             default:
                 break;
@@ -207,7 +223,8 @@ internal sealed class PicStateMachine
         Snapshot = Snapshot with
         {
             PaletteBanks = ClonePaletteBanks(),
-            VgaPalette = (byte[])_vgaPalette.Clone()
+            VgaPalette = (byte[])_vgaPalette.Clone(),
+            PriorityBands = (ushort[])_priorityBands.Clone()
         };
     }
 
@@ -219,6 +236,26 @@ internal sealed class PicStateMachine
             clone[i] = (byte[])_paletteBanks[i].Clone();
         }
         return clone;
+    }
+
+    private void ApplyPriorityBands(ReadOnlySpan<byte> data)
+    {
+        if (data.Length >= _priorityBands.Length * 2)
+        {
+            for (var i = 0; i < _priorityBands.Length; i++)
+            {
+                var low = data[i * 2];
+                var high = data[i * 2 + 1];
+                _priorityBands[i] = (ushort)(low | (high << 8));
+            }
+            return;
+        }
+
+        var count = Math.Min(_priorityBands.Length, data.Length);
+        for (var i = 0; i < count; i++)
+        {
+            _priorityBands[i] = data[i];
+        }
     }
 }
 
@@ -235,7 +272,8 @@ public sealed record PicStateSnapshot(
     byte PaletteToDraw,
     bool[] PaletteLocks,
     byte[][] PaletteBanks,
-    byte[] VgaPalette)
+    byte[] VgaPalette,
+    ushort[] PriorityBands)
 {
     public PicStateSnapshot WithFlags(PicStateFlags flags) => this with { Flags = flags };
 }

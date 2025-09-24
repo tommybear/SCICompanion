@@ -21,9 +21,14 @@ public abstract record PicCommand(PicOpcode Opcode)
     public sealed record RelativeLine(PicOpcode LineOpcode, byte ColorIndex, IReadOnlyList<(int dx, int dy)> Segments, int StartX, int StartY, int EndX, int EndY)
         : PicCommand(LineOpcode);
 
+    public sealed record PatternDraw(PicOpcode PatternOpcode, IReadOnlyList<PatternInstance> Instances, byte PatternNumber, byte PatternSize, bool UseBrush, bool IsRectangle)
+        : PicCommand(PatternOpcode);
+
     public sealed record FloodFill(byte ColorIndex, ushort X, ushort Y) : PicCommand(PicOpcode.FloodFill);
 
     public sealed record Extended(PicExtendedOpcode ExtendedOpcode, byte[] Data) : PicCommand(PicOpcode.ExtendedFunction);
 
     public sealed record Unknown(PicOpcode RawOpcode, byte[] Data) : PicCommand(RawOpcode);
 }
+
+public sealed record PatternInstance(int X, int Y, byte PatternNumber);

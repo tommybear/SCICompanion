@@ -57,6 +57,11 @@ public static class PicParser
             PicOpcode.FloodFill => ParseFloodFill(payload, ref index, state),
             PicOpcode.SetPattern => ParseSetPattern(payload, ref index, state),
             PicOpcode.RelativeShortLines => ParseRelativeShortLines(payload, ref index, state),
+            PicOpcode.RelativeMediumLines => ParseRelativeMediumLines(payload, ref index, state),
+            PicOpcode.RelativeLongLines => ParseRelativeLongLines(payload, ref index, state),
+            PicOpcode.RelativePatterns => ParseRelativePatterns(payload, ref index, state, PicOpcode.RelativePatterns),
+            PicOpcode.RelativeMediumPatterns => ParseRelativePatterns(payload, ref index, state, PicOpcode.RelativeMediumPatterns),
+            PicOpcode.AbsolutePatterns => ParseAbsolutePatterns(payload, ref index, state),
             PicOpcode.ExtendedFunction => ParseExtended(payload, ref index, state),
             _ => ParseUnknown(payload, ref index, opcode)
         };
@@ -150,6 +155,126 @@ public static class PicParser
         return new PicCommand.RelativeLine(PicOpcode.RelativeShortLines, color, segments, startX, startY, snapshot.PenX, snapshot.PenY);
     }
 
+    private static PicCommand ParseRelativeMediumLines(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var snapshot = state.GetSnapshot();
+        var color = snapshot.VisualColorIndex;
+        var (startX, startY) = ReadAbsoluteCoordinate(payload, ref index);
+        state.UpdatePen(startX, startY);
+
+        var segments = new List<(int dx, int dy)>();
+        var currentX = startX;
+        var currentY = startY;
+
+        while (index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
+        {
+            var yByte = ReadByte(payload, ref index);
+            var nextY = (yByte & 0x80) != 0 ? currentY - (yByte & 0x7F) : currentY + (yByte & 0x7F);
+            var xByte = ReadByte(payload, ref index);
+            var nextX = (short)(currentX + (sbyte)xByte);
+            segments.Add((nextX - currentX, nextY - currentY));
+            currentX = nextX;
+            currentY = nextY;
+        }
+
+        state.UpdatePen(currentX, currentY);
+        return new PicCommand.RelativeLine(PicOpcode.RelativeMediumLines, color, segments, startX, startY, currentX, currentY);
+    }
+
+    private static PicCommand ParseRelativeLongLines(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var snapshot = state.GetSnapshot();
+        var color = snapshot.VisualColorIndex;
+        var (startX, startY) = ReadAbsoluteCoordinate(payload, ref index);
+        state.UpdatePen(startX, startY);
+
+        var segments = new List<(int dx, int dy)>();
+        var currentX = startX;
+        var currentY = startY;
+
+        while (index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
+        {
+            var (nextX, nextY) = ReadAbsoluteCoordinate(payload, ref index);
+            segments.Add((nextX - currentX, nextY - currentY));
+            currentX = nextX;
+            currentY = nextY;
+        }
+
+        state.UpdatePen(currentX, currentY);
+        return new PicCommand.RelativeLine(PicOpcode.RelativeLongLines, color, segments, startX, startY, currentX, currentY);
+    }
+
+    private static PicCommand ParseRelativePatterns(byte[] payload, ref int index, PicStateMachine state, PicOpcode opcode)
+    {
+        var snapshot = state.GetSnapshot();
+        var useBrush = snapshot.Flags.HasFlag(PicStateFlags.PatternUsesBrush);
+        var isRectangle = snapshot.Flags.HasFlag(PicStateFlags.PatternIsRectangle);
+        var patternNumber = snapshot.PatternNumber;
+        var patternSize = snapshot.PatternSize;
+
+        if (useBrush && index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
+        {
+            var patternByte = ReadByte(payload, ref index);
+            patternNumber = (byte)((patternByte >> 1) & 0x7F);
+            state.UpdatePatternNumber(patternNumber);
+        }
+
+        var instances = new List<PatternInstance>();
+        var (startX, startY) = ReadAbsoluteCoordinate(payload, ref index);
+        instances.Add(new PatternInstance(startX, startY, patternNumber));
+        state.UpdatePen(startX, startY);
+
+        var currentX = startX;
+        var currentY = startY;
+
+        while (index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
+        {
+            if (useBrush)
+            {
+                var patternByte = ReadByte(payload, ref index);
+                patternNumber = (byte)((patternByte >> 1) & 0x7F);
+                state.UpdatePatternNumber(patternNumber);
+            }
+
+            var yByte = ReadByte(payload, ref index);
+            var nextY = (yByte & 0x80) != 0 ? currentY - (yByte & 0x7F) : currentY + (yByte & 0x7F);
+            var xByte = ReadByte(payload, ref index);
+            var nextX = (short)(currentX + (sbyte)xByte);
+
+            instances.Add(new PatternInstance(nextX, nextY, patternNumber));
+            currentX = nextX;
+            currentY = nextY;
+            state.UpdatePen(currentX, currentY);
+        }
+
+        var updated = state.GetSnapshot();
+        return new PicCommand.PatternDraw(opcode, instances, updated.PatternNumber, updated.PatternSize, useBrush, isRectangle);
+    }
+
+    private static PicCommand ParseAbsolutePatterns(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var snapshot = state.GetSnapshot();
+        var useBrush = snapshot.Flags.HasFlag(PicStateFlags.PatternUsesBrush);
+        var isRectangle = snapshot.Flags.HasFlag(PicStateFlags.PatternIsRectangle);
+        var patternNumber = snapshot.PatternNumber;
+        var patternSize = snapshot.PatternSize;
+
+        var instances = new List<PatternInstance>();
+        var (startX, startY) = ReadAbsoluteCoordinate(payload, ref index);
+        instances.Add(new PatternInstance(startX, startY, patternNumber));
+        state.UpdatePen(startX, startY);
+
+        while (index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
+        {
+            var (nextX, nextY) = ReadAbsoluteCoordinate(payload, ref index);
+            instances.Add(new PatternInstance(nextX, nextY, patternNumber));
+            state.UpdatePen(nextX, nextY);
+        }
+
+        var updated = state.GetSnapshot();
+        return new PicCommand.PatternDraw(PicOpcode.AbsolutePatterns, instances, updated.PatternNumber, updated.PatternSize, useBrush, isRectangle);
+    }
+
     private static PicCommand ParseExtended(byte[] payload, ref int index, PicStateMachine state)
     {
         if (index >= payload.Length)
@@ -196,5 +321,15 @@ public static class PicParser
         }
 
         return payload[index++];
+    }
+
+    private static (int x, int y) ReadAbsoluteCoordinate(byte[] payload, ref int index)
+    {
+        var prefix = ReadByte(payload, ref index);
+        var lowX = ReadByte(payload, ref index);
+        var lowY = ReadByte(payload, ref index);
+        var x = lowX | ((prefix & 0xF0) << 4);
+        var y = lowY | ((prefix & 0x0F) << 8);
+        return (x, y);
     }
 }
