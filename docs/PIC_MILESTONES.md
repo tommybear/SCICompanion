@@ -30,7 +30,7 @@
 - Add CLI tooling to visualize and inspect decoded scenes.
 
 **Status (2025-09-23)**
-- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. CLI summaries (`--pic-summary`) surface opcode/plane analytics (with draw-order samples) and palette deltas, while `--compare`/`--compare-baseline` provide pixel-diff checks against stored renders. Opcode stream dumps and curated baseline sets remain.
+- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. CLI summaries (`--pic-summary`) surface opcode/plane analytics (including draw-order and plane-state data), `--pic-ops` dumps command streams, and `--compare`/`--compare-baseline` provide diff checks against stored renders. CI integration of baselines and re-encode tooling remain.
 
 **Exit Criteria**
 - Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates.

@@ -127,6 +127,11 @@ sealed class ProjectInspector
         {
             CompareBaseline(gameFolder, catalog.Version, resources, options.BaselineDirectory!);
         }
+
+        foreach (var opsSelector in options.OpcodeDumps)
+        {
+            DumpPicOps(gameFolder, catalog.Version, resources, opsSelector);
+        }
     }
 
     private static CliOptions ParseOptions(string[] args)
@@ -138,6 +143,7 @@ sealed class ProjectInspector
         var exports = new List<ExportRequest>();
         var summaries = new List<string>();
         var comparisons = new List<CompareRequest>();
+        var opcodeDumps = new List<string>();
         var showCompression = false;
 
         for (var i = 0; i < args.Length; i++)
@@ -198,6 +204,18 @@ sealed class ProjectInspector
                 continue;
             }
 
+            if (IsOpsFlag(arg))
+            {
+                var opsSelector = ReadSelectorValue(arg, args, ref i);
+                if (!TryParseSelector(opsSelector, out _, out _))
+                {
+                    throw new ArgumentException($"Invalid resource selector '{opsSelector}' provided to --pic-ops.");
+                }
+
+                opcodeDumps.Add(opsSelector);
+                continue;
+            }
+
             if (selector is null && TryParseSelector(arg, out _, out _))
             {
                 selector = arg;
@@ -207,7 +225,7 @@ sealed class ProjectInspector
             targetPath ??= arg;
         }
 
-        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports, summaries, comparisons, compareBaseline);
+        return new CliOptions(targetPath, selector, showCompression, dumpSelector, exports, summaries, comparisons, opcodeDumps, compareBaseline);
     }
 
     private static bool IsCompressionFlag(string value) =>
@@ -235,6 +253,10 @@ sealed class ProjectInspector
 
     private static bool IsCompareBaselineFlag(string value) =>
         string.Equals(value, "--compare-baseline", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsOpsFlag(string value) =>
+        string.Equals(value, "--pic-ops", StringComparison.OrdinalIgnoreCase) ||
+        string.Equals(value, "--ops", StringComparison.OrdinalIgnoreCase);
 
     private static string ReadSelectorValue(string current, string[] args, ref int index)
     {
@@ -688,7 +710,10 @@ sealed class ProjectInspector
                 _ => document.VisualPlane
             };
 
-            using var actual = CreatePlaneImage(document, planeData, request.Plane, version, document.FinalState);
+            using var baseImage = CreatePlaneImage(document, planeData, request.Plane, version, document.FinalState);
+            using var actual = request.Plane is PicPlane.Priority or PicPlane.Control
+                ? AppendLegend(baseImage, planeData, request.Plane)
+                : baseImage.Clone();
             using var expected = Image.Load<Rgba32>(request.Path);
 
             if (actual.Width != expected.Width || actual.Height != expected.Height)
@@ -740,7 +765,10 @@ sealed class ProjectInspector
                     _ => document.VisualPlane
                 };
 
-                using var actual = CreatePlaneImage(document, planeData, plane, version, document.FinalState);
+                using var baseImage = CreatePlaneImage(document, planeData, plane, version, document.FinalState);
+                using var actual = plane is PicPlane.Priority or PicPlane.Control
+                    ? AppendLegend(baseImage, planeData, plane)
+                    : baseImage.Clone();
                 using var expected = Image.Load<Rgba32>(baselinePath);
 
                 if (actual.Width != expected.Width || actual.Height != expected.Height)
@@ -752,6 +780,44 @@ sealed class ProjectInspector
                 var diff = ComputeDiffMetrics(actual, expected);
                 Console.WriteLine($"Baseline compare {selector} {plane}: {diff.Mismatched}/{diff.TotalPixels} pixels differ ({diff.MismatchPercentage:P2}), max delta {diff.MaxDelta}, avg delta {diff.AverageDelta:F2} (R {diff.AverageDeltaR:F2}, G {diff.AverageDeltaG:F2}, B {diff.AverageDeltaB:F2}).");
             }
+        }
+    }
+
+    private void DumpPicOps(string gameFolder, SCIVersion version, IReadOnlyList<ResourceDescriptor> resources, string selector)
+    {
+        if (!TryParseSelector(selector, out var type, out var number))
+        {
+            Console.WriteLine($"Could not parse opcode selector '{selector}'.");
+            return;
+        }
+
+        var descriptor = resources.FirstOrDefault(r => r.Type == type && r.Number == number);
+        if (descriptor is null)
+        {
+            Console.WriteLine($"Resource {type}:{number} not found in catalog.");
+            return;
+        }
+
+        try
+        {
+            var decoded = _repository.LoadResource(gameFolder, descriptor);
+            if (type != ResourceType.Pic || !decoded.Metadata.TryGetValue("PicDocument", out var docValue) || docValue is not PicDocument document)
+            {
+                Console.WriteLine($"Resource {type}:{number} is not a PIC or lacks rendering data.");
+                return;
+            }
+
+            Console.WriteLine($"Opcode stream for {type}:{number} ({version})");
+            for (var index = 0; index < document.Commands.Count; index++)
+            {
+                var command = document.Commands[index];
+                var state = index < document.StateTimeline.Count ? document.StateTimeline[index] : document.FinalState;
+                Console.WriteLine($"  [{index}] {DescribeOpcode(command, state)}");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to dump opcodes for {type}:{number}: {ex.Message}");
         }
     }
 
@@ -1214,6 +1280,36 @@ sealed class ProjectInspector
         _ => command.Opcode.ToString()
     };
 
+    private static string DescribeOpcode(PicCommand command, PicStateSnapshot state)
+    {
+        var planeState = DescribePlaneFlags(state);
+        return command switch
+        {
+            PicCommand.SetVisual set => $"SetVisual palette={set.Palette} color={set.ColorIndex} {planeState}",
+            PicCommand.DisableVisual => $"DisableVisual {planeState}",
+            PicCommand.SetPriority set => $"SetPriority value={set.Value} {planeState}",
+            PicCommand.DisablePriority => $"DisablePriority {planeState}",
+            PicCommand.SetControl set => $"SetControl value={set.Value} {planeState}",
+            PicCommand.DisableControl => $"DisableControl {planeState}",
+            PicCommand.SetPattern pattern => $"SetPattern number={pattern.PatternNumber} size={pattern.PatternSize} rectangle={pattern.IsRectangle} brush={pattern.UseBrush} {planeState}",
+            PicCommand.RelativeLine line => $"RelativeLine segments={line.Segments.Count} start=({line.StartX},{line.StartY}) end=({line.EndX},{line.EndY}) color={line.ColorIndex} {planeState}",
+            PicCommand.PatternDraw pattern => $"PatternDraw instances={pattern.Instances.Count} number={pattern.PatternNumber} size={pattern.PatternSize} brush={pattern.UseBrush} {planeState}",
+            PicCommand.FloodFill fill => $"FloodFill color={fill.ColorIndex} at ({fill.X},{fill.Y}) {planeState}",
+            PicCommand.Extended extended => $"Extended opcode={extended.ExtendedOpcode} bytes={extended.Data.Length}",
+            PicCommand.Unknown unknown => $"Unknown opcode={(byte)unknown.RawOpcode} bytes={unknown.Data.Length}",
+            _ => command.Opcode.ToString()
+        };
+    }
+
+    private static string DescribePlaneFlags(PicStateSnapshot state)
+    {
+        var flags = new List<string>();
+        flags.Add(state.Flags.HasFlag(PicStateFlags.VisualEnabled) ? "V:on" : "V:off");
+        flags.Add(state.Flags.HasFlag(PicStateFlags.PriorityEnabled) ? "P:on" : "P:off");
+        flags.Add(state.Flags.HasFlag(PicStateFlags.ControlEnabled) ? "C:on" : "C:off");
+        return $"[{string.Join(' ', flags)}]";
+    }
+
     private static DiffMetrics ComputeDiffMetrics(Image<Rgba32> actual, Image<Rgba32> expected)
     {
         var width = actual.Width;
@@ -1319,6 +1415,7 @@ sealed class ProjectInspector
         IReadOnlyList<ExportRequest> Exports,
         IReadOnlyList<string> Summaries,
         IReadOnlyList<CompareRequest> Comparisons,
+        IReadOnlyList<string> OpcodeDumps,
         string? BaselineDirectory);
 
     private sealed record CompressionStat(

@@ -29,10 +29,10 @@
   - [x] Palette timeline, priority bands, pattern state snapshots.
 - [x] Implement rasterizer applying commands to planes using decoded state (initial support for color, priority/control, lines, fill).
 - [x] Provide exporter to produce raster images for verification (PNG/BMP via Skia/WriteableBitmap).
-- [ ] Implement analytics utilities (opcode histogram, palette usage, draw order).
+- [x] Implement analytics utilities (opcode histogram, palette usage, draw order).
   - [x] Opcode histogram and palette usage surfaced via CLI summaries.
   - [x] Draw order samples surfaced via CLI summary.
-  - [ ] Plane dirty analytics.
+  - [x] Plane dirty insights surfaced via plane state flags and per-plane statistics.
 
 ## Encoder
 - [ ] Map `PicDocument` back to opcode stream preserving semantics.
@@ -45,7 +45,7 @@
 - [x] Add CLI summaries for opcode/plane stats and palette analytics (`--pic-summary`).
 - [x] Provide pixel-diff comparisons against baseline renders (`--compare selector=plane:path`, `--compare-baseline path`).
   - Baseline images follow naming convention `<type>_<number>_<plane>.png` (e.g., `pic_000_visual.png`) and are stored under `Companion.Maui/tests/Baselines/Pic/<Version>/`.
-- [ ] Add command to dump opcode stream with interpreted state (e.g., textual diff).
+- [x] Add command to dump opcode stream with interpreted state (`--pic-ops`).
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 
 ## Testing & Benchmarks

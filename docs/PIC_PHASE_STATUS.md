@@ -36,7 +36,7 @@
 |-----------|--------|-------|
 | Finalize `PicDocument` model (commands + planes + metadata). | ✅ Done | Document encapsulates commands, planes, state timeline, and metadata wiring via `PicResourceCodec`. |
 | Implement renderer/exporter creating PNG/BMP outputs for visual/priority/control. | ✅ Done | CLI export (`--export`) produces palette-aware PNG/BMP with legends for priority/control planes. |
-| Add CLI tooling to visualize and inspect decoded scenes. | ⚠️ In Progress | CLI now supports summaries (`--pic-summary`) covering opcode/plane/palette analytics (including draw-order samples) and pixel comparisons (`--compare`, `--compare-baseline`). Opcode stream dumps remain. |
+| Add CLI tooling to visualize and inspect decoded scenes. | ⚠️ In Progress | CLI now supports summaries (`--pic-summary`) covering opcode/plane/palette analytics (including draw-order/plane state) and pixel comparisons (`--compare`, `--compare-baseline`). Opcode stream dumps now available via `--pic-ops`; re-encode diff tooling remains. |
 
 | Exit Criteria | Status | Notes |
 |---------------|--------|-------|
