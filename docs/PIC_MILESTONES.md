@@ -26,6 +26,9 @@
 - Implement renderer/exporter creating PNG/BMP outputs for visual/priority/control.
 - Add CLI tooling to visualize and inspect decoded scenes.
 
+**Status (2025-09-23)**
+- `PicDocument` and a first-pass in-memory rasterizer are in place, producing visual/priority/control planes from decoded commands. Export tooling and CLI inspection remain.
+
 **Exit Criteria**
 - Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates.
 - CLI can export planes and show state info for arbitrary PICs.

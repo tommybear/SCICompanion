@@ -23,11 +23,11 @@
 - [ ] Maintain command metadata (opcode counts, bounding boxes, plane dirty flags).
 
 ## Rendering & Document Model
-- [ ] Define `PicDocument` data structure capturing:
-  - [ ] Command list (immutable representation).
-  - [ ] Visual, priority, control plane bitmaps (byte arrays or raster surfaces).
-  - [ ] Palette timeline, priority bands, pattern state snapshots.
-- [ ] Implement rasterizer applying commands to planes using decoded state.
+- [x] Define `PicDocument` data structure capturing:
+  - [x] Command list (immutable representation).
+  - [x] Visual, priority, control plane bitmaps (byte arrays or raster surfaces).
+  - [x] Palette timeline, priority bands, pattern state snapshots.
+- [x] Implement rasterizer applying commands to planes using decoded state (initial support for color, priority/control, lines, fill).
 - [ ] Provide exporter to produce raster images for verification (PNG/BMP via Skia/WriteableBitmap).
 - [ ] Implement analytics utilities (opcode histogram, palette usage, draw order).
 

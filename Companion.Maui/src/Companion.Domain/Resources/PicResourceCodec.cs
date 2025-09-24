@@ -26,6 +26,7 @@ public sealed class PicResourceCodec : IResourceCodec
     {
         var decodedPayload = DecodePayload(package);
         var parseResult = PicParser.Parse(decodedPayload, package.Version);
+        var document = PicRasterizer.Render(parseResult, package.Version);
         var commands = parseResult.Commands;
         var opcodeCounts = PicParser.AggregateOpcodeCounts(commands);
 
@@ -35,6 +36,7 @@ public sealed class PicResourceCodec : IResourceCodec
             [CommandsKey] = commands,
             [OpcodeCountsKey] = opcodeCounts,
             [DecodedPayloadKey] = decodedPayload,
+            ["PicDocument"] = document,
             ["PicStateTimeline"] = parseResult.StateTimeline,
             ["PicFinalState"] = parseResult.FinalState
         };

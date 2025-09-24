@@ -54,7 +54,7 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 - **M1 – Core Project Services**: Metadata persistence, resource discovery, CLI smoke inspector, and initial tests shipped. Outstanding items include richer version heuristics, golden fixtures, and CLI automation per `TODO.md` and `docs/Compression_MILESTONES.md`.
 
 ### Active Work
-- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. PIC parsing now captures opcode/state snapshots, but rendering and round-trip encoding are still pending (`docs/PIC_TODO.md`).
+- **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. PIC parsing now captures opcode/state snapshots and a first-pass rasterizer produces visual/priority/control planes, but full rendering fidelity and round-trip encoding are still pending (`docs/PIC_TODO.md`).
 - **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, STACpack, and LZW_Pic/View reorder implementations are wired with unit coverage. Fixture consolidation (real-world STACpack payloads) remains; CLI diagnostics and dump helpers are in place (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
 - **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 and reorder pipelines. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
@@ -62,7 +62,7 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 1. **Stabilize M2**
    - Finish codec round trips and validation.
    - Finish STACpack fixture coverage with real SCI2 payloads.
-   - Produce minimal rendering outputs for PIC/VIEW assets for inspection tooling.
+   - Extend the new rasterizer into minimal inspection-ready rendering outputs for PIC/VIEW assets.
 2. **Prepare M3 – Script System MVP**
    - Define grammar/AST structure and semantic analysis skeletons.
    - Establish compiler test harness referencing fixture games (sync scope with `TODO.md`).
