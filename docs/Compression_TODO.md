@@ -17,8 +17,9 @@
 
 ## Testing
 - [x] Capture compressed/decompressed fixtures from template PIC resources (SCI0/SCI1.1).
-- [ ] Capture additional fixtures for VIEW/SOUND resources as needed.
-- [x] Write unit tests per algorithm verifying output matches fixtures (PIC coverage in `CompressionFixtureTests`).
+- [x] Capture additional fixtures for VIEW resources (SCI1.1 method 19); SOUND fixtures still pending.
+- [x] Write unit tests per algorithm verifying output matches fixtures (PIC + DCL coverage in `CompressionFixtureTests`).
+- [ ] Capture additional fixtures for SOUND resources as needed.
 - [ ] Add STACpack fixtures covering real-world payloads before exposing encoder pathways.
 - [x] Add failure tests (unexpected method, corrupted token stream).
 - [ ] Optional property tests for LZW to cover random token sequences.

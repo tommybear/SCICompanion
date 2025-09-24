@@ -24,7 +24,7 @@
 - PIC parser consumes decoded data without fallback.
 
 **Status (2025-09-23)**
-- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). SCI1.1 PIC decompression validated via baseline fixture; VIEW fixtures still outstanding.
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). SCI1.1 PIC and VIEW decompression validated via baseline fixtures in `CompressionFixtureTests`.
 
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**
@@ -33,7 +33,7 @@
 - Provide CLI diagnostics for compression metadata.
 
 **Status (2025-09-23)**
-- DCL and STACpack decoders integrated and exercised by unit tests. Compression summary available via CLI `--compression`; interactive decode helper still pending.
+- DCL and STACpack decoders integrated and exercised by unit tests. Compression summary available via CLI `--compression`; DCL golden fixtures now cover methods 18/19/20. Interactive decode helper still pending.
 
 **Exit Criteria**
 - SCI1.x resources using DCL decode correctly; tests cover success/failure paths.

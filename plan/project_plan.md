@@ -55,13 +55,13 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 
 ### Active Work
 - **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. DCL support unblocks SCI1.x resources, but PIC rendering is still limited to parsing; Skia integration and layer synthesis are pending (`docs/PIC_TODO.md`).
-- **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, STACpack, and LZW_Pic/View reorder implementations are wired with unit coverage. Fixture consolidation (including STACpack payloads) and interactive CLI helpers remain (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
+- **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, STACpack, and LZW_Pic/View reorder implementations are wired with unit coverage. Fixture consolidation (STACpack, sound payloads) and interactive CLI helpers remain (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
 - **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1 and reorder pipelines. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
 ## Near-Term Milestones & Focus
 1. **Stabilize M2**
    - Finish codec round trips and validation.
-   - Validate DCL/STACpack against golden fixtures and wire diagnostics into tooling.
+   - Finish STACpack and sound fixture coverage and wire diagnostics into tooling.
    - Produce minimal rendering outputs for PIC/VIEW assets for inspection tooling.
 2. **Prepare M3 – Script System MVP**
    - Define grammar/AST structure and semantic analysis skeletons.
