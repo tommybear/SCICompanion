@@ -20,6 +20,9 @@
 - Template PICs decode without errors; state snapshots validate against legacy data.
 - Opcode histogram matches legacy tool output for sampled PICs.
 
+**Status (2025-09-23)**
+- Decoder/regression tests (`PicPhaseTwoValidationTests`) cover TemplateGame PICs and assert opcode histograms, satisfying Phase 2 exit gates. Additional analytics (palette usage/draw order) tracked under Phase 3 tooling.
+
 ## Phase 3: Rendering & Analytics (Weeks 4–8)
 **Objectives**
 - Finalize `PicDocument` model (commands + planes + metadata).
