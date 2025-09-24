@@ -8,6 +8,101 @@
           "build/netstandard2.0/coverlet.collector.targets": {}
         }
       },
+      "FsCheck/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "5.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/FsCheck.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FsCheck.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FsCheck.Xunit/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "5.0.2",
+          "FsCheck": "[3.2.0]",
+          "xunit.extensibility.execution": "[2.4.1, 3.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.0/FsCheck.Xunit.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FsCheck.Xunit.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FSharp.Core/5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/FSharp.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FSharp.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "resource": {
+          "lib/netstandard2.0/cs/FSharp.Core.resources.dll": {
+            "locale": "cs"
+          },
+          "lib/netstandard2.0/de/FSharp.Core.resources.dll": {
+            "locale": "de"
+          },
+          "lib/netstandard2.0/es/FSharp.Core.resources.dll": {
+            "locale": "es"
+          },
+          "lib/netstandard2.0/fr/FSharp.Core.resources.dll": {
+            "locale": "fr"
+          },
+          "lib/netstandard2.0/it/FSharp.Core.resources.dll": {
+            "locale": "it"
+          },
+          "lib/netstandard2.0/ja/FSharp.Core.resources.dll": {
+            "locale": "ja"
+          },
+          "lib/netstandard2.0/ko/FSharp.Core.resources.dll": {
+            "locale": "ko"
+          },
+          "lib/netstandard2.0/pl/FSharp.Core.resources.dll": {
+            "locale": "pl"
+          },
+          "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll": {
+            "locale": "pt-BR"
+          },
+          "lib/netstandard2.0/ru/FSharp.Core.resources.dll": {
+            "locale": "ru"
+          },
+          "lib/netstandard2.0/tr/FSharp.Core.resources.dll": {
+            "locale": "tr"
+          },
+          "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll": {
+            "locale": "zh-Hans"
+          },
+          "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll": {
+            "locale": "zh-Hant"
+          }
+        },
+        "contentFiles": {
+          "contentFiles/any/any/_._": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
+        }
+      },
       "Microsoft.CodeCoverage/17.12.0": {
         "type": "package",
         "compile": {
@@ -525,6 +620,64 @@
         "coverlet.collector.nuspec"
       ]
     },
+    "FsCheck/3.2.0": {
+      "sha512": "NrPg83xMofIEjInYxPqnZQGv6q/xUKCP67yWJ7kUKu+vjpguQvzsqhWQfLYOanVIqUqXa54ot67cOPJ3twdYLA==",
+      "type": "package",
+      "path": "fscheck/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fscheck.3.2.0.nupkg.sha512",
+        "fscheck.nuspec",
+        "lib/netstandard2.0/FsCheck.dll",
+        "lib/netstandard2.0/FsCheck.xml",
+        "logo.png"
+      ]
+    },
+    "FsCheck.Xunit/3.2.0": {
+      "sha512": "/4zV+MiFI7xn3HNHKms99z67kI05k8jnJ1mcWIt7m/IeFyNl8cyDEdxglL2oYS5JFzLmndTC8caqvFWSpz09yw==",
+      "type": "package",
+      "path": "fscheck.xunit/3.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fscheck.xunit.3.2.0.nupkg.sha512",
+        "fscheck.xunit.nuspec",
+        "lib/net462/FsCheck.Xunit.dll",
+        "lib/net462/FsCheck.Xunit.xml",
+        "lib/netstandard2.0/FsCheck.Xunit.dll",
+        "lib/netstandard2.0/FsCheck.Xunit.xml",
+        "logo.png"
+      ]
+    },
+    "FSharp.Core/5.0.2": {
+      "sha512": "DpcajqENgb3VXaHw1FKfVS+TWwEzck1PCajqLwBAVrtd1lfxd7T8JISVZBdV1mX9+2g48+tIgpNaVJWObdMrBw==",
+      "type": "package",
+      "path": "fsharp.core/5.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "contentFiles/any/netstandard2.0/FSharp.Core.xml",
+        "fsharp.core.5.0.2.nupkg.sha512",
+        "fsharp.core.nuspec",
+        "lib/netstandard2.0/FSharp.Core.dll",
+        "lib/netstandard2.0/FSharp.Core.xml",
+        "lib/netstandard2.0/cs/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/de/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/es/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/fr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/it/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ja/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ko/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pl/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/pt-BR/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/ru/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/tr/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hans/FSharp.Core.resources.dll",
+        "lib/netstandard2.0/zh-Hant/FSharp.Core.resources.dll"
+      ]
+    },
     "Microsoft.CodeCoverage/17.12.0": {
       "sha512": "4svMznBd5JM21JIG2xZKGNanAHNXplxf/kQDFfLHXQ3OnpJkayRK/TjacFjA+EYmoyuNXHo/sOETEfcYtAzIrA==",
       "type": "package",
@@ -1020,6 +1173,8 @@
     "net8.0": [
       "Companion.Application >= 1.0.0",
       "Companion.Domain >= 1.0.0",
+      "FsCheck >= 3.2.0",
+      "FsCheck.Xunit >= 3.2.0",
       "Microsoft.NET.Test.Sdk >= 17.12.0",
       "coverlet.collector >= 6.0.2",
       "xunit >= 2.9.2",
@@ -1076,6 +1231,14 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "FsCheck": {
+            "target": "Package",
+            "version": "[3.2.0, )"
+          },
+          "FsCheck.Xunit": {
+            "target": "Package",
+            "version": "[3.2.0, )"
+          },
           "Microsoft.NET.Test.Sdk": {
             "target": "Package",
             "version": "[17.12.0, )"

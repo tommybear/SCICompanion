@@ -199,6 +199,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FsCheck": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
+            "FsCheck.Xunit": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.12.0, )"

@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "eUdPseJeQ1s=",
+  "dgSpecHash": "Z31Qvf4dE+Y=",
   "success": true,
   "projectFilePath": "/Users/tmayer/Dev/SCICompanion/Companion.Maui/tests/Companion.Application.Tests/Companion.Application.Tests.csproj",
   "expectedPackageFiles": [
     "/Users/tmayer/.nuget/packages/coverlet.collector/6.0.2/coverlet.collector.6.0.2.nupkg.sha512",
+    "/Users/tmayer/.nuget/packages/fscheck/3.2.0/fscheck.3.2.0.nupkg.sha512",
+    "/Users/tmayer/.nuget/packages/fscheck.xunit/3.2.0/fscheck.xunit.3.2.0.nupkg.sha512",
+    "/Users/tmayer/.nuget/packages/fsharp.core/5.0.2/fsharp.core.5.0.2.nupkg.sha512",
     "/Users/tmayer/.nuget/packages/microsoft.codecoverage/17.12.0/microsoft.codecoverage.17.12.0.nupkg.sha512",
     "/Users/tmayer/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "/Users/tmayer/.nuget/packages/microsoft.net.test.sdk/17.12.0/microsoft.net.test.sdk.17.12.0.nupkg.sha512",

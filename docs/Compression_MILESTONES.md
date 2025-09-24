@@ -33,7 +33,7 @@
 - Provide CLI diagnostics for compression metadata.
 
 **Status (2025-09-23)**
-- DCL and STACpack decoders integrated and exercised by unit tests. CLI diagnostics remain.
+- DCL and STACpack decoders integrated and exercised by unit tests. Compression summary available via CLI `--compression`; interactive decode helper still pending.
 
 **Exit Criteria**
 - SCI1.x resources using DCL decode correctly; tests cover success/failure paths.

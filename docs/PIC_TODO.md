@@ -5,8 +5,8 @@
 - [x] Implement SCI LZW_1 variant (method 0x0002).
 - [x] Implement LZW_Pic post-processing (reorderPic) after LZW_1 decode.
 - [x] Implement DCL decompression (methods 0x0012-0x0014, 0x0014 used for PIC in SCI1.1) so LZW_Pic reorder has full buffers to operate on.
-- [ ] Implement STACpack (method 0x0020) if encountered in later resources.
-- [ ] Add compression registry wiring for all algorithms (method → service mapping).
+- [x] Implement STACpack (method 0x0020); decoder available pending fixture validation.
+- [x] Add compression registry wiring for all algorithms (method → service mapping).
 - [ ] Create golden fixture tests per algorithm (compare against legacy decompressed buffers).
 
 ## Parser & State Engine
