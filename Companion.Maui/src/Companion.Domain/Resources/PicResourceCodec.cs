@@ -25,7 +25,8 @@ public sealed class PicResourceCodec : IResourceCodec
     public DecodedResource Decode(ResourcePackage package)
     {
         var decodedPayload = DecodePayload(package);
-        var commands = PicParser.Parse(decodedPayload);
+        var parseResult = PicParser.Parse(decodedPayload, package.Version);
+        var commands = parseResult.Commands;
         var opcodeCounts = PicParser.AggregateOpcodeCounts(commands);
 
         var metadata = new Dictionary<string, object?>
@@ -33,7 +34,9 @@ public sealed class PicResourceCodec : IResourceCodec
             [CompressionMethodKey] = package.Header.CompressionMethod,
             [CommandsKey] = commands,
             [OpcodeCountsKey] = opcodeCounts,
-            [DecodedPayloadKey] = decodedPayload
+            [DecodedPayloadKey] = decodedPayload,
+            ["PicStateTimeline"] = parseResult.StateTimeline,
+            ["PicFinalState"] = parseResult.FinalState
         };
         return new DecodedResource(package, package.Body, metadata);
     }

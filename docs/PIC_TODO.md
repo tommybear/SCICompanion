@@ -10,12 +10,12 @@
 - [ ] Create golden fixture tests per algorithm (compare against legacy decompressed buffers).
 
 ## Parser & State Engine
-- [ ] Port opcode enumerations (SCI0/SCI1.x) to managed constants (set color, pattern, lines, fill, polygons, XOR, extended functions).
-- [ ] Implement state machine maintaining:
-  - [ ] Palette banks (40-color, VGA palette, locks).
-  - [ ] Priority/Control enable flags and values.
-  - [ ] Pattern size/number codes and rectangle flags.
-  - [ ] Pen position for relative commands.
+- [x] Port opcode enumerations (SCI0/SCI1.x) to managed constants (set color, pattern, lines, fill, polygons, XOR, extended functions).
+- [x] Implement state machine maintaining:
+  - [x] Palette banks (40-color, VGA palette, locks).
+  - [x] Priority/Control enable flags and values.
+  - [x] Pattern size/number codes and rectangle flags.
+  - [x] Pen position for relative commands.
 - [ ] Parse absolute/relative pattern commands with SCI0/SCI1 differences.
 - [ ] Parse line commands (short/medium/long) with correct delta handling.
 - [ ] Implement flood fill operations to update plane buffers.

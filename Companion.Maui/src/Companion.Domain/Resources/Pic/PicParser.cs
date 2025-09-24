@@ -1,40 +1,34 @@
-using System.Buffers.Binary;
+using System;
 using System.Collections.Generic;
+using Companion.Domain.Projects;
 
 namespace Companion.Domain.Resources.Pic;
 
 public static class PicParser
 {
-    public static IReadOnlyList<PicCommand> Parse(byte[] payload)
+    public static PicParseResult Parse(byte[] payload, SCIVersion version)
     {
         var commands = new List<PicCommand>();
+        var stateMachine = new PicStateMachine(version);
+        var timeline = new List<PicStateSnapshot>();
+
         var index = 0;
         while (index < payload.Length)
         {
-            var opcode = payload[index++];
-            if (opcode >= (byte)PicOpcode.Terminator)
+            var opcodeValue = payload[index++];
+            var opcode = (PicOpcode)opcodeValue;
+
+            if (opcode == PicOpcode.End)
             {
                 break;
             }
 
-            switch ((PicOpcode)opcode)
-            {
-                case PicOpcode.SetPalette:
-                    commands.Add(ParsePalette(payload, ref index));
-                    break;
-                case PicOpcode.RelativeDraw:
-                    commands.Add(ParseRelativeLines(payload, ref index));
-                    break;
-                case PicOpcode.FloodFill:
-                    commands.Add(ParseFloodFill(payload, ref index));
-                    break;
-                default:
-                    commands.Add(new PicCommand.Unknown((PicOpcode)opcode, ReadUnknown(payload, ref index)));
-                    break;
-            }
+            var command = ParseCommand(payload, ref index, opcode, stateMachine, version);
+            commands.Add(command);
+            timeline.Add(stateMachine.GetSnapshot());
         }
 
-        return commands;
+        return new PicParseResult(commands, timeline, stateMachine.GetSnapshot());
     }
 
     public static IReadOnlyDictionary<PicOpcode, int> AggregateOpcodeCounts(IEnumerable<PicCommand> commands)
@@ -46,83 +40,161 @@ public static class PicParser
                 ? existing + 1
                 : 1;
         }
+
         return counts;
     }
 
-    private static PicCommand SetPaletteFallback => new PicCommand.SetPalette(0, Array.Empty<byte>());
-    
-    private static PicCommand ParsePalette(byte[] payload, ref int index)
+    private static PicCommand ParseCommand(byte[] payload, ref int index, PicOpcode opcode, PicStateMachine state, SCIVersion version)
     {
-        if (index + 1 >= payload.Length)
+        return opcode switch
         {
-            return SetPaletteFallback;
-        }
-
-        byte paletteIndex = payload[index++];
-        byte colorCount = payload[index++];
-        int byteCount = colorCount * 3;
-        if (index + byteCount > payload.Length)
-        {
-            byteCount = Math.Max(0, payload.Length - index);
-        }
-
-        var colors = new byte[byteCount];
-        Array.Copy(payload, index, colors, 0, byteCount);
-        index += byteCount;
-        return new PicCommand.SetPalette(paletteIndex, colors);
+            PicOpcode.SetVisualColor => ParseSetVisual(payload, ref index, state),
+            PicOpcode.DisableVisual => ParseDisableVisual(state),
+            PicOpcode.SetPriority => ParseSetPriority(payload, ref index, state),
+            PicOpcode.DisablePriority => ParseDisablePriority(state),
+            PicOpcode.SetControl => ParseSetControl(payload, ref index, state),
+            PicOpcode.DisableControl => ParseDisableControl(state),
+            PicOpcode.FloodFill => ParseFloodFill(payload, ref index, state),
+            PicOpcode.SetPattern => ParseSetPattern(payload, ref index, state),
+            PicOpcode.RelativeShortLines => ParseRelativeShortLines(payload, ref index, state),
+            PicOpcode.ExtendedFunction => ParseExtended(payload, ref index, state),
+            _ => ParseUnknown(payload, ref index, opcode)
+        };
     }
 
-    private static PicCommand ParseRelativeLines(byte[] payload, ref int index)
+    private static PicCommand ParseSetVisual(byte[] payload, ref int index, PicStateMachine state)
     {
-        if (index >= payload.Length)
-        {
-            return new PicCommand.RelativeLine(Array.Empty<(int, int)>(), 0);
-        }
-
-        byte color = payload[index++];
-        var segments = new List<(int dx, int dy)>();
-        while (index < payload.Length)
-        {
-            var value = payload[index];
-            if (value >= (byte)PicOpcode.Terminator)
-            {
-                break;
-            }
-            index++;
-            int dx = ((value >> 4) & 0x7) * (value.HasBit(0x80) ? -1 : 1);
-            int dy = (value & 0x7) * (value.HasBit(0x08) ? -1 : 1);
-            segments.Add((dx, dy));
-        }
-
-        return new PicCommand.RelativeLine(segments, color);
+        var color = ReadByte(payload, ref index);
+        state.SetVisual(color);
+        var snapshot = state.GetSnapshot();
+        return new PicCommand.SetVisual(snapshot.VisualPalette, snapshot.VisualColorIndex);
     }
 
-    private static PicCommand ParseFloodFill(byte[] payload, ref int index)
+    private static PicCommand ParseDisableVisual(PicStateMachine state)
     {
-        if (index + 3 > payload.Length)
-        {
-            return new PicCommand.FloodFill(0, 0, 0);
-        }
+        state.DisableVisual();
+        return new PicCommand.DisableVisual();
+    }
 
-        byte color = payload[index++];
-        ushort x = payload[index++];
-        ushort y = payload[index++];
+    private static PicCommand ParseSetPriority(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var value = ReadByte(payload, ref index);
+        state.SetPriority(value);
+        return new PicCommand.SetPriority((byte)(value & 0x0F));
+    }
+
+    private static PicCommand ParseDisablePriority(PicStateMachine state)
+    {
+        state.DisablePriority();
+        return new PicCommand.DisablePriority();
+    }
+
+    private static PicCommand ParseSetControl(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var value = ReadByte(payload, ref index);
+        state.SetControl(value);
+        return new PicCommand.SetControl(value);
+    }
+
+    private static PicCommand ParseDisableControl(PicStateMachine state)
+    {
+        state.DisableControl();
+        return new PicCommand.DisableControl();
+    }
+
+    private static PicCommand ParseSetPattern(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var patternCode = ReadByte(payload, ref index);
+        state.SetPattern(patternCode);
+        var snapshot = state.GetSnapshot();
+        var flags = snapshot.Flags;
+        var isRectangle = (flags & PicStateFlags.PatternIsRectangle) != 0;
+        var useBrush = (flags & PicStateFlags.PatternUsesBrush) != 0;
+        return new PicCommand.SetPattern(snapshot.PatternNumber, snapshot.PatternSize, isRectangle, useBrush);
+    }
+
+    private static PicCommand ParseFloodFill(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var color = ReadByte(payload, ref index);
+        var x = (ushort)ReadByte(payload, ref index);
+        var y = (ushort)ReadByte(payload, ref index);
+        state.UpdatePen(x, y);
         return new PicCommand.FloodFill(color, x, y);
     }
 
-    private static byte[] ReadUnknown(byte[] payload, ref int index)
+    private static PicCommand ParseRelativeShortLines(byte[] payload, ref int index, PicStateMachine state)
+    {
+        var color = ReadByte(payload, ref index);
+        var segments = new List<(int dx, int dy)>();
+        var startX = state.GetSnapshot().PenX;
+        var startY = state.GetSnapshot().PenY;
+
+        while (index < payload.Length)
+        {
+            var value = payload[index];
+            if (value >= (byte)PicOpcode.SetVisualColor)
+            {
+                break;
+            }
+
+            index++;
+            var dxMagnitude = (value >> 4) & 0x07;
+            var dx = ((value & 0x80) != 0) ? -dxMagnitude : dxMagnitude;
+            var dyMagnitude = value & 0x07;
+            var dy = ((value & 0x08) != 0) ? -dyMagnitude : dyMagnitude;
+            segments.Add((dx, dy));
+            state.OffsetPen(dx, dy);
+        }
+
+        var snapshot = state.GetSnapshot();
+        return new PicCommand.RelativeLine(PicOpcode.RelativeShortLines, color, segments, startX, startY, snapshot.PenX, snapshot.PenY);
+    }
+
+    private static PicCommand ParseExtended(byte[] payload, ref int index, PicStateMachine state)
+    {
+        if (index >= payload.Length)
+        {
+            return new PicCommand.Extended(PicExtendedOpcode.Unknown, Array.Empty<byte>());
+        }
+
+        var subOpcode = (PicExtendedOpcode)payload[index++];
+        var data = ReadUntilOpcode(payload, ref index);
+        state.ApplyExtended(subOpcode, data);
+        return new PicCommand.Extended(subOpcode, data);
+    }
+
+    private static PicCommand ParseUnknown(byte[] payload, ref int index, PicOpcode opcode)
+    {
+        var data = ReadUntilOpcode(payload, ref index);
+        return new PicCommand.Unknown(opcode, data);
+    }
+
+    private static byte[] ReadUntilOpcode(byte[] payload, ref int index)
     {
         var start = index;
-        while (index < payload.Length && payload[index] < (byte)PicOpcode.Terminator)
+        while (index < payload.Length && payload[index] < (byte)PicOpcode.SetVisualColor)
         {
             index++;
         }
 
         var length = index - start;
+        if (length <= 0)
+        {
+            return Array.Empty<byte>();
+        }
+
         var data = new byte[length];
         Array.Copy(payload, start, data, 0, length);
         return data;
     }
 
-    private static bool HasBit(this byte value, int mask) => (value & mask) != 0;
+    private static byte ReadByte(byte[] payload, ref int index)
+    {
+        if (index >= payload.Length)
+        {
+            return 0;
+        }
+
+        return payload[index++];
+    }
 }
