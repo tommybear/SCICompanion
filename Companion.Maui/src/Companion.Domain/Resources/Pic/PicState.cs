@@ -10,6 +10,15 @@ internal sealed class PicStateMachine
     private const int PaletteSize = 40;
     private const int PriorityBandCount = 14;
 
+    private static readonly byte[] DefaultEgaPalette =
+    {
+        0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
+        0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0x88,
+        0x88, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x88,
+        0x88, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF,
+        0x08, 0x91, 0x2A, 0x3B, 0x4C, 0x5D, 0x6E, 0x88
+    };
+
     private readonly SCIVersion _version;
     private readonly byte[][] _paletteBanks;
     private readonly bool[] _paletteLocks;
@@ -23,6 +32,7 @@ internal sealed class PicStateMachine
         for (var i = 0; i < PaletteBankCount; i++)
         {
             _paletteBanks[i] = new byte[PaletteSize];
+            SeedDefaultPalette(_paletteBanks[i]);
         }
         _paletteLocks = new bool[PaletteSize];
         _vgaPalette = new byte[256 * 3];
@@ -229,6 +239,12 @@ internal sealed class PicStateMachine
             clone[i] = (byte[])_paletteBanks[i].Clone();
         }
         return clone;
+    }
+
+    private static void SeedDefaultPalette(Span<byte> target)
+    {
+        var count = Math.Min(DefaultEgaPalette.Length, target.Length);
+        DefaultEgaPalette.AsSpan(0, count).CopyTo(target);
     }
 
     private void ApplyPriorityBands(ReadOnlySpan<byte> data)

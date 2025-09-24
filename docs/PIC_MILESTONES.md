@@ -27,7 +27,7 @@
 - Add CLI tooling to visualize and inspect decoded scenes.
 
 **Status (2025-09-23)**
-- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. Default palette seeding and export analytics remain.
+- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. Export analytics and automated comparisons remain.
 
 **Exit Criteria**
 - Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates.
