@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Companion.Application.DependencyInjection;
@@ -519,7 +520,7 @@ sealed class ProjectInspector
             if (string.Equals(extension, ".png", StringComparison.OrdinalIgnoreCase) ||
                 string.Equals(extension, ".bmp", StringComparison.OrdinalIgnoreCase))
             {
-                WriteImage(request.Path, document, planeData, request.Plane);
+                WriteImage(request.Path, document, planeData, request.Plane, version);
             }
             else
             {
@@ -553,32 +554,48 @@ sealed class ProjectInspector
         }
     }
 
-    private static void WriteImage(string path, PicDocument document, byte[] data, PicPlane plane)
+    private static void WriteImage(string path, PicDocument document, byte[] data, PicPlane plane, SCIVersion version)
     {
-        using var image = new Image<Rgba32>(document.Width, document.Height);
-        for (var y = 0; y < document.Height; y++)
+        var image = new Image<Rgba32>(document.Width, document.Height);
+
+        try
         {
-            for (var x = 0; x < document.Width; x++)
+            for (var y = 0; y < document.Height; y++)
             {
-                var value = data[y * document.Width + x];
-                var color = plane switch
+                for (var x = 0; x < document.Width; x++)
                 {
-                    PicPlane.Visual => MapVisualColor(document, value),
-                    PicPlane.Priority => MapPriorityColor(value),
-                    PicPlane.Control => MapControlColor(value),
-                    _ => new Rgba32(value, value, value)
-                };
-                image[x, y] = color;
+                    var value = data[y * document.Width + x];
+                    var color = plane switch
+                    {
+                        PicPlane.Visual => MapVisualColor(value, version, document.FinalState),
+                        PicPlane.Priority => MapPriorityColor(value),
+                        PicPlane.Control => MapControlColor(value),
+                        _ => new Rgba32(value, value, value)
+                    };
+                    image[x, y] = color;
+                }
+            }
+            if (plane is PicPlane.Priority or PicPlane.Control)
+            {
+                using var withLegend = AppendLegend(image, data, plane);
+                withLegend.Save(path);
+            }
+            else
+            {
+                image.Save(path);
             }
         }
-
-        image.Save(path);
+        finally
+        {
+            image.Dispose();
+        }
     }
 
-    private static Rgba32 MapVisualColor(PicDocument document, byte value)
+    private static Rgba32 MapVisualColor(byte value, SCIVersion version, PicStateSnapshot finalState)
     {
-        _ = document;
-        return new Rgba32(value, value, value);
+        return version <= SCIVersion.SCI0
+            ? MapEgaColor(value, finalState.PaletteBanks)
+            : MapVgaColor(value, finalState.VgaPalette);
     }
 
     private static Rgba32 MapPriorityColor(byte value)
@@ -592,6 +609,239 @@ sealed class ProjectInspector
         var green = value;
         var blue = (byte)(255 - value);
         return new Rgba32(0, green, blue);
+    }
+
+    private static Rgba32 MapEgaColor(byte value, byte[][] paletteBanks)
+    {
+        if (paletteBanks is null || paletteBanks.Length == 0)
+        {
+            return new Rgba32(value, value, value);
+        }
+
+        var paletteIndex = value / 40;
+        var colorIndex = value % 40;
+
+        if (paletteIndex >= paletteBanks.Length)
+        {
+            paletteIndex = paletteBanks.Length - 1;
+        }
+
+        var bank = paletteBanks[paletteIndex];
+        if (bank is null || bank.Length == 0)
+        {
+            return new Rgba32(value, value, value);
+        }
+
+        if (colorIndex >= bank.Length)
+        {
+            colorIndex = bank.Length - 1;
+        }
+
+        var encoded = bank[colorIndex];
+
+        if (encoded == 0 && colorIndex != 0)
+        {
+            return GetEgaBaseColor(colorIndex % 16);
+        }
+
+        var high = encoded >> 4;
+        var low = encoded & 0x0F;
+        var primary = GetEgaBaseColor(high);
+        var secondary = GetEgaBaseColor(low);
+
+        if (high == low)
+        {
+            return primary;
+        }
+
+        return new Rgba32(
+            (byte)((primary.R + secondary.R) / 2),
+            (byte)((primary.G + secondary.G) / 2),
+            (byte)((primary.B + secondary.B) / 2));
+    }
+
+    private static Rgba32 MapVgaColor(byte value, byte[] palette)
+    {
+        if (palette is null || palette.Length < 3)
+        {
+            return new Rgba32(value, value, value);
+        }
+
+        var index = value * 3;
+        if (index + 2 >= palette.Length)
+        {
+            return new Rgba32(value, value, value);
+        }
+
+        var r = NormalizeVgaComponent(palette[index]);
+        var g = NormalizeVgaComponent(palette[index + 1]);
+        var b = NormalizeVgaComponent(palette[index + 2]);
+        return new Rgba32(r, g, b);
+    }
+
+    private static byte NormalizeVgaComponent(byte component)
+    {
+        return component <= 63 ? (byte)(component * 4) : component;
+    }
+
+    private static Rgba32 GetEgaBaseColor(int index)
+    {
+        return index switch
+        {
+            0 => new Rgba32(0x00, 0x00, 0x00),
+            1 => new Rgba32(0x00, 0x00, 0xAA),
+            2 => new Rgba32(0x00, 0xAA, 0x00),
+            3 => new Rgba32(0x00, 0xAA, 0xAA),
+            4 => new Rgba32(0xAA, 0x00, 0x00),
+            5 => new Rgba32(0xAA, 0x00, 0xAA),
+            6 => new Rgba32(0xAA, 0x55, 0x00),
+            7 => new Rgba32(0xAA, 0xAA, 0xAA),
+            8 => new Rgba32(0x55, 0x55, 0x55),
+            9 => new Rgba32(0x55, 0x55, 0xFF),
+            10 => new Rgba32(0x55, 0xFF, 0x55),
+            11 => new Rgba32(0x55, 0xFF, 0xFF),
+            12 => new Rgba32(0xFF, 0x55, 0x55),
+            13 => new Rgba32(0xFF, 0x55, 0xFF),
+            14 => new Rgba32(0xFF, 0xFF, 0x55),
+            15 => new Rgba32(0xFF, 0xFF, 0xFF),
+            _ => new Rgba32(0x00, 0x00, 0x00)
+        };
+    }
+
+    private static readonly Rgba32 LegendTextColor = new Rgba32(255, 255, 255);
+
+    private static Dictionary<char, string[]> LegendGlyphs { get; } = new()
+    {
+        ['0'] = new[] { "xxx", "x x", "x x", "x x", "xxx" },
+        ['1'] = new[] { " xx", "  x", "  x", "  x", "xxx" },
+        ['2'] = new[] { "xxx", "  x", "xxx", "x  ", "xxx" },
+        ['3'] = new[] { "xxx", "  x", "xx ", "  x", "xxx" },
+        ['4'] = new[] { "x x", "x x", "xxx", "  x", "  x" },
+        ['5'] = new[] { "xxx", "x  ", "xxx", "  x", "xxx" },
+        ['6'] = new[] { "xxx", "x  ", "xxx", "x x", "xxx" },
+        ['7'] = new[] { "xxx", "  x", "  x", "  x", "  x" },
+        ['8'] = new[] { "xxx", "x x", "xxx", "x x", "xxx" },
+        ['9'] = new[] { "xxx", "x x", "xxx", "  x", "xxx" }
+    };
+
+    private const int LegendGlyphWidth = 3;
+    private const int LegendGlyphHeight = 5;
+
+    private static Image<Rgba32> AppendLegend(Image<Rgba32> source, byte[] data, PicPlane plane)
+    {
+        var uniqueValues = data
+            .Distinct()
+            .OrderBy(v => v)
+            .ToArray();
+
+        if (uniqueValues.Length == 0)
+        {
+            return source.Clone();
+        }
+
+        var maxEntries = plane == PicPlane.Priority ? 16 : 20;
+        if (uniqueValues.Length > maxEntries)
+        {
+            uniqueValues = uniqueValues.Take(maxEntries).ToArray();
+        }
+
+        const int legendHeight = 28;
+        const int legendPadding = 6;
+        var barHeight = legendHeight - LegendGlyphHeight - legendPadding;
+
+        var output = new Image<Rgba32>(source.Width, source.Height + legendHeight);
+
+        for (var y = 0; y < source.Height; y++)
+        {
+            for (var x = 0; x < source.Width; x++)
+            {
+                output[x, y] = source[x, y];
+            }
+        }
+
+        var baseY = source.Height;
+        for (var y = baseY; y < output.Height; y++)
+        {
+            for (var x = 0; x < output.Width; x++)
+            {
+                output[x, y] = new Rgba32(20, 20, 20);
+            }
+        }
+
+        for (var i = 0; i < uniqueValues.Length; i++)
+        {
+            var value = uniqueValues[i];
+            var startX = (int)Math.Round(i * output.Width / (double)uniqueValues.Length);
+            var endX = (int)Math.Round((i + 1) * output.Width / (double)uniqueValues.Length);
+            if (endX <= startX)
+            {
+                endX = startX + 1;
+            }
+
+            var color = plane switch
+            {
+                PicPlane.Priority => MapPriorityColor(value),
+                PicPlane.Control => MapControlColor(value),
+                _ => new Rgba32(value, value, value)
+            };
+
+            for (var y = baseY; y < baseY + barHeight; y++)
+            {
+                for (var x = startX; x < endX && x < output.Width; x++)
+                {
+                    output[x, y] = color;
+                }
+            }
+
+            var label = value.ToString(CultureInfo.InvariantCulture);
+            var labelWidth = label.Length * (LegendGlyphWidth + 1) - 1;
+            var labelStartX = startX + ((endX - startX) - labelWidth) / 2;
+            if (labelStartX < 0)
+            {
+                labelStartX = startX;
+            }
+
+            DrawLegendText(output, label, labelStartX, baseY + barHeight + 1, LegendTextColor);
+        }
+
+        return output;
+    }
+
+    private static void DrawLegendText(Image<Rgba32> image, string text, int startX, int startY, Rgba32 color)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        var x = startX;
+        foreach (var ch in text)
+        {
+            if (!LegendGlyphs.TryGetValue(ch, out var glyph))
+            {
+                x += LegendGlyphWidth + 1;
+                continue;
+            }
+
+            for (var gy = 0; gy < glyph.Length; gy++)
+            {
+                var row = glyph[gy];
+                for (var gx = 0; gx < row.Length; gx++)
+                {
+                    if (row[gx] == 'x')
+                    {
+                        var pixelX = x + gx;
+                        var pixelY = startY + gy;
+                        if (pixelX >= 0 && pixelX < image.Width && pixelY >= 0 && pixelY < image.Height)
+                        {
+                            image[pixelX, pixelY] = color;
+                        }
+                    }
+                }
+            }
+
+            x += LegendGlyphWidth + 1;
+        }
     }
 
     private static ExportRequest ParseExportDefinition(string value)

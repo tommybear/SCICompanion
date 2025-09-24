@@ -119,8 +119,8 @@ internal static class PicRasterizer
         var drawPriority = state.Flags.HasFlag(PicStateFlags.PriorityEnabled);
         var drawControl = state.Flags.HasFlag(PicStateFlags.ControlEnabled);
 
-        var x = state.PenX;
-        var y = state.PenY;
+        var x = line.StartX;
+        var y = line.StartY;
 
         foreach (var (dx, dy) in line.Segments)
         {

@@ -37,7 +37,8 @@
 - [ ] Validate byte-for-byte identity against original resources; flag deviations with diagnostics.
 
 ## Tooling & CLI
-- [ ] Extend CLI to export visual/priority/control planes as images.
+- [x] Extend CLI to export visual/priority/control planes as images (palette-aware PNG/BMP with legends for priority/control planes).
+- [ ] Seed default palette banks so export colors are stable before any in-stream palette commands.
 - [ ] Add command to dump opcode stream with interpreted state (e.g., textual diff).
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 

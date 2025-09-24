@@ -86,6 +86,7 @@
 - Reuse SCI template assets under `TemplateGame/SCI0` and `SCI1.1`.
 - Add curated fixtures (decompressed outputs) for compression testing.
 - Provide CLI commands to dump intermediate state for manual inspection.
+- Verify palette-aware CLI exports (PNG/BMP) against legacy renders; include legend validation for priority/control planes.
 
 ## 6. Risks & Mitigations
 - **Compression parity**: Validate algorithm correctness against SCI Companion outputs; consider leveraging existing open-source implementations (ScummVM) if license-compatible.

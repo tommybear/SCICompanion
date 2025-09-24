@@ -25,7 +25,7 @@ internal sealed class PicStateMachine
             _paletteBanks[i] = new byte[PaletteSize];
         }
         _paletteLocks = new bool[PaletteSize];
-        _vgaPalette = new byte[256];
+        _vgaPalette = new byte[256 * 3];
         _priorityBands = new ushort[PriorityBandCount];
         Snapshot = new PicStateSnapshot(
             Flags: PicStateFlags.VisualEnabled | PicStateFlags.PriorityEnabled | PicStateFlags.ControlEnabled,
@@ -198,17 +198,10 @@ internal sealed class PicStateMachine
                 break;
             case PicExtendedOpcode.SetPalette when _version > SCIVersion.SCI0:
             case PicExtendedOpcode.Sci1SetPalette when _version > SCIVersion.SCI0:
-                {
-                    var count = Math.Min(_vgaPalette.Length, data.Length);
-                    data[..count].CopyTo(_vgaPalette);
-                }
+                ApplyVgaPalette(data);
                 break;
             case PicExtendedOpcode.SetPaletteEntry when _version > SCIVersion.SCI0:
-                for (var i = 0; i + 1 < data.Length; i += 2)
-                {
-                    var index = data[i];
-                    _vgaPalette[index] = data[i + 1];
-                }
+                ApplyVgaPaletteEntry(data);
                 break;
             case PicExtendedOpcode.Sci1SetPriorityBands:
                 ApplyPriorityBands(data);
@@ -255,6 +248,52 @@ internal sealed class PicStateMachine
         for (var i = 0; i < count; i++)
         {
             _priorityBands[i] = data[i];
+        }
+    }
+
+    private void ApplyVgaPalette(ReadOnlySpan<byte> data)
+    {
+        var maxEntries = Math.Min(256, data.Length / 3);
+        for (var i = 0; i < maxEntries; i++)
+        {
+            var sourceIndex = i * 3;
+            var targetIndex = i * 3;
+            _vgaPalette[targetIndex] = data[sourceIndex];
+            _vgaPalette[targetIndex + 1] = data[sourceIndex + 1];
+            _vgaPalette[targetIndex + 2] = data[sourceIndex + 2];
+        }
+    }
+
+    private void ApplyVgaPaletteEntry(ReadOnlySpan<byte> data)
+    {
+        var cursor = 0;
+        while (cursor < data.Length)
+        {
+            var index = (int)data[cursor++];
+            if (index >= 256)
+            {
+                continue;
+            }
+
+            var remaining = data.Length - cursor;
+            var target = index * 3;
+
+            if (remaining >= 3)
+            {
+                _vgaPalette[target] = data[cursor];
+                _vgaPalette[target + 1] = data[cursor + 1];
+                _vgaPalette[target + 2] = data[cursor + 2];
+                cursor += 3;
+            }
+            else if (remaining >= 1)
+            {
+                // Treat single component payloads as grayscale for compatibility with
+                // incomplete palette data in early assets.
+                var value = data[cursor++];
+                _vgaPalette[target] = value;
+                _vgaPalette[target + 1] = value;
+                _vgaPalette[target + 2] = value;
+            }
         }
     }
 }
