@@ -24,7 +24,7 @@
 - PIC parser consumes decoded data without fallback.
 
 **Status (2025-09-23)**
-- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). SCI1.1 PIC and VIEW decompression validated via baseline fixtures in `CompressionFixtureTests`.
+- reorderPic/reorderView post-processing implemented and registered (methods 3 & 4). SCI1.1 PIC and VIEW decompression validated via fixtures in `CompressionFixtureTests`, including a regression that exercises the LZW_Pic pipeline.
 
 ## Milestone C3 – Advanced Algorithms (Weeks 4–6)
 **Objectives**

@@ -21,6 +21,7 @@
 - [x] Write unit tests per algorithm verifying output matches fixtures (PIC + DCL coverage in `CompressionFixtureTests`).
 - [x] Capture additional fixtures for SOUND resources (SCI0 sound `#2` baseline).
 - [x] Add STACpack fixture exercising decoder copy semantics (synthetic payload until SCI2 assets land).
+- [x] Add LZW_Pic reorder fixture validating method 4 (synthetic intermediate in `CompressionFixtureTests`).
 - [x] Add failure tests (unexpected method, corrupted token stream).
 - [ ] Optional property tests for LZW to cover random token sequences.
 
