@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Companion.Application.Projects;
 using Companion.Application.Resources;
@@ -48,6 +49,25 @@ public class CompressionFixtureTests
         Assert.Equal(expected, data);
     }
 
+    [Fact]
+    public void Sci0_Sound2_MatchesFixture()
+    {
+        var (data, method) = DecompressResource("SCI0", ResourceType.Sound, 2);
+        var actualBase64 = Convert.ToBase64String(data);
+        Assert.Equal(0, method);
+        Assert.Equal("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", actualBase64);
+    }
+
+    [Fact]
+    public void StacPack_CopySequence_MatchesFixture()
+    {
+        var compressed = BuildStacSample();
+        var service = new StacCompressionService(32);
+        var result = service.Decompress(compressed, 32, 6);
+        var expected = new byte[] { (byte)'A', (byte)'B', (byte)'C', (byte)'A', (byte)'B', (byte)'C' };
+        Assert.Equal(expected, result);
+    }
+
     private static (byte[] Data, int Method) DecompressResource(string folderName, ResourceType type, int number)
     {
         var discovery = new ResourceDiscoveryService();
@@ -78,5 +98,102 @@ public class CompressionFixtureTests
             new DclCompressionService(8, 18, 19, 20),
             new StacCompressionService(32)
         });
+    }
+
+    private static byte[] BuildStacSample()
+    {
+        var bits = new List<int>();
+        WriteLiteral(bits, 0x41);
+        WriteLiteral(bits, 0x42);
+        WriteLiteral(bits, 0x43);
+        WriteShortCopy(bits, 3, 3);
+        return PackBits(bits);
+    }
+
+    private static void WriteLiteral(List<int> bits, int value)
+    {
+        bits.Add(0);
+        for (var bit = 7; bit >= 0; bit--)
+        {
+            bits.Add((value >> bit) & 1);
+        }
+    }
+
+    private static void WriteShortCopy(List<int> bits, int offset, int length)
+    {
+        bits.Add(1);
+        bits.Add(1);
+        for (var bit = 6; bit >= 0; bit--)
+        {
+            bits.Add((offset >> bit) & 1);
+        }
+        WriteLength(bits, length);
+    }
+
+    private static void WriteLength(List<int> bits, int length)
+    {
+        if (length >= 2 && length <= 4)
+        {
+            var value = length - 2;
+            bits.Add((value >> 1) & 1);
+            bits.Add(value & 1);
+            return;
+        }
+
+        bits.Add(1);
+        bits.Add(1);
+
+        if (length >= 5 && length <= 7)
+        {
+            var value = length - 5;
+            bits.Add((value >> 1) & 1);
+            bits.Add(value & 1);
+            return;
+        }
+
+        // Variable length encoding (length >= 8)
+        bits.Add(1);
+        bits.Add(1);
+        var remaining = length - 8;
+        while (remaining >= 15)
+        {
+            WriteNibble(bits, 0xF);
+            remaining -= 15;
+        }
+        WriteNibble(bits, remaining);
+    }
+
+    private static void WriteNibble(List<int> bits, int value)
+    {
+        for (var bit = 3; bit >= 0; bit--)
+        {
+            bits.Add((value >> bit) & 1);
+        }
+    }
+
+    private static byte[] PackBits(List<int> bits)
+    {
+        var bytes = new List<byte>();
+        var current = 0;
+        var bitCount = 0;
+        foreach (var bit in bits)
+        {
+            current = (current << 1) | bit;
+            bitCount++;
+            if (bitCount == 8)
+            {
+                bytes.Add((byte)current);
+                current = 0;
+                bitCount = 0;
+            }
+        }
+
+        if (bitCount > 0)
+        {
+            current <<= 8 - bitCount;
+            bytes.Add((byte)current);
+        }
+
+        return bytes.ToArray();
     }
 }

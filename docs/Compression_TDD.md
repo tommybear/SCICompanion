@@ -50,7 +50,7 @@
 - **LZW_1 (method 2)**: SCI1 variation used for views and PIC; tied to reorderPic/reorderView post-processing. *Status:* decoder implemented (2025-09-23) with synthetic regression tests; fixture comparison still pending.
 - **LZW_Pic (method 4)**: LZW_1 + reorderPic transformation. *Status:* reorder pipeline implemented (2025-09-23); golden fixtures pending DCL decode support for SCI1.x buffers.
 - **DCL (methods 18–20)**: SCI1.x decompression used for PIC and other resources. *Status:* managed decoder implemented (2025-09-23); golden fixtures captured for PIC/Text/View in `CompressionFixtureTests`; extend CLI decode helper next.
-- **STACpack (method 32)**: For later SCI2 resources (optional but plan for extension). *Status:* decoder implemented (2025-09-23); fixtures pending.
+- **STACpack (method 32)**: For later SCI2 resources (optional but plan for extension). *Status:* decoder implemented (2025-09-23); synthetic fixture covers copy semantics while we source real SCI2 payloads.
 
 ### 3.2 Implementation Detail
 - Streaming decode APIs to avoid large temporary buffers where possible.
