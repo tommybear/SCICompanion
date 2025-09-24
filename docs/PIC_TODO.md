@@ -38,6 +38,7 @@
 - [ ] Map `PicDocument` back to opcode stream preserving semantics.
 - [ ] Reapply compression using correct algorithm; support raw fallback for edited resources.
 - [ ] Validate byte-for-byte identity against original resources; flag deviations with diagnostics.
+  - [x] PicEncoder scaffold established (currently returns original payload; implement opcode emission next).
 
 ## Tooling & CLI
 - [x] Extend CLI to export visual/priority/control planes as images (palette-aware PNG/BMP with legends for priority/control planes).
@@ -45,6 +46,7 @@
 - [x] Add CLI summaries for opcode/plane stats and palette analytics (`--pic-summary`).
 - [x] Provide pixel-diff comparisons against baseline renders (`--compare selector=plane:path`, `--compare-baseline path`).
   - Baseline images follow naming convention `<type>_<number>_<plane>.png` (e.g., `pic_000_visual.png`) and are stored under `Companion.Maui/tests/Baselines/Pic/<Version>/`.
+  - CI executes `PicBaselineComparisonTests` to guard renderer fidelity each run.
 - [x] Add command to dump opcode stream with interpreted state (`--pic-ops`).
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 

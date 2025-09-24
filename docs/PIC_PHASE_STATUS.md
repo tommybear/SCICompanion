@@ -43,4 +43,17 @@
 | Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates. | ⚠️ In Progress | Baseline PNGs captured under `Companion.Maui/tests/Baselines/Pic` (e.g., `pic_001_visual.png`); `--compare`/`--compare-baseline` enable diff automation. CI wiring still pending. |
 | CLI can export planes and show state info for arbitrary PICs. | ✅ Done | `--export`, `--pic-summary`, and inspection paths cover arbitrary PIC resources. |
 
-**Next Steps:** curate baseline images for automated comparisons, add opcode stream dumps, and surface plane dirty analytics before closing Phase 3.
+**Next Steps:** integrate baseline comparisons into CI reporting and add re-encode diff tooling before closing Phase 3.
+
+### Phase 4 – Encoder & Round-Trip
+
+| Objective | Status | Notes |
+|-----------|--------|-------|
+| Serialize `PicDocument` back into opcode stream preserving semantics. | ⚠️ In Progress | `PicEncoder` scaffold returns original payloads; opcode dump tooling in CLI exposes current streams for analysis. |
+| Reapply compression and ensure byte-identical round-trip where edits are neutral. | ⚠️ Pending | Compression encoder not yet implemented; existing path reuses original compressed body. |
+| Provide diagnostics for unsupported edits. | ⚠️ Pending | To be addressed once encode path materialises. |
+
+| Exit Criteria | Status | Notes |
+|---------------|--------|-------|
+| Template PICs round-trip byte-for-byte through decoder→encoder pipeline. | ⚠️ Pending | `PicEncoder` currently pass-through via original payload; full encode work still required. |
+| Regression tests catch deviations and report actionable errors. | ⚠️ Pending | Baseline comparison tests in `PicBaselineComparisonTests` in place; encoder-specific regressions to follow. |

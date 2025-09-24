@@ -88,6 +88,7 @@
 - Provide CLI commands to dump intermediate state for manual inspection.
 - Verify palette-aware CLI exports (PNG/BMP) against legacy renders; include legend validation for priority/control planes.
 - Use `--pic-summary`, `--compare`, `--compare-baseline`, and `--pic-ops` for opcode/plane analytics, pixel-diff validation, and command stream inspection when capturing regression evidence.
+- Baseline comparison tests (`PicBaselineComparisonTests`) run in CI to ensure renderer output matches stored PNGs for selected SCI0/SCI1.1 PICs.
 
 ## 6. Risks & Mitigations
 - **Compression parity**: Validate algorithm correctness against SCI Companion outputs; consider leveraging existing open-source implementations (ScummVM) if license-compatible.

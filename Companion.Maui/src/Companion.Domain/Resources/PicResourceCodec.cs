@@ -45,12 +45,38 @@ public sealed class PicResourceCodec : IResourceCodec
 
     public ResourcePackage Encode(DecodedResource resource)
     {
-        var header = resource.Header with
+        var header = resource.Header;
+
+        if (resource.Metadata.TryGetValue("PicDocument", out var docValue) && docValue is PicDocument document &&
+            resource.Metadata.TryGetValue(DecodedPayloadKey, out var payloadValue) && payloadValue is byte[] originalPayload)
+        {
+            var encoder = new PicEncoder();
+            var encodedPayload = encoder.Encode(document, originalPayload);
+
+            if (header.CompressionMethod == 0)
+            {
+                header = header with { CompressedLength = encodedPayload.Length };
+                if (header.DecompressedLength == 0)
+                {
+                    header = header with { DecompressedLength = encodedPayload.Length };
+                }
+                return new ResourcePackage(resource.Version, header, encodedPayload);
+            }
+
+            if (header.DecompressedLength == 0)
+            {
+                header = header with { DecompressedLength = encodedPayload.Length };
+            }
+            // Compression encoder not yet implemented; reuse original compressed body for now.
+            return new ResourcePackage(resource.Version, header, resource.Payload);
+        }
+
+        // No PIC metadata available; return original payload.
+        header = header with
         {
             CompressedLength = resource.Payload.Length
         };
 
-        // Future work: re-encode commands from metadata if available.
         return new ResourcePackage(resource.Version, header, resource.Payload);
     }
 

@@ -30,7 +30,7 @@
 - Add CLI tooling to visualize and inspect decoded scenes.
 
 **Status (2025-09-23)**
-- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. CLI summaries (`--pic-summary`) surface opcode/plane analytics (including draw-order and plane-state data), `--pic-ops` dumps command streams, and `--compare`/`--compare-baseline` provide diff checks against stored renders. CI integration of baselines and re-encode tooling remain.
+- `PicDocument` and the rasterizer now drive palette-aware PNG/BMP exports through the CLI, including legends for priority/control planes. CLI summaries (`--pic-summary`) surface opcode/plane analytics (including draw-order and plane-state data), `--pic-ops` dumps command streams, and `--compare`/`--compare-baseline` provide diff checks against stored renders. CI now executes the baseline comparison tests; re-encode tooling remains.
 
 **Exit Criteria**
 - Visual comparison (pixel diff within tolerance) between rendered outputs and legacy renders for SCI0/SCI1.1 templates.
@@ -41,6 +41,9 @@
 - Serialize `PicDocument` back into opcode stream preserving semantics.
 - Reapply compression and ensure byte-identical round-trip where edits are neutral.
 - Provide diagnostics for unsupported edits.
+
+**Status (2025-09-23)**
+- `PicEncoder` scaffold returns original payloads and CLI opcode dumps (`--pic-ops`) expose current command streams. Compression-aware encoding and edit diagnostics remain.
 
 **Exit Criteria**
 - Template PICs round-trip byte-for-byte through decoder→encoder pipeline.

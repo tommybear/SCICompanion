@@ -27,3 +27,5 @@ jobs:
         run: dotnet restore Companion.Maui/Companion.Maui.sln
       - name: Build desktop targets
         run: dotnet build Companion.Maui/Companion.Maui.sln -c Release -f net8.0-maccatalyst
+      - name: Run application tests
+        run: dotnet test Companion.Maui/tests/Companion.Application.Tests/Companion.Application.Tests.csproj -c Release -f net8.0
