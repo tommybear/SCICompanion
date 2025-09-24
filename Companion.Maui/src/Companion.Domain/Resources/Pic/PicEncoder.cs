@@ -32,6 +32,10 @@ internal sealed class PicEncoder
             }
 
             WriteByte(writer, (byte)PicOpcode.End);
+            if (document.TrailingData.Length > 0)
+            {
+                WriteBytes(writer, document.TrailingData);
+            }
             return writer.WrittenSpan.ToArray();
         }
         catch (NotSupportedException)
@@ -300,19 +304,7 @@ internal sealed class PicEncoder
         WriteByte(writer, value);
     }
 
-    private static byte ComposePatternByte(PicCommand.SetPattern pattern)
-    {
-        byte value = (byte)(((pattern.PatternNumber & 0x07) << 3) | (pattern.PatternSize & 0x07));
-        if (pattern.UseBrush)
-        {
-            value |= 0x08;
-        }
-        if (pattern.IsRectangle)
-        {
-            value |= 0x20;
-        }
-        return value;
-    }
+    private static byte ComposePatternByte(PicCommand.SetPattern pattern) => pattern.EncodedValue;
 
     private static byte GetVisualColorCode(PicCommand.SetVisual setVisual, SCIVersion version)
     {

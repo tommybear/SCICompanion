@@ -336,4 +336,5 @@ public sealed record PicStateSnapshot(
 public sealed record PicParseResult(
     IReadOnlyList<PicCommand> Commands,
     IReadOnlyList<PicStateSnapshot> StateTimeline,
-    PicStateSnapshot FinalState);
+    PicStateSnapshot FinalState,
+    byte[] TrailingData);

@@ -38,7 +38,8 @@ public sealed class PicResourceCodec : IResourceCodec
             [DecodedPayloadKey] = decodedPayload,
             ["PicDocument"] = document,
             ["PicStateTimeline"] = parseResult.StateTimeline,
-            ["PicFinalState"] = parseResult.FinalState
+            ["PicFinalState"] = parseResult.FinalState,
+            ["PicTrailingData"] = parseResult.TrailingData
         };
         return new DecodedResource(package, package.Body, metadata);
     }

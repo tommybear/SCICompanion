@@ -13,7 +13,8 @@ public sealed class PicDocument
         PicStateSnapshot finalState,
         byte[] visualPlane,
         byte[] priorityPlane,
-        byte[] controlPlane)
+        byte[] controlPlane,
+        byte[] trailingData)
     {
         Width = width;
         Height = height;
@@ -23,6 +24,7 @@ public sealed class PicDocument
         VisualPlane = visualPlane;
         PriorityPlane = priorityPlane;
         ControlPlane = controlPlane;
+        TrailingData = trailingData ?? Array.Empty<byte>();
     }
 
     public int Width { get; }
@@ -33,6 +35,7 @@ public sealed class PicDocument
     public byte[] VisualPlane { get; }
     public byte[] PriorityPlane { get; }
     public byte[] ControlPlane { get; }
+    public byte[] TrailingData { get; }
 }
 
 internal static class PicDimensions

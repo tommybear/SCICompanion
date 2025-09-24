@@ -49,11 +49,11 @@
 
 | Objective | Status | Notes |
 |-----------|--------|-------|
-| Serialize `PicDocument` back into opcode stream preserving semantics. | ⚠️ In Progress | `PicEncoder` scaffold returns original payloads; opcode dump tooling in CLI exposes current streams for analysis. |
-| Reapply compression and ensure byte-identical round-trip where edits are neutral. | ⚠️ Pending | Compression encoder not yet implemented; existing path reuses original compressed body. |
+| Serialize `PicDocument` back into opcode stream preserving semantics. | ✅ Done | `PicEncoder` now re-emits every decoded opcode (including trailing blobs) and preserves raw pattern bytes/state. |
+| Reapply compression and ensure byte-identical round-trip where edits are neutral. | ⚠️ Pending | Encoder currently relies on the original compressed body when content is unchanged; recompression support still to come. |
 | Provide diagnostics for unsupported edits. | ⚠️ Pending | To be addressed once encode path materialises. |
 
 | Exit Criteria | Status | Notes |
 |---------------|--------|-------|
-| Template PICs round-trip byte-for-byte through decoder→encoder pipeline. | ⚠️ Pending | `PicEncoder` currently pass-through via original payload; full encode work still required. |
-| Regression tests catch deviations and report actionable errors. | ⚠️ Pending | Baseline comparison tests in `PicBaselineComparisonTests` in place; encoder-specific regressions to follow. |
+| Template PICs round-trip byte-for-byte through decoder→encoder pipeline. | ✅ Done | `PicEncoderTests.EncodeRoundTripsTemplatePics` enforces raw opcode parity for SCI0/SCI1.1 TemplateGame assets. |
+| Regression tests catch deviations and report actionable errors. | ⚠️ In Progress | Baseline comparisons and new encoder round-trip tests landed; compression/edit diagnostics still outstanding. |

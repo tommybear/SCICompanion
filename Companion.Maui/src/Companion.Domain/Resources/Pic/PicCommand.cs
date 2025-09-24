@@ -16,7 +16,7 @@ public abstract record PicCommand(PicOpcode Opcode)
 
     public sealed record DisableControl() : PicCommand(PicOpcode.DisableControl);
 
-    public sealed record SetPattern(byte PatternNumber, byte PatternSize, bool IsRectangle, bool UseBrush) : PicCommand(PicOpcode.SetPattern);
+    public sealed record SetPattern(byte PatternNumber, byte PatternSize, bool IsRectangle, bool UseBrush, byte EncodedValue) : PicCommand(PicOpcode.SetPattern);
 
     public sealed record RelativeLine(PicOpcode LineOpcode, byte ColorIndex, IReadOnlyList<(int dx, int dy)> Segments, int StartX, int StartY, int EndX, int EndY)
         : PicCommand(LineOpcode);

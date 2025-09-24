@@ -29,7 +29,8 @@ internal static class PicRasterizer
             parseResult.FinalState,
             visual,
             priority,
-            control);
+            control,
+            parseResult.TrailingData);
     }
 
     private static PicStateSnapshot CreateInitialState(SCIVersion version)

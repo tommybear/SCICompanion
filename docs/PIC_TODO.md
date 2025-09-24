@@ -16,9 +16,9 @@
   - [x] Priority/Control enable flags and values.
   - [x] Pattern size/number codes and rectangle flags.
   - [x] Pen position for relative commands.
-- [ ] Parse absolute/relative pattern commands with SCI0/SCI1 differences.
-- [ ] Parse line commands (short/medium/long) with correct delta handling.
-- [ ] Implement flood fill operations to update plane buffers.
+- [x] Parse absolute/relative pattern commands with SCI0/SCI1 differences.
+- [x] Parse line commands (short/medium/long) with correct delta handling.
+- [x] Implement flood fill operations to update plane buffers.
 - [ ] Support extended opcodes (OPX) for SCI0 (palette, pattern) and SCI1 (bitmaps, palette changes, priority bands).
 - [ ] Maintain command metadata (opcode counts, bounding boxes, plane dirty flags).
 
@@ -35,10 +35,10 @@
   - [x] Plane dirty insights surfaced via plane state flags and per-plane statistics.
 
 ## Encoder
-- [ ] Map `PicDocument` back to opcode stream preserving semantics.
+- [x] Map `PicDocument` back to opcode stream preserving semantics.
 - [ ] Reapply compression using correct algorithm; support raw fallback for edited resources.
-- [ ] Validate byte-for-byte identity against original resources; flag deviations with diagnostics.
-  - [x] PicEncoder scaffold established (currently returns original payload; implement opcode emission next).
+- [x] Validate byte-for-byte identity against original resources; flag deviations with diagnostics.
+  - [x] PicEncoder now re-emits decoded opcodes (including trailing payload) and preserves raw pattern bytes for fidelity.
 
 ## Tooling & CLI
 - [x] Extend CLI to export visual/priority/control planes as images (palette-aware PNG/BMP with legends for priority/control planes).
@@ -51,7 +51,7 @@
 - [ ] Provide option to re-encode and compare diff (success/fail summary).
 
 ## Testing & Benchmarks
-- [ ] Golden tests for decode/encode round-trip on template PICs (SCI0, SCI1.1).
+- [x] Golden tests for decode/encode round-trip on template PICs (SCI0, SCI1.1) (`PicEncoderTests.EncodeRoundTripsTemplatePics`).
 - [ ] Pixel comparison tests between rendered planes and legacy renders.
 - [ ] Property-based tests generating synthetic command sequences.
 - [ ] Performance benchmarks (decode/encode time, memory allocations) tracked in CI.

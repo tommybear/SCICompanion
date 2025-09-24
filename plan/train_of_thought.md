@@ -55,7 +55,7 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 
 - **M2 – Resource Serialization Core**: Codecs exist as metadata extractors; encode paths, fidelity validation, and failure diagnostics remain. PIC parsing and rasterization now satisfy Phase 2 exit criteria with TemplateGame snapshots/histograms locked in tests, while export analytics and round-trip encoding move to Phase 3 (`docs/PIC_TODO.md`).
 - **Phase 3 Tooling**: CLI exports are palette-aware and now include opcode/plane summaries (`--pic-summary`), draw-order samples, command dumps (`--pic-ops`), and pixel-diff comparisons (`--compare`, `--compare-baseline`). Baseline PNGs live under `Companion.Maui/tests/Baselines/Pic`, and the CI workflow now exercises the baseline comparison tests. Remaining work: integrate encoder diff tooling.
-- **Phase 4 Foundations**: `PicEncoder` scaffold returns original payloads as a starting point; future iterations will emit opcode streams and recompress where needed.
+- **Phase 4 Foundations**: `PicEncoder` now replays the parsed opcode stream (including trailing blobs/pattern bytes) and template PICs round-trip byte-for-byte through the decode→encode pipeline; compression/recompression support remains on-deck.
 - **Compression Subsystem**: Passthrough, base LZW, LZW_1, DCL, STACpack, and LZW_Pic/View reorder implementations are wired with unit coverage. Fixture consolidation (real-world STACpack payloads) remains; CLI diagnostics and dump helpers are in place (`docs/Compression_MILESTONES.md`, `Reference_Deprecated_Project/SCICompanionLib`).
 - **Testing Infrastructure**: xUnit unit tests exercise early services, including coverage for LZW/LZW_1, reorder pipelines, and relative line/pattern rasterization. Property-based, snapshot, performance, and golden tests remain to be built in accordance with `TDD.md`, `docs/Compression_TDD.md`, and `docs/PIC_TDD.md`.
 
@@ -70,9 +70,9 @@ SCICompanion is a clean-room rewrite of the classic SCI Companion toolchain, bri
 3. **Lay groundwork for editor framework (M4)**
    - Design document/command services and capture requirements from `docs/PIC_MILESTONES.md`.
 4. **Kick off Phase 4 – Encoder**
-   - Flesh out `PicEncoder` to emit opcode streams for supported commands.
-   - Investigate compression path reuse or new managed encoders for recompression.
-   - Add regression tests for round-trip editing once encoding work stabilises.
+   - Layer in compression writers so edited PICs can be recompressed (methods 3/4/18–20).
+   - Surface diagnostics and CLI diff tooling when round-trip parity fails.
+   - Expand regression coverage to cover edited resources once compression is available.
 
 Revisit `MILESTONES.md` after each sprint to ensure sequencing stays accurate.
 

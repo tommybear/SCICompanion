@@ -28,7 +28,14 @@ public static class PicParser
             timeline.Add(stateMachine.GetSnapshot());
         }
 
-        return new PicParseResult(commands, timeline, stateMachine.GetSnapshot());
+        byte[] trailing = Array.Empty<byte>();
+        if (index < payload.Length)
+        {
+            trailing = new byte[payload.Length - index];
+            Array.Copy(payload, index, trailing, 0, trailing.Length);
+        }
+
+        return new PicParseResult(commands, timeline, stateMachine.GetSnapshot(), trailing);
     }
 
     public static IReadOnlyDictionary<PicOpcode, int> AggregateOpcodeCounts(IEnumerable<PicCommand> commands)
@@ -115,7 +122,7 @@ public static class PicParser
         var flags = snapshot.Flags;
         var isRectangle = (flags & PicStateFlags.PatternIsRectangle) != 0;
         var useBrush = (flags & PicStateFlags.PatternUsesBrush) != 0;
-        return new PicCommand.SetPattern(snapshot.PatternNumber, snapshot.PatternSize, isRectangle, useBrush);
+        return new PicCommand.SetPattern(snapshot.PatternNumber, snapshot.PatternSize, isRectangle, useBrush, patternCode);
     }
 
     private static PicCommand ParseFloodFill(byte[] payload, ref int index, PicStateMachine state)

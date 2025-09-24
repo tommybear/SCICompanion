@@ -43,11 +43,11 @@
 - Provide diagnostics for unsupported edits.
 
 **Status (2025-09-23)**
-- `PicEncoder` scaffold returns original payloads and CLI opcode dumps (`--pic-ops`) expose current command streams. Compression-aware encoding and edit diagnostics remain.
+- `PicEncoder` now reproduces the decoded opcode stream (raw pattern bytes + trailing data) and unit tests enforce byte-for-byte parity for TemplateGame PICs. Compression-aware encoding and edit diagnostics remain.
 
 **Exit Criteria**
-- Template PICs round-trip byte-for-byte through decoder→encoder pipeline.
-- Regression tests catch deviations and report actionable errors.
+- Template PICs round-trip byte-for-byte through decoder→encoder pipeline. ✅
+- Regression tests catch deviations and report actionable errors. ⚠️ (encoder tests landed; compression/edit diagnostics pending).
 
 ## Phase 5: QA & Performance (Weeks 8–12)
 **Objectives**
